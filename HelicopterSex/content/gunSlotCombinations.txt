@@ -1,0 +1,67 @@
+# Gun slot combinations.
+#
+# combinationName, Number of slots in combination
+# gun, offsetx, offsety, rotation, shotperiod
+
+#Deki Pantelic
+dekiPantelic01 3
+blueGunSmall01 -30 -3 0 0.15
+blueGunSmall01 0 -3 0 0.15
+blueGunSmall01 30 -3 0 0.15
+
+dekiPantelic02 3
+blueGunSmall01 -30 -3 0 0.3
+blueGunMedium01 0 -3 0 0.3
+blueGunSmall01 30 -3 0 0.3
+
+dekiPantelic03 3
+blueGunSmall01 -30 -3 0 0.3
+blueGunLarge01 0 -3 0 0.3
+blueGunSmall01 30 -3 0 0.3
+
+dekiPantelic04 3
+blueGunMedium01 -30 -3 0 0.3
+blueGunLarge01 0 -60 0 0.3
+blueGunMedium01 30 -3 0 0.3
+
+dekiPantelic04 3
+blueGunMedium02 -30 -3 0 0.3
+blueGunLarge01 0 -60 0 0.3
+blueGunMedium02 30 -3 0 0.3
+
+dekiPantelic06 3
+blueGunLarge01 -30 -3 0 0.3
+blueGunLarge01 0 -60 0 0.3
+blueGunLarge01 30 -3 0 0.3
+
+dekiPantelic07 5
+blueGunSmall02 -30 -3 0.5 0.3
+blueGunLarge01 -30 -3 0 0.3
+blueGunLarge01 0 -60 0 0.3
+blueGunLarge01 30 -3 0 0.3
+blueGunSmall01 30 -3 -0.5 0.3
+
+dekiPantelic08 5
+blueGunMedium02 -30 -3 0.5 0.3
+blueGunLarge01 -30 -3 0 0.3
+blueGunLarge01 0 -60 0 0.3
+blueGunLarge01 30 -3 0 0.3
+blueGunMedium02 -30 -3 -0.5 0.3
+
+dekiPantelic09 5
+blueGunLarge01 -30 -3 0.5 0.3
+blueGunLarge01 -30 -3 0 0.3
+blueGunLarge01 0 -60 0 0.3
+blueGunLarge01 30 -3 0 0.3
+blueGunLarge01 30 -3 -0.5 0.3
+
+dekiPantelic10 5
+blueGunMedium01 -30 -4 -1 0.4
+blueGunMedium01 -30 -4 0 0.2
+simpleGun02 0 -60 0 0.4
+blueGunMedium01 30 -4 0 0.2
+blueGunMedium01 30 -4 1 0.4
+
+dekiPantelic11 2
+miniGun01 -30 -30 0 0.1
+miniGun01 30 -30 0 0.1

@@ -1,0 +1,13 @@
+militaryIndustrial 0.8
+insideTheFire 0.3
+archangel 0.7
+blackheart 1.0
+swish01 1.0
+blasterShot01 0.2
+blasterShot02 0.2
+blasterShot03 0.5
+gunShot01 0.25
+slomoSoundEffect01 0.8
+slomoSoundEffectBackwards01 0.8
+slomoSoundEffect02 1
+slomoSoundEffectBackwards02 1

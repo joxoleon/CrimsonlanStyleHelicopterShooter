@@ -1,0 +1,9 @@
+swish01 1.0 f
+blasterShot01 0.2 f
+blasterShot02 0.2 f
+blasterShot03 0.5 f
+gunShot01 0.2 t
+slomoSoundEffect01 0.8 f
+slomoSoundEffectBackwards01 0.8 f
+slomoSoundEffect02 1 f
+slomoSoundEffectBackwards02 1 f
