@@ -10,8 +10,8 @@ import engine.GameTime;
 
 public class SlowMotionManager
 {
-	// Configuration fields.
-	private static boolean isHack = true;
+	// Configuratio fields.
+	public static boolean isAffectPlayingSongs = false;
 	
 	// Slow motion values
 	private static float regularTimeRate = 1;
@@ -140,7 +140,6 @@ public class SlowMotionManager
 			isTransitionIn = false;
 			isTransitionOut = true;
 			transitionDurationCounter = 0;
-//			hackAudioSpeedEarly();
 			AudioManager.playOnceWithoutTimeAlter("slomoSoundEffectBackwards01");
 		} 
 
@@ -154,32 +153,15 @@ public class SlowMotionManager
 
 		AudioManager.playbackSpeed = timeScale;
 		
-		// Won't work because   me!
-		for (Long long1 : playingSongIDs)
+		if(isAffectPlayingSongs == true)
 		{
-			AudioManager.setPlaybackRate(long1, timeScale);
+			// Fuck me this is slow!!!
+			for (Long long1 : playingSongIDs)
+			{
+				AudioManager.setPlaybackRate(long1, timeScale);
+			}
 		}
-		
 	}
 
-//	private static void setGameTimeScaleHack(float timeScale)
-//	{
-//		currentTimeRate = timeScale;
-//		Game.game.setGameTimeTimeScale(timeScale);
-//		
-//	}
-//	
-//	private static void hackAudioSpeedEarly()
-//	{
-//		if(isHack == true)
-//		{
-//			AudioManager.playbackSpeed = regularTimeRate;
-//			// Slowdown the currently playing songs
-//			for (Long long1 : playingSongIDs)
-//			{
-//				AudioManager.setPlaybackRate(long1, regularTimeRate);
-//			}
-//		}
-//	}
 	
 }

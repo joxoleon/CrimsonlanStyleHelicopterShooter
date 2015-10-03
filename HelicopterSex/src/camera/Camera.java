@@ -1,5 +1,6 @@
 package camera;
 
+import engine.Game;
 import utility.Vector2;
 
 public class Camera
@@ -9,8 +10,8 @@ public class Camera
 	public float rotation;
 	public Vector2 scale = new Vector2(1, 1);
 	
-	public int cameraWidth = 1920;
-	public int cameraHeight = 1080;
+	public int cameraWidth = Game.game.worldDimension.width;
+	public int cameraHeight = Game.game.worldDimension.height;
 	
 	
 	
