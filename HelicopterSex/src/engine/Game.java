@@ -32,7 +32,6 @@ import javax.swing.JPanel;
 
 import managers.AudioManager;
 import score.Score;
-import shooting.ShotManager;
 import content.Content;
 
 
@@ -223,7 +222,6 @@ extends JPanel
 	{
 		Content.initializeContent();
 		AudioManager.loadMedia();
-		AudioManager.loadAudioClips();
 		AudioManager.setMasterVolume(1.0);
 		ModelFactory.getInstance().loadModels("content/models.txt");
 		ShotFactory.loadShotSprites("content/shots.txt");

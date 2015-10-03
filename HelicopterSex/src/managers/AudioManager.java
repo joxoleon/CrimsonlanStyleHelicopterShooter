@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -16,9 +15,6 @@ public class AudioManager
 	private static Map<String, Media> medias = new HashMap<String, Media>();
 	private static Map<String, Double> mediaVolumes = new HashMap<String, Double>();
 	private static Map<Long, MediaPlayer> mediaPlayers = new HashMap<Long, MediaPlayer>();
-	private static Map<String, AudioClip> audioClips = new HashMap<String, AudioClip>();
-	private static Map<String, Double> audioClipVolumes = new HashMap<String, Double>();
-	private static Map<String, Long> audioClipIndices = new HashMap<String, Long>();
 
 	private static long mediaPlayerIDGenerator = 0;
 
@@ -88,21 +84,11 @@ public class AudioManager
 
 	public static void playOnceNoInterrupt(String mediaName)
 	{	
-//		if(playbackSpeed == 1)
-//		{
-//			AudioClip audioClip = getAudioClipBalanceLoading(mediaName);
-//			audioClip.setVolume(audioClipVolumes.get(mediaName) * masterVolume);
-//			audioClip.play();
-//		}
-//		else
-//		{
 			Media media = medias.get(mediaName);
 			MediaPlayer player = new MediaPlayer(media);
 			player.setVolume(mediaVolumes.get(mediaName) * masterVolume);
 			player.setRate(playbackSpeed);
 			player.play();
-//		}
-
 
 	}
 	
@@ -163,63 +149,11 @@ public class AudioManager
 		}
 	}
 
-	public static void loadAudioClips()
-	{
-//		BufferedReader br;
-//		try
-//		{
-//			br = new BufferedReader(new FileReader("content/sounds/audioClips.txt"));
-//
-//			String line = br.readLine();
-//
-//			while (line != null)
-//			{
-//				String[] tokens = line.split(" ");
-//
-//				String filePath = "content/sounds/" + tokens[0] + ".mp3";
-//				String uri = Paths.get(filePath).toUri().toString();
-//				AudioClip audioClip = new AudioClip(uri);
-//
-//				if(tokens[2].charAt(0) == 'f')
-//				{
-//					audioClips.put(tokens[0], audioClip);
-//					audioClipVolumes.put(tokens[0], Double.parseDouble(tokens[1]));
-//				}
-//				else if(tokens.length == 3 && tokens[2].charAt(0) == 't')
-//				{
-//					AudioClip audioClip2 = new AudioClip(uri);
-//					audioClips.put(tokens[0] + 0, audioClip);
-//					audioClips.put(tokens[0] + 1, audioClip2);
-//					audioClipVolumes.put(tokens[0], Double.parseDouble(tokens[1]));
-//					audioClipIndices.put(tokens[0], 0l);
-//				}
-//				
-//
-//				line = br.readLine();
-//			}
-//
-//		} catch (Exception e)
-//		{
-//			e.printStackTrace();
-//			System.err.println("Error reading file audioClips.txt");
-//			Game.game.exitGame();
-//		}
-	}
-
 	public static void setPlaybackRate(long id, float timeScale)
 	{
 		MediaPlayer mediaPlayer = mediaPlayers.get(id);
 		mediaPlayer.setRate(timeScale);
 	}
 
-//	private static AudioClip getAudioClipBalanceLoading(String mediaName)
-//	{
-//		long index = audioClipIndices.get(mediaName);
-//		index %= 2;
-//		audioClipIndices.put(mediaName, (index + 1));
-//
-//		return audioClips.get(mediaName + index);
-//	}
-	
 
 }

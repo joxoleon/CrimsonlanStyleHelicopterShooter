@@ -5,7 +5,6 @@ import component.PhysicsComponent;
 import component.PhysicsComponent.Direction;
 import input.Input;
 import input.Keys;
-import utility.Vector2;
 import engine.GameTime;
 
 public class PlayerControlScript

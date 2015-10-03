@@ -1,22 +1,9 @@
 package shooting;
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ListIterator;
-import java.util.Map;
 
-
-
-
-
-
-
-import content.Content;
-import engine.Game;
 import engine.GameTime;
 
 public class ShotManager

@@ -1,12 +1,11 @@
 package gamestates;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
-import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 
+import camera.Camera;
 import managers.AudioManager;
 import managers.PauseManager;
 import managers.SlowMotionManager;
@@ -18,7 +17,6 @@ import scripts.PropellerScript;
 import shooting.ShotManager;
 import shooting.SimpleShot;
 import terrain.TerrainScrollDown;
-import utility.StringWriter;
 import utility.Vector2;
 import content.Content;
 import engine.Actor;
@@ -42,7 +40,7 @@ extends GameState
 	TerrainScrollDown terrain;
 	private String startinTerrainName = "tSnow01";
 	
-	
+	public Camera mainCamera = new Camera();
 	
 	
 
@@ -89,6 +87,8 @@ extends GameState
 		chopper.addBasicComponent(gunComponent);
 
 		chopper.addScriptComponent(new PlayerControlScript());
+		mainCamera.position.x = Game.game.worldDimension.width / 2;
+		mainCamera.position.y = Game.game.worldDimension.height / 2;
 
 		
 
@@ -106,6 +106,7 @@ extends GameState
 		
 		if (PauseManager.isPaused == false)
 		{
+			mainCamera.update(gameTime);
 			destroyAndFilter();
 			terrain.update(gameTime);
 			testingChopperShit(gameTime);
@@ -118,22 +119,15 @@ extends GameState
 	{
 		
 		// Draw Terrain
+		
 		terrain.draw(g2d);
 		
 		chopper.draw(g2d);
 				
 		ShotManager.draw(g2d);
 		
-//		Color shitColor = new Color(0.0f, 1.0f, 0.0f, 0.2f);
-//		g2d.setPaint(shitColor);
-//		g2d.fillRect(
-//				0, 
-//				0,
-//				(int) (Game.game.worldDimension.getWidth()), 
-//				(int) (Game.game.worldDimension.getHeight())
-//				);
+		mainCamera.draw(g2d);
 		
-		// If paused.
 		SlowMotionManager.draw(g2d);
 		PauseManager.draw(g2d);
 		
@@ -147,22 +141,8 @@ extends GameState
 		playingSongsIDs.remove(backgroundSongID);
 	}
 
-	public void drawGUIPanel(Graphics2D g2d, Paint paint, Rectangle2D guiPanelDstRect)
-	{
-		Paint oldPaint = g2d.getPaint();
-		g2d.setPaint(paint);
-
-		g2d.fillRoundRect(
-				(int) guiPanelDstRect.getX(),
-				(int) guiPanelDstRect.getY(),
-				(int) guiPanelDstRect.getWidth(),
-				(int) guiPanelDstRect.getHeight(),
-				(int) guiPanelDstRect.getWidth() / 3,
-				(int) guiPanelDstRect.getHeight() / 3
-				);
-		
-		g2d.setPaint(oldPaint);
-	}
+	
+	
 	
 	private void handleUpdateInput()
 	{
@@ -209,14 +189,14 @@ extends GameState
 	}
 
 
-	public void testingChopperShit(GameTime gameTime)
+	private void testingChopperShit(GameTime gameTime)
 	{
 
 		chopper.update(gameTime);
 		
 	}
 
-	public void destroyAndFilter()
+	private void destroyAndFilter()
 	{
 		ShotManager.filterShots();
 	}
