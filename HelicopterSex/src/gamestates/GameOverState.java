@@ -40,7 +40,6 @@ extends GameState
 	{
 		if(Input.isKeyDown(Keys.Escape))
 		{
-			// TODO - change into 
 			Game.game.gameStateMachine.changeState(Game.game.mainMenuState);
 		}
 		if(Input.isKeyPressed(Keys.Back) && nameTypedString.length() > 0)
@@ -88,7 +87,6 @@ extends GameState
 	@Override
 	public void exitState()
 	{
-		// TODO Auto-generated method stub
 		
 	}
 	

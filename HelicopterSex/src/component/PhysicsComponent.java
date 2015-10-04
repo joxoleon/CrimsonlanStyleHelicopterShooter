@@ -21,9 +21,9 @@ extends ActorComponent
 	// Rotation Fields.
 	public float angularVelocity = 0;
 	public float angularAcceleration = 0;
-	public float rotationDragFactor = 0.93f;
-	public float angularSqrtThreshold = 0.2f;
-	public float momentOfInertia = 3f; // Configurable
+	public float rotationDragFactor = 0.90f;
+	public float angularSqrtThreshold = 0.3f;
+	public float momentOfInertia = 1.5f; // Configurable
 	
 	// Movement Fields.
 	public float accelerationIntensity = 8000; // Configurable

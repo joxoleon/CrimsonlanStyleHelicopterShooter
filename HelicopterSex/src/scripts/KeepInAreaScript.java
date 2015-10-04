@@ -17,21 +17,18 @@ extends ScriptComponent
 	@Override
 	public void update(GameTime gameTime)
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onDestroy()
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public String getName()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 

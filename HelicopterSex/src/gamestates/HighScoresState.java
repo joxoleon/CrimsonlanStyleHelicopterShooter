@@ -72,7 +72,6 @@ extends GameState
 	@Override
 	public void exitState()
 	{
-		// TODO Auto-generated method stub
 		
 	}
 

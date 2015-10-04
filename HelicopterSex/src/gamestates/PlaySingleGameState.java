@@ -130,7 +130,6 @@ extends GameState
 		
 		// Draw Terrain
 		
-//		terrain.draw(g2d);
 		// Set the starting point 
 		GraphicsManager.saveGraphicsContext(g2d);
 		g2d.translate(mainCamera.cameraWidth / 2, mainCamera.cameraHeight / 2);
@@ -144,10 +143,10 @@ extends GameState
 				
 		ShotManager.draw(g2d, mainCamera);
 		
-//		mainCamera.draw(g2d);
+		mainCamera.draw(g2d);
 		
 		// Draw GUI
-		
+		GraphicsManager.restoreGraphicsContext(g2d);
 		SlowMotionManager.draw(g2d);
 		PauseManager.draw(g2d);
 		
