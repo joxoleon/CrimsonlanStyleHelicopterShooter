@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import camera.Camera;
 import component.ActorComponent;
 import component.GraphicsComponent;
 import scripts.ScriptComponent;
@@ -53,10 +54,16 @@ public class Actor
 		}
 	}
 	
-	public void draw(Graphics2D g2d)
+	public void draw(Graphics2D g2d, Camera camera)
 	{
 		saveGraphicsContext(g2d);
-		g2d.translate(position.x, position.y);
+		
+		Vector2 renderPosition = new Vector2(
+				position.x - (camera.position.x - camera.rotatedCornerVector.x),
+				position.y - (camera.position.y - camera.rotatedCornerVector.y)						
+						);
+		
+		g2d.translate(renderPosition.x, renderPosition.y);
 		g2d.rotate(rotation);
 		g2d.scale(scale.x, scale.y);
 		

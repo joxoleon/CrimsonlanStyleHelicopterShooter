@@ -47,7 +47,7 @@ extends JPanel
 	
 	private JFrame frame;
 	
-	boolean isFullScreen = true;
+	boolean isFullScreen = false;
 	
 	// (desired / world) * panel = true dimm 
 	public Dimension panelDimension = new Dimension(1, 1);

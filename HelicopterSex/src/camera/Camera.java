@@ -24,6 +24,10 @@ public class Camera
 	
 	private LinkedList<CameraScript> scripts = new LinkedList<CameraScript>();
 	
+	// Rotation Fields.
+	public Vector2 cornerVector;
+	public Vector2 rotatedCornerVector;
+	
 	// Camera graphics representation fields.
 	public boolean isDrawCamera = true; 
 	public Color color = Color.black;
@@ -35,6 +39,8 @@ public class Camera
 	
 	public Camera()
 	{
+		cornerVector = new Vector2(cameraWidth / 2, cameraHeight / 2);
+		rotatedCornerVector = cornerVector.clone();
 		initCameraGraphics();
 	}
 	
@@ -56,7 +62,6 @@ public class Camera
 	
 	
 	
-	
 	// ******************** Methods ******************** 
 	public void update(GameTime gameTime)
 	{
@@ -64,12 +69,13 @@ public class Camera
 		{
 			script.update(gameTime);
 		}
+		rotatedCornerVector = cornerVector.clone();
 	}
 	
 	public void draw(Graphics2D g2d)
 	{
 		GraphicsManager.saveGraphicsContext(g2d);
-		g2d.translate(position.x, position.y);
+		g2d.translate(Game.game.worldDimension.getWidth() / 2, Game.game.worldDimension.getHeight() / 2);
 		g2d.rotate(rotation);
 		g2d.scale(scale.x, scale.y);
 		
@@ -107,4 +113,11 @@ public class Camera
 		shapes.add(camRect);
 		shapes.add(camTriangle);
 	}
+
+	public void addScriptComponent(CameraScript cameraScript)
+	{
+		scripts.add(cameraScript);
+		cameraScript.onAttach(this);
+	}
+
 }

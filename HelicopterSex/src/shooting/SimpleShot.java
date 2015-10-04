@@ -3,6 +3,7 @@ package shooting;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+import camera.Camera;
 import utility.Vector2;
 import engine.GameTime;
 
@@ -61,11 +62,11 @@ implements IShootable
 		}
 	}
 	
-	public void draw(Graphics2D g2d)
+	public void draw(Graphics2D g2d, Camera camera)
 	{
 		// Initialize graphics context.
 		backupTransform = g2d.getTransform();
-		g2d.translate(position.x, position.y);
+		g2d.translate(position.x - (camera.position.x - camera.rotatedCornerVector.x), position.y - (camera.position.y - camera.rotatedCornerVector.y));
 		g2d.rotate(rotation);
 		g2d.scale(scale.x, scale.y);
 		
@@ -75,5 +76,5 @@ implements IShootable
 		g2d.setTransform(backupTransform);
 		
 	}
-	
+
 }

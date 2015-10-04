@@ -9,15 +9,25 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import utility.MathHelper;
+import utility.Vector2;
+import managers.GraphicsManager;
 import camera.Camera;
 import content.Content;
+import engine.GameTime;
 
 public class TerrainFreeMovement
+implements ITerrain
 {
+	// test position fields.
+	Vector2 position;
+	float rotation = 0;
+	Vector2 scale;
+	
 	// ******************** Fields ******************** 
 	BufferedImage terrain;
-	private int terrainWidth = 6000;
-	private int terrainHeight = 6000;
+	private int terrainWidth = 5000;
+	private int terrainHeight = 5000;
 	public String terrainTileName = "snowTile01";
 	public String name = "vacantLot";
 	private boolean isInitialized = false;
@@ -48,30 +58,110 @@ public class TerrainFreeMovement
 //		int dstX2 = (int) (camera.position.x + camera.cameraWidth / 2);
 //		int dstY1 = (int) (camera.position.y - camera.cameraHeight / 2);
 //		int dstY2 = (int) camera.position.y + camera.cameraHeight / 2;
+//		
+//		int srcX1 = (int) (camera.position.x);
+//		int srcX2 = (int) (camera.position.x + terrainWidth);
+//		int srcY1 = (int) (camera.position.y);
+//		int srcY2 = (int) (camera.position.y + terrainHeight);
+//		
+//		System.out.println(srcX1 + " , " + srcY1 + ", " + srcX2 + ", " + srcY2);
+//		initContext(g2d, camera);
+//		
+//		g2d.drawImage(
+//				terrain,
+//				(int)-camera.position.x, (int)- camera.position.y,(int)(terrainWidth - camera.position.x),(int)(terrainHeight - camera.position.y),
+//				srcX1, srcY1, srcX2, srcY2,
+//				null
+//				);
+//		
+//		restoreContext(g2d);
 		
-		int srcX1 = (int) (camera.position.x);
-		int srcX2 = (int) (camera.position.x + terrainWidth);
-		int srcY1 = (int) (camera.position.y);
-		int srcY2 = (int) (camera.position.y + terrainHeight);
 		
-		System.out.println(srcX1 + " , " + srcY1 + ", " + srcX2 + ", " + srcY2);
-		initContext(g2d, camera);
 		
-		g2d.drawImage(
+//		
+//		
+//		GraphicsManager.saveGraphicsContext(g2d);
+//		
+//		// Calculate render position, and render Rotation.
+//		Vector2 cameraCornerOffset = new Vector2(
+//						position.x - (camera.position.x - camera.rotatedCornerVector.x),
+//						position.y - (camera.position.y - camera.rotatedCornerVector.y)
+//						);
+//		float renderRotation = rotation - camera.rotation;
+//		
+//		// Jebem ti scale, sta da radim!
+//		
+//		g2d.translate(cameraCornerOffset.x, cameraCornerOffset.y);
+//		g2d.rotate(rotation);
+//		
+//		int dstX1 = (int) cameraCornerOffset.x;
+//		int dstY1 = (int) cameraCornerOffset.y;
+//		int dstX2 = (int) cameraCornerOffset.x ;
+//		int dstY2 = (int) cameraCornerOffset.y;
+//		
+//		// Calculate source for the terrain!
+//		int srcX1 = (int) (camera.position.x - camera.cameraWidth / 2);
+//		int srcX2 = (int) (srcX1 + terrainWidth);
+//		int srcY1 = (int) (camera.position.y - camera.cameraHeight / 2);
+//		int srcY2 = (int) (srcY1 + terrainHeight);
+//		
+//	
+//		
+//		System.out.println("camera position =" + camera.position);
+//		System.out.println("terrainPosition = " + position);
+//		System.out.println("corner vector = " + camera.cornerVector);
+//		System.out.println("rotated corner vector = " + camera.rotatedCornerVector);
+//		System.out.println("camera corner offset = " + cameraCornerOffset);
+//		
+////		System.out.println("destination X (" + dstX1 + ", " + dstX2 + ")");
+////		System.out.println("destination Y (" + dstY1 + ", " + dstY2 + ")");
+////		System.out.println("source X (" + srcX1 + ", " + srcX2 + ")");
+////		System.out.println("source Y (" + srcY1 + ", " + srcY2 + ")");
+//
+//		g2d.drawImage(
+//				terrain,
+//				dstX1, dstY1, dstX2, dstY2,
+//				srcX1, srcY1, srcX2, srcY2,
+//				null
+//				);
+//		
+////		g2d.drawImage( 
+////				terrain,
+////				- terrainWidth / 2, - terrainHeight / 2, terrainWidth / 2, terrainHeight / 2,
+////				0, 0, terrain.getWidth(), terrain.getHeight(),
+////				null
+////				);
+//		
+//		GraphicsManager.restoreGraphicsContext(g2d);
+		
+		
+		GraphicsManager.saveGraphicsContext(g2d);
+		
+		Vector2 renderPosition = new Vector2(
+				position.x - (camera.position.x - camera.rotatedCornerVector.x),
+				position.y - (camera.position.y - camera.rotatedCornerVector.y)						
+						);
+		
+		g2d.translate(renderPosition.x, renderPosition.y);
+		g2d.rotate(rotation);
+		
+		g2d.drawImage( 
 				terrain,
-				(int)-camera.position.x, (int)- camera.position.y,(int)(terrainWidth - camera.position.x),(int)(terrainHeight - camera.position.y),
-				srcX1, srcY1, srcX2, srcY2,
+				-terrainWidth / 2, - terrainHeight / 2, terrainWidth / 2, terrainHeight / 2,
+				0, 0, terrain.getWidth(), terrain.getHeight(),
 				null
 				);
 		
-		restoreContext(g2d);
-				
+		GraphicsManager.restoreGraphicsContext(g2d);		
 	}
 
 	public void initialize()
 	{
 		if(isInitialized == false)
 		{
+			position = new Vector2(terrainWidth / 2, terrainHeight / 2);
+			rotation = 0;
+			scale = new Vector2(1, 1);
 			initializeTerrain();
 			isInitialized = true;
 		}
@@ -148,16 +238,55 @@ public class TerrainFreeMovement
 		assetPositions.add(new Point(x, y));
 	}
 
-	private void initContext(Graphics2D g2d, Camera camera)
+
+
+
+
+
+
+	@Override
+	public void update(GameTime gameTime)
 	{
-		backupTransform = g2d.getTransform();
-		g2d.translate(camera.cameraWidth / 2, camera.cameraHeight / 2);
-		g2d.rotate(camera.rotation);
-		g2d.scale(camera.scale.x, camera.scale.y);
-		g2d.translate(-camera.cameraWidth / 2, -camera.cameraHeight / 2);
+		
 	}
-	private void restoreContext(Graphics2D g2d)
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public Vector2 getDimensions()
 	{
-		g2d.setTransform(backupTransform);
+		return new Vector2(terrainWidth, terrainHeight);
 	}
+	
+
+
+
+
+
+	@Override
+	public TerrainType getType()
+	{
+		return TerrainType.REGULAR_TERRAIN;
+	}
+	
+//	private void initContext(Graphics2D g2d, Camera camera)
+//	{
+//		backupTransform = g2d.getTransform();
+//		g2d.translate(camera.cameraWidth / 2, camera.cameraHeight / 2);
+//		g2d.rotate(camera.rotation);
+//		g2d.scale(camera.scale.x, camera.scale.y);
+//		g2d.translate(-camera.cameraWidth / 2, -camera.cameraHeight / 2);
+//	}
+//	private void restoreContext(Graphics2D g2d)
+//	{
+//		g2d.setTransform(backupTransform);
+//	}
 }

@@ -19,5 +19,6 @@ public class GraphicsManager
 	{
 		g2d.setTransform(backupTransform);
 		g2d.setPaint(backupPaint);
+		backupTransform = null;
 	}
 }

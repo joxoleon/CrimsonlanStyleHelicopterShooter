@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
+import camera.Camera;
 import engine.GameTime;
 
 public class ShotManager
@@ -29,11 +30,11 @@ public class ShotManager
 		}
 	}
 	
-	public static void draw(Graphics2D g2d)
+	public static void draw(Graphics2D g2d, Camera camera)
 	{
 		for (SimpleShot playerShot : playerShots)
 		{
-			playerShot.draw(g2d);
+			playerShot.draw(g2d, camera);
 		}
 	}
 	

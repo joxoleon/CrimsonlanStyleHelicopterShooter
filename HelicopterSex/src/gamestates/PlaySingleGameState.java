@@ -6,7 +6,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 
 import camera.Camera;
+import camera.FollowActorScript;
 import managers.AudioManager;
+import managers.GraphicsManager;
 import managers.PauseManager;
 import managers.SlowMotionManager;
 import component.GraphicsComponent;
@@ -16,6 +18,7 @@ import scripts.PlayerControlScript;
 import scripts.PropellerScript;
 import shooting.ShotManager;
 import shooting.SimpleShot;
+import terrain.TerrainFreeMovement;
 import terrain.TerrainScrollDown;
 import utility.Vector2;
 import content.Content;
@@ -42,7 +45,8 @@ extends GameState
 	
 	public Camera mainCamera = new Camera();
 	
-	
+	TerrainFreeMovement freeTerrain = new TerrainFreeMovement("firstFreeMovementTerrain");
+
 
 	
 	// Main song fields.
@@ -65,6 +69,8 @@ extends GameState
 		System.out.println("Enter single player state.");
 		terrain = Content.terrains.get(startinTerrainName);
 		terrain.initialize();
+		freeTerrain.terrainTileName = "snowTile01";
+		freeTerrain.initialize();
 				
 		backgroundSongID = AudioManager.play(songNames[currentSong], true);
 		playingSongsIDs.add(backgroundSongID);
@@ -94,6 +100,9 @@ extends GameState
 
 		// Initialization
 		initializeManagers();
+		FollowActorScript cameraScript = new FollowActorScript();
+		cameraScript.addActor(chopper);
+		mainCamera.addScriptComponent(cameraScript);
 	}
 
 	@Override
@@ -106,11 +115,12 @@ extends GameState
 		
 		if (PauseManager.isPaused == false)
 		{
-			mainCamera.update(gameTime);
 			destroyAndFilter();
 			terrain.update(gameTime);
 			testingChopperShit(gameTime);
 			ShotManager.update(gameTime);
+			mainCamera.update(gameTime);
+
 		}
 	}
 	
@@ -120,13 +130,23 @@ extends GameState
 		
 		// Draw Terrain
 		
-		terrain.draw(g2d);
+//		terrain.draw(g2d);
+		// Set the starting point 
+		GraphicsManager.saveGraphicsContext(g2d);
+		g2d.translate(mainCamera.cameraWidth / 2, mainCamera.cameraHeight / 2);
+		g2d.rotate(-mainCamera.rotation);
+		g2d.scale(mainCamera.scale.x, mainCamera.scale.y);
+		g2d.translate(-mainCamera.cameraWidth / 2, -mainCamera.cameraHeight / 2);
 		
-		chopper.draw(g2d);
+		freeTerrain.draw(g2d, mainCamera);
+		
+		chopper.draw(g2d, mainCamera);
 				
-		ShotManager.draw(g2d);
+		ShotManager.draw(g2d, mainCamera);
 		
-		mainCamera.draw(g2d);
+//		mainCamera.draw(g2d);
+		
+		// Draw GUI
 		
 		SlowMotionManager.draw(g2d);
 		PauseManager.draw(g2d);
