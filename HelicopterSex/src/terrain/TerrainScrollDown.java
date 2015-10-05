@@ -10,7 +10,6 @@ import java.util.Map;
 
 import camera.Camera;
 import utility.Vector2;
-import content.Content;
 import engine.Game;
 import engine.GameTime;
 
@@ -20,8 +19,8 @@ public class TerrainScrollDown implements ITerrain
 	// ******************** Fields ********************
 	// Terrain panel fields
 	public int numberOfTerrainPanels = 6;
-	private int panelWidth;
-	private int panelHeight = 0; // To be calculated
+	private int panelWidth;		// Based on Game.game.worldDimension.x
+	private int panelHeight; 	// To be calculated.
 	public String terrainTileName = "testTile01";
 	public String terrainName = "vacant lot";
 	private boolean isInitialized = false;
@@ -36,15 +35,13 @@ public class TerrainScrollDown implements ITerrain
 
 	// Terrain movement fields
 	public Vector2 terrainPosition = new Vector2(0, 0);
-//	float terrainPositionX = 0;
-//	float terrainPositionY = 0;
 	public float terrainSpeed = 140;
 
 	// Terrain Assets.
 	private LinkedList<String> assets = new LinkedList<String>();
 	private Map<String, Integer> numOfAssets = new HashMap<String, Integer>();
-	private Map<String, Float> numToDrawDeviations = new HashMap<String, Float>();
-	private Map<String, Point> assetDimensions = new HashMap<String, Point>();
+	private Map<String, Float> maxAssetDeviations = new HashMap<String, Float>();
+	private Map<String, Vector2> assetScales = new HashMap<String, Vector2>();
 	
 	
 	
@@ -82,12 +79,13 @@ public class TerrainScrollDown implements ITerrain
 		// Update terrain position.
 		terrainPosition.y += terrainSpeed * gameTime.dt_s();
 
-		if (terrainPosition.y > Game.game.worldDimension.getHeight())
+		if (terrainPosition.y > Game.game.worldDimension.height)
 		{
 			// Set to draw next panel.
-			terrainPosition.y -= Game.game.worldDimension.getHeight();
+			terrainPosition.y -= Game.game.worldDimension.height;
 			currentPanelIndex = (currentPanelIndex + 1) % terrainPanels.length;
 		}
+
 
 	}
 
@@ -109,6 +107,7 @@ public class TerrainScrollDown implements ITerrain
 		g2d.drawImage(panel, 0, 0, (int) terrainPosition.x + panelWidth,
 				(int) terrainPosition.y, (int) sourcex2 - panelWidth,
 				(int) sourcey2, (int) sourcex2, panelHeight, null);
+		
 	}
 
 	
@@ -125,14 +124,14 @@ public class TerrainScrollDown implements ITerrain
 	{
 		assets.addLast(asset);
 		numOfAssets.put(asset, numOfTimesToDraw);
-		numToDrawDeviations.put(asset, maxDeviation);
+		maxAssetDeviations.put(asset, maxDeviation);
 	}
 
-	public void addAsset(String asset, int numOfTimesToDraw, float maxDeviation, int width, int height)
+	public void addAsset(String asset, int numOfTimesToDraw, float maxDeviation, float scaleX, float scaleY)
 	{
 		addAsset(asset, numOfTimesToDraw, maxDeviation);
-		Point assetDimension = new Point(width, height);
-		assetDimensions.put(asset, assetDimension);
+		Vector2 assetScale = new Vector2(scaleX, scaleY);
+		assetScales.put(asset, assetScale);
 
 	}
 
@@ -151,7 +150,12 @@ public class TerrainScrollDown implements ITerrain
 		return TerrainType.SCROLL_TERRAIN;
 	}
 	
-	// Private helper methods (Decomposition methods).
+	
+	
+	
+	
+	
+	// Private helper methods.
 	private void initializeTerrainPanels()
 	{
 		// Get tile image from Content and calculate panel height and matrix data.
@@ -181,11 +185,11 @@ public class TerrainScrollDown implements ITerrain
 			{
 				for (int j2 = 0; j2 < numOfTilesHorizontal; j2++)
 				{
-					g2d.drawImage(panelImage, j2 * panelImage.getWidth(), j
-							* panelImage.getHeight(),
-							(j2 + 1) * panelImage.getWidth(), (j + 1)
-									* panelImage.getHeight(), 0, 0,
-							panelImage.getWidth(), panelImage.getHeight(), null);
+					g2d.drawImage(
+							panelImage, 
+							j2 * panelImage.getWidth(), j * panelImage.getHeight(), (j2 + 1) * panelImage.getWidth(), (j + 1) * panelImage.getHeight(), 
+							0, 0, panelImage.getWidth(), panelImage.getHeight(), null
+							);
 
 				}
 			}
@@ -194,13 +198,20 @@ public class TerrainScrollDown implements ITerrain
 			for (String assetName : assets)
 			{
 				int numOfTimesToDraw = numOfAssets.get(assetName);
+				float deviation = maxAssetDeviations.get(assetName) * 100;
+				// Calculate new numOfTimesToDraw based on the deviation.
+				numOfTimesToDraw += (numOfTimesToDraw * Math.random() * deviation) - deviation;
+				if(numOfTimesToDraw < 1)
+				{
+					continue;
+				}
+				
 				TerrainAsset asset = TerrainManager.terrainAssets.get(assetName);
 				Rectangle2D dstRectangle = new Rectangle2D.Float(0, 0,
 						panelWidth, panelHeight);
-				Point assetDimension = assetDimensions.get(assetName);
+				Vector2 assetScale = assetScales.get(assetName);
 
-				asset.drawAssets(terrainPanels[i], g2d, dstRectangle,
-						numOfTimesToDraw, assetDimension.x, assetDimension.y);
+				asset.drawAssets(terrainPanels[i], g2d, dstRectangle, numOfTimesToDraw, assetScale);
 			}
 
 		}

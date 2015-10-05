@@ -1,8 +1,6 @@
 package gamestates;
 
 import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 
 import camera.Camera;
@@ -18,11 +16,8 @@ import scripts.PlayerControlScript;
 import scripts.PropellerScript;
 import shooting.ShotManager;
 import shooting.SimpleShot;
-import terrain.TerrainFreeMovement;
 import terrain.TerrainManager;
-import terrain.TerrainScrollDown;
 import utility.Vector2;
-import content.Content;
 import engine.Actor;
 import engine.Game;
 import engine.GameTime;
@@ -95,7 +90,7 @@ extends GameState
 		FollowActorScript cameraScript = new FollowActorScript();
 		cameraScript.addActor(chopper);
 		mainCamera.isDrawCamera = false;
-//		mainCamera.addScriptComponent(cameraScript);
+		mainCamera.addScriptComponent(cameraScript);
 	}
 
 	@Override

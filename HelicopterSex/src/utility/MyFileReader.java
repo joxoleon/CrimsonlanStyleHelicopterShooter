@@ -25,6 +25,10 @@ public class MyFileReader
 		{
 			br = new BufferedReader(new FileReader(path));
 			line = br.readLine();
+			while(line != null && (line.length() == 0 || line.startsWith("#") || line.startsWith("//")))
+			{
+				line = br.readLine();
+			}
 			if(line != null)
 			{
 				hasMore = true;
@@ -50,7 +54,7 @@ public class MyFileReader
 			String[] tokens = line.split(" ");
 			
 			line = br.readLine();
-			while(line.length() == 0 || line.startsWith("#"))
+			while(line != null && (line.length() == 0 || line.startsWith("#") || line.startsWith("//")))
 			{
 				line = br.readLine();
 			}
@@ -78,7 +82,7 @@ public class MyFileReader
 			String[] tokens = line.split(" ");
 			if(tokens.length != numberOfTokens)
 			{
-				throw new MyError("Invalid input at: " + path);
+				throw new MyError("Invalid input at: " + path + "\n" + "Line: " + line);
 			}
 			
 			line = br.readLine();

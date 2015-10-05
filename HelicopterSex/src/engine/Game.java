@@ -35,6 +35,7 @@ import managers.AudioManager;
 import score.Score;
 import terrain.TerrainManager;
 import content.Content;
+import content.MyError;
 
 
 public class Game
@@ -240,6 +241,10 @@ extends JPanel
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Game.game.exitGame();
+		} catch (MyError e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}

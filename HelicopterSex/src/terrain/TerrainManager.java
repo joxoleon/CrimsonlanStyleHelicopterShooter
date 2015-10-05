@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import terrain.ITerrain.TerrainType;
+import utility.MyFileReader;
 import content.MyError;
 import camera.Camera;
 import engine.Game;
@@ -39,7 +41,7 @@ public class TerrainManager
 	private static ITerrain currentTerrain = null;
 	
 	
-	public static void initialize()
+	public static void initialize() throws IOException, MyError
 	{
 		loadTerrainTiles();
 		loadTerrainAssets();
@@ -113,203 +115,259 @@ public class TerrainManager
 		}
 	}
 	
-	private static void loadScrollDownTerrains()
-	{
-		BufferedReader br;
-		try
+	private static void loadScrollDownTerrains() throws MyError
+	{		
+		int currentState = 0;
+		int counter = 0;
+
+		TerrainScrollDown terrain = null;
+		MyFileReader reader = new MyFileReader("content/terrain/scrollDownTerrains.txt");
+		while(reader.hasMore == true)
 		{
-			br = new BufferedReader(
-					new FileReader("content/terrain/terrains.txt"));
-
-			String line = br.readLine();
-
-			int currentState = 0;
-			int counter = 0;
-
-			TerrainScrollDown terrain = null;
-
-			while (line != null)
+			// Simple state machine
+			switch(currentState)
 			{
-				// Skip if it is a comment or an empty line
-				if (line.length() == 0 || line.startsWith("#"))
-				{
-					line = br.readLine();
-					continue;
-				}
-				String[] tokens = line.split(" ");
-				if (tokens.length == 0)
-				{
-					line = br.readLine();
-					continue;
-				}
+			// State 0 :Read terrainName, numberOfPanels and terrainSpeed and add the terrain into the hashMap.
+			case 0:
+			{
+				String[] tokens = reader.getNextLineTokens(3);
 				
+				 terrain = new TerrainScrollDown(tokens[0]);
+				 scrollDownTerrains.put(tokens[0], terrain);
+				 scrollDownTerrainNames.add(tokens[0]);
+				 terrain.terrainSpeed = Integer.parseInt(tokens[2]);
+				 terrain.numberOfTerrainPanels =
+				 Integer.parseInt(tokens[1]);
+				 currentState = 1;
+			}break;
+			
+			// State 1: Read tile name.
+			case 1:
+			{
+				String[] tokens = reader.getNextLineTokens(1);
+				terrain.terrainTileName = tokens[0];
+				currentState = 2;
+
+			}break;
+			
+			// State 2: Read number of assets.
+			case 2:
+			{
+				String[] tokens = reader.getNextLineTokens(1);
+				counter = Integer.parseInt(tokens[0]);
+				currentState = 3;
 				
-				// Simple state machine
-				try
+			}break;
+			
+			// then switch back to state 0.
+			case 3:
+			{
+				String[] tokens = reader.getNextLineTokens();
+				
+				String assetName = tokens[0];
+				int numOnPanel = Integer.parseInt(tokens[1]);
+				float maxDeviation = Float.parseFloat(tokens[2]);
+
+				// If the width, height are not specfied
+				if (tokens.length == 3)
 				{
-					switch (currentState)
-					{
-					// State 0 :Read terrain name and add terrain into map.
-					case 0:
-					{
-						if (tokens.length != 3)
-						{
-							throw new MyError(
-									"Terrain read error: invalid terrain name");
-						}
-						terrain = new TerrainScrollDown(tokens[0]);
-						scrollDownTerrains.put(tokens[0], terrain);
-						scrollDownTerrainNames.add(tokens[0]);
-						terrain.terrainSpeed = Integer.parseInt(tokens[2]);
-						terrain.numberOfTerrainPanels = Integer.parseInt(tokens[1]);
-						currentState = 1;
-					}
-						break;
-					
-					// State 1: Read tile name.
-					case 1:
-					{
-						if (tokens.length > 1)
-						{
-							throw new MyError(
-									"Terrain read error: invalid terrain name");
-						}
-						terrain.terrainTileName = tokens[0];
-						currentState = 2;
-						
-					}
-						break;
-					// State 2: Read number of assets.
-					case 2:
-					{
-						if (tokens.length > 1)
-						{
-							throw new MyError(
-									"Terrain read error: invalid number of tokens");
-						}
-						counter = Integer.parseInt(tokens[0]);
-						currentState = 3;
-
-					}
-						break;
-
-					// State 2: Read asset per line and when you came to the end then switch back to state 0.
-					case 3:
-					{
-						String assetName = tokens[0];
-						int numOnPanel = Integer.parseInt(tokens[1]);
-						float maxDeviation = Float.parseFloat(tokens[2]);
-
-						// If the width, height are not specfied
-						if (tokens.length == 3)
-						{
-							terrain.addAsset(assetName, numOnPanel, maxDeviation);
-						}
-						// If the width and height are specified
-						else if (tokens.length == 5)
-						{
-							int width = Integer.parseInt(tokens[3]);
-							int height = Integer.parseInt(tokens[4]);
-
-							terrain.addAsset(assetName, numOnPanel,maxDeviation, width, height);
-
-						} else
-						{
-							throw new MyError(
-									"Terrain read error: invalid asset line.");
-						}
-
-						counter--;
-						if (counter == 0)
-						{
-							currentState = 0;
-						}
-					}
-						break;
-
-					}
-
-				} catch (MyError e)
+					terrain.addAsset(assetName, numOnPanel,
+							maxDeviation);
+				}
+				// If the width and height are specified
+				else if (tokens.length == 5)
 				{
-					System.err.println(e);
+					float scaleX = Float.parseFloat(tokens[3]);
+					float scaleY = Float.parseFloat(tokens[4]);
+
+					terrain.addAsset(assetName, numOnPanel,
+							maxDeviation, scaleX, scaleY);
+
+				} else
+				{
+					throw new MyError("Terrain read error: invalid asset line.");
 				}
 
-
-				line = br.readLine();
+				counter--;
+				if (counter == 0)
+				{
+					currentState = 0;
+				}
+			}break;
 			}
-
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-			System.err.println("Could not read from file assets.txt");
-			Game.game.exitGame();
 		}
 	}
 	
-	private static void loadFreeMovementTerrains()
+	private static void loadFreeMovementTerrains() throws MyError
 	{
-		// TODO : load free movement terrains.
-	}
+		int currentState = 0;
+		int counter = 0;
 
-	public static void loadTerrainAssets()
-	{
-		BufferedReader br;
-		try
+		TerrainFreeMovement terrain = null;
+		MyFileReader reader = new MyFileReader("content/terrain/freeMovementTerrains.txt");
+		while(reader.hasMore == true)
 		{
-			br = new BufferedReader(
-					new FileReader("content/terrain/assets.txt"));
-
-			String line = br.readLine();
-
-			while (line != null)
+			// Simple state machine
+			switch(currentState)
 			{
-				if (line.charAt(0) == '#')
+			// State 0 :Read terrainName, terrainWidth and terrainHeight and add the terrain into the hashMap.
+			case 0:
+			{
+				String[] tokens = reader.getNextLineTokens(3);
+				
+				 terrain = new TerrainFreeMovement(tokens[0]);
+				 terrain.terrainWidth = Integer.parseInt(tokens[1]);
+				 terrain.terrainHeight = Integer.parseInt(tokens[2]);
+				 
+				 freeMovementTerrains.put(tokens[0], terrain);
+				 freeMovementTerrainNames.add(tokens[0]);
+				 
+				 currentState = 1;
+			}break;
+			
+			// State 1: Read tile name.
+			case 1:
+			{
+				String[] tokens = reader.getNextLineTokens(1);
+				terrain.terrainTileName = tokens[0];
+				currentState = 2;
+
+			}break;
+			
+			// State 2: Read number of assets.
+			case 2:
+			{
+				String[] tokens = reader.getNextLineTokens(1);
+				counter = Integer.parseInt(tokens[0]);
+				currentState = 3;
+				
+			}break;
+			
+			// State 3: Read an asset name, number of asets on panel, maximum deviation of number of assets, from each line.
+			case 3:
+			{
+				String[] tokens = reader.getNextLineTokens();
+				
+				String assetName = tokens[0];
+				int numOnPanel = Integer.parseInt(tokens[1]);
+				float maxDeviation = Float.parseFloat(tokens[2]);
+
+				// If the width, height are not specfied
+				if (tokens.length == 3)
 				{
-					continue;
+					terrain.addAsset(assetName, numOnPanel, maxDeviation);
 				}
-				String[] tokens = line.split(" ");
+				// If the width and height are specified
+				else if (tokens.length == 5)
+				{
+					float scaleX = Float.parseFloat(tokens[3]);
+					float scaleY = Float.parseFloat(tokens[4]);
 
-				BufferedImage newImage;
-				newImage = ImageIO.read(new File("content/terrain/" + tokens[0]
-						+ ".png"));
+					terrain.addAsset(assetName, numOnPanel, maxDeviation, scaleX, scaleY);
 
-				TerrainAsset terrainAsset = new TerrainAsset(tokens[0],
-						newImage, newImage.getWidth(), newImage.getHeight());
-				terrainAssets.put(tokens[0], terrainAsset);
+				} else
+				{
+					throw new MyError("Terrain read error: invalid asset line.");
+				}
 
-				line = br.readLine();
+				counter--;
+				if (counter == 0)
+				{
+					currentState = 0;
+				}
+			}break;
 			}
-
-		} catch (Exception e)
-		{
-			System.err.println("Could not read from file assets.txt");
-			Game.game.exitGame();
 		}
+
+
+	}
+	
+
+	public static void loadTerrainAssets() throws IOException
+	{
+//		BufferedReader br;
+//		try
+//		{
+//			br = new BufferedReader(
+//					new FileReader("content/terrain/assets.txt"));
+//
+//			String line = br.readLine();
+//
+//			while (line != null)
+//			{
+//				if (line.charAt(0) == '#')
+//				{
+//					continue;
+//				}
+//				String[] tokens = line.split(" ");
+//
+//				BufferedImage newImage;
+//				newImage = ImageIO.read(new File("content/terrain/" + tokens[0]
+//						+ ".png"));
+//
+//				TerrainAsset terrainAsset = new TerrainAsset(tokens[0],
+//						newImage, newImage.getWidth(), newImage.getHeight());
+//				terrainAssets.put(tokens[0], terrainAsset);
+//
+//				line = br.readLine();
+//			}
+//
+//		} catch (Exception e)
+//		{
+//			System.err.println("Could not read from file assets.txt");
+//			Game.game.exitGame();
+//		}
+		
+		
+		MyFileReader reader = new MyFileReader("content/terrain/assets.txt");
+		while(reader.hasMore == true)
+		{
+			String[] tokens = reader.getNextLineTokens(1);
+			
+			BufferedImage newImage = ImageIO.read(new File("content/terrain/" + tokens[0] + ".png"));
+			TerrainAsset terrainAsset = new TerrainAsset(tokens[0], newImage, newImage.getWidth(), newImage.getHeight());
+			terrainAssets.put(tokens[0], terrainAsset);
+			
+		}
+		
+		
 	}
 
-	public static void loadTerrainTiles()
+	public static void loadTerrainTiles() throws IOException
 	{
-		BufferedReader br;
-		try
+//		BufferedReader br;
+//		try
+//		{
+//			br = new BufferedReader(new FileReader("content/terrain/terrainTiles.txt"));
+//
+//			String line = br.readLine();
+//
+//			while (line != null)
+//			{
+//				BufferedImage newImage;
+//				newImage = ImageIO.read(new File("content/terrain/" + line
+//						+ ".png"));
+//				terrainTiles.put(line, newImage);
+//
+//				line = br.readLine();
+//			}
+//
+//		} catch (Exception e)
+//		{
+//			System.err.println("Could not read from file terrainTiles.txt");
+//			Game.game.exitGame();
+//		}
+//	
+//	
+//		
+		MyFileReader reader = new MyFileReader("content/terrain/terrainTiles.txt");
+		while(reader.hasMore == true)
 		{
-			br = new BufferedReader(new FileReader("content/terrain/terrainTiles.txt"));
-
-			String line = br.readLine();
-
-			while (line != null)
-			{
-				BufferedImage newImage;
-				newImage = ImageIO.read(new File("content/terrain/" + line
-						+ ".png"));
-				terrainTiles.put(line, newImage);
-
-				line = br.readLine();
-			}
-
-		} catch (Exception e)
-		{
-			System.err.println("Could not read from file terrainTiles.txt");
-			Game.game.exitGame();
+			String[] tokens = reader.getNextLineTokens(1);
+			BufferedImage newImage;
+			newImage = ImageIO.read(new File("content/terrain/" + tokens[0]
+					+ ".png"));
+			terrainTiles.put(tokens[0], newImage);
 		}
 	}
 }

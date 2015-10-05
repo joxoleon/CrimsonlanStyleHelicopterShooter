@@ -1,5 +1,6 @@
 package component;
 
+import utility.MathHelper;
 import utility.Vector2;
 import engine.GameTime;
 
@@ -14,21 +15,22 @@ extends ActorComponent
 	// Translation fields.
 	public Vector2 velocity = new Vector2();
 	public Vector2 acceleration = new Vector2();
-	public float translationDragFactor = 0.95f;
+	public float translationDragFactor = 0.98f;
 	public float translationThresholdSquared = 2;
 	public float mass = 5; // Configurable
 	
 	// Rotation Fields.
 	public float angularVelocity = 0;
 	public float angularAcceleration = 0;
-	public float rotationDragFactor = 0.90f;
+	public float rotationDragFactor = 0.96f;
 	public float angularSqrtThreshold = 0.3f;
 	public float momentOfInertia = 1.5f; // Configurable
 	
 	// Movement Fields.
 	public float accelerationIntensity = 8000; // Configurable
+	public float maxVelocitySquared = 800;
 	public float angularAccelerationIntensity = 40; // Configurable
-	
+	public float maxAngularVelocity = 4;
 	
 	// ******************** Constructors ******************** 
 
@@ -63,8 +65,16 @@ extends ActorComponent
 		
 		// Calculate velocity.
 		velocity.add(Vector2.mul(acceleration, gameTime.dt_s()));
+		
+		// Clamp velocity.
+		if(velocity.magnitudeSquared() > maxVelocitySquared)
+		{
+			// TODO : clamp velocity.
+		}
+		
 		// Update position.
 		parent.position.add(Vector2.mul(velocity, gameTime.dt_s()));
+		
 		
 		// Reset acceleration.
 		acceleration.x = 0;
@@ -81,10 +91,17 @@ extends ActorComponent
 		
 		// Calculate velocity.
 		angularVelocity += angularAcceleration * gameTime.dt_s();
+		
+		// Clamp rotation.
+		if(Math.abs(angularVelocity) > maxAngularVelocity)
+		{
+			angularVelocity = MathHelper.clamp(angularVelocity, -maxAngularVelocity, maxAngularVelocity);
+		}
+		
 		// Update rotation.
 		parent.rotation += angularVelocity * gameTime.dt_s();
 		handleRotation();
-		
+
 		// Reset angular acceleration
 		angularAcceleration = 0;
 
