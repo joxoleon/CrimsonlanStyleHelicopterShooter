@@ -18,8 +18,8 @@ helicopterPropeller01 propeller01 241 241 0 0 0 0.6 0.6 true
 helicopterPropeller01 propeller02 241 241 0 120 0 0.15 0.15 true
 
 helicopter03 2
-helicopterBody03 body 210 294 0 23 0 0.6 0.6
-helicopterPropeller01 propeller01 241 241 0 0 0 0.66 0.66 true
+helicopterBody03 body 210 294 0 23 0 0.53 0.53
+helicopterPropeller01 propeller01 241 241 0 0 0 0.55 0.55 true
 # helicopterPropeller01 propeller02 241 241 0 125 0 0.4 0.4 true
 
 helicopter04 2

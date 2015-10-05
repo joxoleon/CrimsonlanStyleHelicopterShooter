@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 
 import terrain.ITerrain.TerrainType;
 import utility.MyFileReader;
+import utility.Vector2;
 import content.MyError;
 import camera.Camera;
 import engine.Game;
@@ -334,32 +335,7 @@ public class TerrainManager
 	}
 
 	public static void loadTerrainTiles() throws IOException
-	{
-//		BufferedReader br;
-//		try
-//		{
-//			br = new BufferedReader(new FileReader("content/terrain/terrainTiles.txt"));
-//
-//			String line = br.readLine();
-//
-//			while (line != null)
-//			{
-//				BufferedImage newImage;
-//				newImage = ImageIO.read(new File("content/terrain/" + line
-//						+ ".png"));
-//				terrainTiles.put(line, newImage);
-//
-//				line = br.readLine();
-//			}
-//
-//		} catch (Exception e)
-//		{
-//			System.err.println("Could not read from file terrainTiles.txt");
-//			Game.game.exitGame();
-//		}
-//	
-//	
-//		
+	{	
 		MyFileReader reader = new MyFileReader("content/terrain/terrainTiles.txt");
 		while(reader.hasMore == true)
 		{
@@ -369,5 +345,10 @@ public class TerrainManager
 					+ ".png"));
 			terrainTiles.put(tokens[0], newImage);
 		}
+	}
+
+	public static Vector2 getTerrainDimensions()
+	{
+		return currentTerrain.getDimensions();
 	}
 }

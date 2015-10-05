@@ -10,7 +10,7 @@ import engine.Actor;
 import engine.GameTime;
 
 public class FollowActorScript
-implements CameraScript
+implements ICameraScript
 {
 	private Camera camera;
 	private Actor actor;

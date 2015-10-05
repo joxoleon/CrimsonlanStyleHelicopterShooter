@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import engine.GameTime;
 
 
-public interface CameraScript
+public interface ICameraScript
 {
 	public void onAttach(Camera camera);
 	public void update(GameTime gameTime);	

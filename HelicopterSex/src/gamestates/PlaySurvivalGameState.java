@@ -4,14 +4,17 @@ import java.awt.Graphics2D;
 import java.util.LinkedList;
 
 import camera.Camera;
+import camera.CrimsonlandCameraScript;
 import camera.FollowActorScript;
 import managers.AudioManager;
 import managers.GraphicsManager;
 import managers.PauseManager;
+import managers.PlayerManager;
 import managers.SlowMotionManager;
 import component.GraphicsComponent;
 import component.GunComponent;
 import component.PhysicsComponent;
+import scripts.KeepInAreaScript;
 import scripts.PlayerControlScript;
 import scripts.PlayerFireScript;
 import scripts.PropellerScript;
@@ -42,7 +45,6 @@ extends GameState
 	public String[] songNames = {"archangel", "blackheart", "militaryIndustrial", "insideTheFire"};
 	public int currentSong = 3;
 	
-	public Actor playerActor;
 	
 	
 	public PlaySurvivalGameState()
@@ -54,48 +56,29 @@ extends GameState
 	public void enterState()
 	{
 		System.out.println("Enter Survival game state.");
-
-				
+		
+		// Set song.
 		backgroundSongID = AudioManager.play(songNames[currentSong], true);
 		playingSongsIDs.add(backgroundSongID);
 		
-		
-		
-		// Testing shit.
-		playerActor = new Actor();
-		GraphicsComponent gc = new GraphicsComponent();
-		gc.renderable = ModelFactory.getInstance().getFlyweightModel("helicopter03");
-		playerActor.position = new Vector2(500,500);
-		playerActor.graphicsComponent = gc;
-		PhysicsComponent pc = new PhysicsComponent();
-		playerActor.addBasicComponent(pc);
-		playerActor.addScriptComponent(new PropellerScript());
-
-		GunComponent gunComponent = new GunComponent();
-		
-		gunComponent.gunSlots = GunFactory.getGunSlotCombination("dekiPantelic11");
-
-		playerActor.addBasicComponent(gunComponent);
-		
-		PlayerFireScript fireScript = new PlayerFireScript();
-		playerActor.addScriptComponent(fireScript);
-		
-
-		playerActor.addScriptComponent(new PlayerControlScript());
-		mainCamera = new Camera();
-		mainCamera.position.x = Game.game.worldDimension.width / 2;
-		mainCamera.position.y = Game.game.worldDimension.height / 2;
-
+		// Set terrain.
 		TerrainManager.setFreeMovementTerrain("tSnow01");
+		
+		// Create camera.
+		mainCamera = new Camera();
+		
+		// Initialize managers. ***** (Player Manager, Pause, Slomo, etc...)
+		initializeManagers(mainCamera);
 
-		// Initialization
-		initializeManagers();
-		FollowActorScript cameraScript = new FollowActorScript();
-		cameraScript.addActor(playerActor);
+		Vector2 minCoordinates = new Vector2(Game.game.worldDimension.width / 2, Game.game.worldDimension.height / 2);
+		Vector2 terrainDimension = TerrainManager.getTerrainDimensions();
+		Vector2 maxCoordinates = new Vector2(terrainDimension.x - minCoordinates.x, terrainDimension.y - minCoordinates.y);
+		CrimsonlandCameraScript crimsonlandScript = new CrimsonlandCameraScript(minCoordinates, maxCoordinates);
+		crimsonlandScript.addActor(PlayerManager.playerActor);
+		mainCamera.addScriptComponent(crimsonlandScript);
+		
+		
 
-		mainCamera.isDrawCamera = false;
-		cameraScript.isFollowRotation = false;
-		mainCamera.addScriptComponent(cameraScript);
 	}
 
 	@Override
@@ -110,7 +93,7 @@ extends GameState
 		{
 			destroyAndFilter();
 			TerrainManager.update(gameTime);
-			playerActor.update(gameTime);
+			PlayerManager.update(gameTime);
 			ShotManager.update(gameTime);
 			mainCamera.update(gameTime);
 
@@ -131,7 +114,7 @@ extends GameState
 		g2d.translate(-mainCamera.cameraWidth / 2, -mainCamera.cameraHeight / 2);
 		
 		TerrainManager.draw(g2d, mainCamera);
-		playerActor.draw(g2d, mainCamera);
+		PlayerManager.draw(g2d, mainCamera);
 		ShotManager.draw(g2d, mainCamera);
 		mainCamera.draw(g2d);
 
@@ -185,8 +168,9 @@ extends GameState
 	}
 
 	
-	private void initializeManagers()
+	private void initializeManagers(Camera camera)
 	{
+		PlayerManager.initializeSurvivalState(camera);
 		PauseManager.initialize();
 		SlowMotionManager.initialize();
 	}

@@ -53,7 +53,7 @@ extends JPanel
 	
 	boolean isFullScreen = true;
 	
-	// (desired / world) * panel = true dimm 
+	// (desired / world) * panel = true dimension 
 	public Dimension panelDimension = new Dimension(1, 1);
 
 	public Dimension worldDimension = new Dimension(1920, 1080);

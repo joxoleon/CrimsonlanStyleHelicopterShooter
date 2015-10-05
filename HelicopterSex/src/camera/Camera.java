@@ -22,14 +22,14 @@ public class Camera
 	public int cameraWidth = Game.game.worldDimension.width;
 	public int cameraHeight = Game.game.worldDimension.height;
 	
-	private LinkedList<CameraScript> scripts = new LinkedList<CameraScript>();
+	private LinkedList<ICameraScript> scripts = new LinkedList<ICameraScript>();
 	
 	// Rotation Fields.
 	public Vector2 cornerVector;
 	public Vector2 rotatedCornerVector;
 	
 	// Camera graphics representation fields.
-	public boolean isDrawCamera = true; 
+	public boolean isDrawCamera = false; 
 	public Color color = Color.black;
 	private LinkedList<Shape> shapes = new LinkedList<Shape>();
 	private int rectangleWidth = 25;
@@ -65,7 +65,7 @@ public class Camera
 	// ******************** Methods ******************** 
 	public void update(GameTime gameTime)
 	{
-		for (CameraScript script : scripts)
+		for (ICameraScript script : scripts)
 		{
 			script.update(gameTime);
 		}
@@ -79,7 +79,7 @@ public class Camera
 		g2d.rotate(rotation);
 		g2d.scale(scale.x, scale.y);
 		
-		for (CameraScript script : scripts)
+		for (ICameraScript script : scripts)
 		{
 			script.draw(g2d);
 		}
@@ -114,7 +114,7 @@ public class Camera
 		shapes.add(camTriangle);
 	}
 
-	public void addScriptComponent(CameraScript cameraScript)
+	public void addScriptComponent(ICameraScript cameraScript)
 	{
 		scripts.add(cameraScript);
 		cameraScript.onAttach(this);

@@ -17,7 +17,7 @@ extends ActorComponent
 	public Vector2 acceleration = new Vector2();
 	public float translationDragFactor = 0.98f;
 	public float translationThresholdSquared = 2;
-	public float mass = 5; // Configurable
+	public float mass = 7; // Configurable
 	
 	// Rotation Fields.
 	public float angularVelocity = 0;
