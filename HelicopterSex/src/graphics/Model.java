@@ -25,7 +25,7 @@ implements IRenderable
 	{
 		for (Sprite sprite : sprites)
 		{
-				sprite.render(g2d, true);
+			sprite.render(g2d, true);
 		}
 
 	}

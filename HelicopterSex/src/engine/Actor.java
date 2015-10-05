@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import managers.GraphicsManager;
 import camera.Camera;
 import component.ActorComponent;
 import component.GraphicsComponent;
@@ -27,6 +28,7 @@ public class Actor
 	
 	// Script Components.
 	private LinkedList<ScriptComponent> scriptComponents = new LinkedList<ScriptComponent>();
+	private LinkedList<ScriptComponent> scriptComponentsSecondPass = new LinkedList<ScriptComponent>();
 	private Map<String, ScriptComponent> scriptComponentsMap = new HashMap<String, ScriptComponent>();
 	
 	// Graphics Component.
@@ -52,11 +54,18 @@ public class Actor
 		{
 			basicComponent.update(gameTime);
 		}
+		
+		
+		for (ActorComponent script : scriptComponentsSecondPass)
+		{
+			script.update(gameTime);
+		}
 	}
 	
 	public void draw(Graphics2D g2d, Camera camera)
 	{
-		saveGraphicsContext(g2d);
+		GraphicsManager.saveGraphicsContext(g2d);
+		GraphicsManager.lastActorRotation = rotation;
 		
 		Vector2 renderPosition = new Vector2(
 				position.x - (camera.position.x - camera.rotatedCornerVector.x),
@@ -70,20 +79,34 @@ public class Actor
 		if(graphicsComponent != null)
 			graphicsComponent.draw(g2d);
 		
-		restoreGraphicsContext(g2d);		
+		GraphicsManager.restoreGraphicsContext(g2d);		
 	}
 	
 	public void addScriptComponent(ScriptComponent scriptComponent)
 	{
 		scriptComponent.addParent(this);
-		scriptComponents.add(scriptComponent);
+		if(scriptComponent.isSecondPass == false)
+		{
+			scriptComponents.add(scriptComponent);
+		}
+		else
+		{
+			scriptComponentsSecondPass.add(scriptComponent);
+		}
 		scriptComponentsMap.put(scriptComponent.getName(), scriptComponent);
 		scriptComponent.onAttach();
 	}
 	public void addScriptComponentFirst(ScriptComponent scriptComponent)
 	{
 		scriptComponent.addParent(this);
-		scriptComponents.add(0, scriptComponent);
+		if(scriptComponent.isSecondPass == false)
+		{
+			scriptComponents.add(0, scriptComponent);
+		}
+		else
+		{
+			scriptComponentsSecondPass.add(0, scriptComponent);
+		}		
 		scriptComponentsMap.put(scriptComponent.getName(), scriptComponent);
 		scriptComponent.onAttach();
 	}
@@ -110,13 +133,6 @@ public class Actor
 		forward.rotate(rotation);
 		return forward;
 	}
-	private void saveGraphicsContext(Graphics2D g2d)
-	{
-		backupTransform = g2d.getTransform();
-	}
-	private void restoreGraphicsContext(Graphics2D g2d)
-	{
-		g2d.setTransform(backupTransform);
-	}
+	
 
 }

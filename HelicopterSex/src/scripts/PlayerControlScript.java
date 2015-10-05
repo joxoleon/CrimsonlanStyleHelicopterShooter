@@ -70,10 +70,10 @@ extends ScriptComponent
 			}
 		}
 		
-		if(Input.isKeyDown(Keys.Space))
-		{
-			parentGunComponent.fire();
-		}
+//		if(Input.isKeyDown(Keys.Space))
+//		{
+//			parentGunComponent.fire();
+//		}
 		
 		if(Input.isKeyPressed(Keys.R))
 		{

@@ -50,7 +50,7 @@ extends GameState
 			
 			switch (selectedEntry)
 			{
-			case 0: Game.game.gameStateMachine.changeState(Game.game.playSingleGameState); break;
+			case 0: Game.game.gameStateMachine.changeState(Game.game.playCampaignGameState); break;
 			case 1: Game.game.gameStateMachine.changeState(Game.game.gameOptionsState); break;
 			case 2: Game.game.gameStateMachine.changeState(Game.game.highScoresState); break;
 			case 4: Game.game.exitGame();

@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+import managers.GraphicsManager;
 import utility.MathHelper;
 import utility.Vector2;
 
@@ -18,6 +19,8 @@ implements IRenderable
 	private float rotation;
 	private Vector2 initialScale = new Vector2(1, 1);
 	private Vector2 userScale = new Vector2(1, 1);
+	
+	public boolean isAutonomouslyRotating = false;
 
 	
 	private AffineTransform backupTransform;
@@ -90,6 +93,10 @@ implements IRenderable
 			offsetY = image.getHeight() / 2.0f;
 		}
 		
+		if(isAutonomouslyRotating == true)
+		{
+			g2d.rotate(-GraphicsManager.lastActorRotation);
+		}
 		
 		g2d.drawImage(image, (int)-offsetX, (int)-offsetY, null);
 		

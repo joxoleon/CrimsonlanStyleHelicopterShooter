@@ -22,6 +22,7 @@ public class GameTime
 		}
 		
 		this.targetPeriod = 1.0 / this.targetRate;
+		
 	}
 	
 	public void
@@ -41,12 +42,16 @@ public class GameTime
 		
 		dt_ms = elapsedTime / 1000000.0f;
 		dt_s = dt_ms / 1000.0f;
+		
 	}
 	
 	public long 
 	calculateSleepTime()
 	{
-		return ((long)(targetPeriod * 1000000000 - (System.nanoTime() - startTime)) / 1000000);
+		long sleepTime = ((long)(targetPeriod * 1000000000 - (System.nanoTime() - startTime)) / 1000000);
+		System.out.println(sleepTime);
+
+		return sleepTime;
 	}
 	
 	@SuppressWarnings("unused")

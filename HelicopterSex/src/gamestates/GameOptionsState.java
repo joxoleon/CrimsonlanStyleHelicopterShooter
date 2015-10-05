@@ -177,7 +177,7 @@ extends GameState
 		{
 			public void update()
 			{
-				text = Game.game.playSingleGameState.songNames[Game.game.playSingleGameState.currentSong];
+				text = Game.game.playCampaignGameState.songNames[Game.game.playCampaignGameState.currentSong];
 			}
 		}
 		SongVariable songVar = new SongVariable();
@@ -249,14 +249,14 @@ extends GameState
 		if(Input.isKeyPressed(Keys.Left))
 		{
 
-			Game.game.playSingleGameState.currentSong++;
-			Game.game.playSingleGameState.currentSong %= Game.game.playSingleGameState.songNames.length;
+			Game.game.playCampaignGameState.currentSong++;
+			Game.game.playCampaignGameState.currentSong %= Game.game.playCampaignGameState.songNames.length;
 			
 			if(currentlyPlayingSongID != -1)
 			{
 				AudioManager.stop(currentlyPlayingSongID);
 				currentlyPlayingSongID = AudioManager.play(
-						Game.game.playSingleGameState.songNames[Game.game.playSingleGameState.currentSong], 
+						Game.game.playCampaignGameState.songNames[Game.game.playCampaignGameState.currentSong], 
 						true
 						);
 			}			
@@ -266,14 +266,14 @@ extends GameState
 		if(Input.isKeyPressed(Keys.Right))
 		{
 
-			Game.game.playSingleGameState.currentSong+= Game.game.playSingleGameState.songNames.length - 1;
-			Game.game.playSingleGameState.currentSong %= Game.game.playSingleGameState.songNames.length;
+			Game.game.playCampaignGameState.currentSong+= Game.game.playCampaignGameState.songNames.length - 1;
+			Game.game.playCampaignGameState.currentSong %= Game.game.playCampaignGameState.songNames.length;
 			
 			if(currentlyPlayingSongID != -1)
 			{
 				AudioManager.stop(currentlyPlayingSongID);
 				currentlyPlayingSongID = AudioManager.play(
-						Game.game.playSingleGameState.songNames[Game.game.playSingleGameState.currentSong], 
+						Game.game.playCampaignGameState.songNames[Game.game.playCampaignGameState.currentSong], 
 						true
 						);
 			}		
@@ -288,7 +288,7 @@ extends GameState
 			}
 			
 			currentlyPlayingSongID = AudioManager.play(
-					Game.game.playSingleGameState.songNames[Game.game.playSingleGameState.currentSong], 
+					Game.game.playCampaignGameState.songNames[Game.game.playCampaignGameState.currentSong], 
 					true
 					);
 		}

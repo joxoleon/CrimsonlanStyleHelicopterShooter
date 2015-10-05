@@ -101,8 +101,9 @@ public class ModelFactory
 					
 					case 2:
 					{
-						if (tokens.length == 4 || tokens.length == 9)
+						if (tokens.length == 4 || tokens.length == 9 || tokens.length == 10)
 						{
+
 							BufferedImage img = Content.images.get(tokens[0]);
 							if(img == null)
 							{
@@ -119,12 +120,20 @@ public class ModelFactory
 							model.addSprite(sprite);
 							spriteCnt++;
 							
-							if(tokens.length == 9)
+							if(tokens.length >= 9)
 							{
 								sprite.setPosition(Float.parseFloat(tokens[4]), Float.parseFloat(tokens[5]));
 								sprite.setRotation(Float.parseFloat(tokens[6]));
 								sprite.setScale(Float.parseFloat(tokens[7]), Float.parseFloat(tokens[8]));
-								
+							
+							
+								if(tokens.length == 10)
+								{
+									if(tokens[9].startsWith("tr"))
+									{
+										sprite.isAutonomouslyRotating = true;
+									}
+								}
 							}
 							
 							if (spriteCnt == spriteNum)

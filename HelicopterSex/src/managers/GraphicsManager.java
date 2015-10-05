@@ -9,15 +9,33 @@ public class GraphicsManager
 {
 	private static LinkedList<AffineTransform> backupTransforms = new LinkedList<AffineTransform>();
 	private static LinkedList<Paint> backupPanits = new LinkedList<Paint>();
+	
+	public static float lastActorRotation = 0;
 
 	public static void saveGraphicsContext(Graphics2D g2d)
 	{
 
 		backupTransforms.addLast(g2d.getTransform());
+	}
+	
+	public static void saveFullGraphicsContext(Graphics2D g2d)
+	{
+		backupTransforms.addLast(g2d.getTransform());
 		backupPanits.addLast(g2d.getPaint());
 	}
 
 	public static void restoreGraphicsContext(Graphics2D g2d)
+	{
+		AffineTransform backupTransform = backupTransforms.getLast();
+		if(backupTransform != null)
+		{
+			g2d.setTransform(backupTransform);
+
+		}
+		
+	}
+	
+	public static void restoreFullGraphicsContext(Graphics2D g2d)
 	{
 		AffineTransform backupTransform = backupTransforms.getLast();
 		if(backupTransform != null)

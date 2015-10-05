@@ -13,9 +13,9 @@ import component.GraphicsComponent;
 import component.GunComponent;
 import component.PhysicsComponent;
 import scripts.PlayerControlScript;
+import scripts.PlayerFireScript;
 import scripts.PropellerScript;
 import shooting.ShotManager;
-import shooting.SimpleShot;
 import terrain.TerrainManager;
 import utility.Vector2;
 import engine.Actor;
@@ -26,7 +26,7 @@ import factories.ModelFactory;
 import input.Input;
 import input.Keys;
 
-public class PlaySingleGameState
+public class PlaySurvivalGameState
 extends GameState
 {
 	long backgroundSongID;
@@ -34,8 +34,7 @@ extends GameState
 	
 	long score;
 	long secondsPlayed;
-	
-	public Camera mainCamera = new Camera();
+	public Camera mainCamera;
 	
 
 	
@@ -43,12 +42,10 @@ extends GameState
 	public String[] songNames = {"archangel", "blackheart", "militaryIndustrial", "insideTheFire"};
 	public int currentSong = 3;
 	
-	public Actor chopper;
-	public SimpleShot simple;
+	public Actor playerActor;
 	
-	public boolean drawShit = false;
 	
-	public PlaySingleGameState()
+	public PlaySurvivalGameState()
 	{
 
 	}
@@ -56,7 +53,7 @@ extends GameState
 	@Override
 	public void enterState()
 	{
-		System.out.println("Enter single player state.");
+		System.out.println("Enter Survival game state.");
 
 				
 		backgroundSongID = AudioManager.play(songNames[currentSong], true);
@@ -65,31 +62,39 @@ extends GameState
 		
 		
 		// Testing shit.
-		chopper = new Actor();
+		playerActor = new Actor();
 		GraphicsComponent gc = new GraphicsComponent();
 		gc.renderable = ModelFactory.getInstance().getFlyweightModel("helicopter03");
-		chopper.position = new Vector2(500,500);
-		chopper.graphicsComponent = gc;
+		playerActor.position = new Vector2(500,500);
+		playerActor.graphicsComponent = gc;
 		PhysicsComponent pc = new PhysicsComponent();
-		chopper.addBasicComponent(pc);
-		chopper.addScriptComponent(new PropellerScript());
+		playerActor.addBasicComponent(pc);
+		playerActor.addScriptComponent(new PropellerScript());
 
 		GunComponent gunComponent = new GunComponent();
+		
 		gunComponent.gunSlots = GunFactory.getGunSlotCombination("dekiPantelic11");
 
-		chopper.addBasicComponent(gunComponent);
+		playerActor.addBasicComponent(gunComponent);
+		
+		PlayerFireScript fireScript = new PlayerFireScript();
+		playerActor.addScriptComponent(fireScript);
+		
 
-		chopper.addScriptComponent(new PlayerControlScript());
+		playerActor.addScriptComponent(new PlayerControlScript());
+		mainCamera = new Camera();
 		mainCamera.position.x = Game.game.worldDimension.width / 2;
 		mainCamera.position.y = Game.game.worldDimension.height / 2;
 
-		TerrainManager.setScrollDownTerrain("tSnow01");
+		TerrainManager.setFreeMovementTerrain("tSnow01");
 
 		// Initialization
 		initializeManagers();
 		FollowActorScript cameraScript = new FollowActorScript();
-		cameraScript.addActor(chopper);
+		cameraScript.addActor(playerActor);
+
 		mainCamera.isDrawCamera = false;
+		cameraScript.isFollowRotation = false;
 		mainCamera.addScriptComponent(cameraScript);
 	}
 
@@ -105,7 +110,7 @@ extends GameState
 		{
 			destroyAndFilter();
 			TerrainManager.update(gameTime);
-			testingChopperShit(gameTime);
+			playerActor.update(gameTime);
 			ShotManager.update(gameTime);
 			mainCamera.update(gameTime);
 
@@ -126,7 +131,7 @@ extends GameState
 		g2d.translate(-mainCamera.cameraWidth / 2, -mainCamera.cameraHeight / 2);
 		
 		TerrainManager.draw(g2d, mainCamera);
-		chopper.draw(g2d, mainCamera);
+		playerActor.draw(g2d, mainCamera);
 		ShotManager.draw(g2d, mainCamera);
 		mainCamera.draw(g2d);
 
@@ -171,14 +176,6 @@ extends GameState
 		{
 			Game.game.gameStateMachine.changeState(Game.game.gameOverState);
 		}
-		
-	}
-
-
-	private void testingChopperShit(GameTime gameTime)
-	{
-
-		chopper.update(gameTime);
 		
 	}
 

@@ -27,7 +27,7 @@ extends GameState
 		
 		if (Input.isKeyPressed(Keys.NumPad2))
 		{
-			Game.game.gameStateMachine.changeState(Game.game.playSingleGameState);
+			Game.game.gameStateMachine.changeState(Game.game.playCampaignGameState);
 		}
 		
 		if (Input.isKeyPressed(Keys.NumPad3))

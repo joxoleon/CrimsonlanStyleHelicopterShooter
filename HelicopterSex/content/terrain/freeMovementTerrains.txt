@@ -1,0 +1,41 @@
+#Terrain format
+#***terrain name
+# terrain tile name
+# Asset number
+# asset_name, number of assets on panel, (optional)width, optional(height)
+
+###	Terrain name, number of panels, terrain speed, (other possible shit)
+tForest01 5000 5000
+###	Terrain tile name
+grassTile01
+###	Asset num:
+6
+###	Assets
+tree01 10 0.2
+tree02 10 0.2
+tree03 10 0.2
+bush01 10 0.2
+bush02 10 0.2
+bush03 10 0.2
+
+
+
+###	Desert Terrain.
+tDesert01 5000 5000
+desertTile01
+2
+###	Assets:
+snowTree04 10 0.2
+desertHole01 1 0.2
+
+
+
+###	Snow Terrain.
+tSnow01 2000 2000
+snowTile01
+4
+###	Assets:
+snowTree01 1800 0.2 0.4 0.4
+snowTree03 50 0.2 0.4 0.4
+snowTree04 50 0.2 0.4 0.4
+snowTree05 50 0.2 0.4 0.4

@@ -9,7 +9,8 @@ import gamestates.GameStateMachine;
 import gamestates.HelpGameState;
 import gamestates.HighScoresState;
 import gamestates.MainMenuState;
-import gamestates.PlaySingleGameState;
+import gamestates.PlayCampaignGameState;
+import gamestates.PlaySurvivalGameState;
 import gamestates.TestState;
 import input.Input;
 
@@ -69,7 +70,8 @@ extends JPanel
 	public GameStateMachine gameStateMachine;
 	
 	public MainMenuState mainMenuState;
-	public PlaySingleGameState playSingleGameState;
+	public PlayCampaignGameState playCampaignGameState;
+	public PlaySurvivalGameState playSurvivalGameState;
 	public GameOptionsState gameOptionsState;
 	public HelpGameState helpGameState;
 	public GameOverState gameOverState;
@@ -86,14 +88,20 @@ extends JPanel
 	public int difficultyLevel = 5;
 	
 	// Draw Image.
-	BufferedImage drawImage, paintImage = new BufferedImage(worldDimension.width, worldDimension.height, BufferedImage.TYPE_INT_ARGB);
-;
-	
+	BufferedImage drawImage, paintImage;
+	BufferedImage[] bufferedImages= new BufferedImage[3];
+	int bufferedImagesSize = 3;
+	int bufferedImageIndex = 0;
 	
 	// Constructors.
 	public Game()
 	{
 		game = this;
+		for (int i = 0; i < bufferedImagesSize; i++)
+		{
+			bufferedImages[i] = new BufferedImage(worldDimension.width, worldDimension.height, BufferedImage.TYPE_INT_ARGB);
+		}
+		paintImage = bufferedImages[0];
 		
 		// Initialize.
 		initializeWindow();
@@ -117,7 +125,18 @@ extends JPanel
 	
 	public void draw()
 	{
-		drawImage = new BufferedImage(worldDimension.width, worldDimension.height, BufferedImage.TYPE_INT_ARGB);
+		// Old shit.
+//		drawImage = new BufferedImage(worldDimension.width, worldDimension.height, BufferedImage.TYPE_INT_ARGB);
+//		Graphics2D g2d = (Graphics2D) drawImage.getGraphics();
+//		gameStateMachine.draw(g2d);
+//		paintImage = drawImage;
+
+		
+		
+//		// New shit.
+		drawImage = bufferedImages[bufferedImageIndex];
+		bufferedImageIndex++;
+		bufferedImageIndex %= bufferedImagesSize;
 		Graphics2D g2d = (Graphics2D) drawImage.getGraphics();
 		gameStateMachine.draw(g2d);
 		paintImage = drawImage;
@@ -211,14 +230,15 @@ extends JPanel
 		gameStateMachine = new GameStateMachine();
 		
 		mainMenuState = new MainMenuState();
-		playSingleGameState = new PlaySingleGameState();
+		playCampaignGameState = new PlayCampaignGameState();
+		playSurvivalGameState = new PlaySurvivalGameState();
 		gameOptionsState = new GameOptionsState();
 		helpGameState = new HelpGameState();
 		gameOverState = new GameOverState();
 		highScoresState = new HighScoresState();
 		testState = new TestState();
 		
-		gameStateMachine.changeState(playSingleGameState);
+		gameStateMachine.changeState(playSurvivalGameState);
 	}
 	
 	public void initializeContentFactoriesAndScripts()

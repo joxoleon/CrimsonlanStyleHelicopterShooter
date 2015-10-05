@@ -14,7 +14,7 @@ implements CameraScript
 {
 	private Camera camera;
 	private Actor actor;
-	private boolean isFollowRotation = false;
+	public boolean isFollowRotation = false;
 
 	@Override
 	public void onAttach(Camera camera)

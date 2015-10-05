@@ -56,7 +56,7 @@ extends GameState
 		{
 			if(nameTypedString.length() > 0)
 			{
-				Score.insertScore(nameTypedString, (long)Game.game.playSingleGameState.score, (long)Game.game.playSingleGameState.secondsPlayed);
+				Score.insertScore(nameTypedString, (long)Game.game.playCampaignGameState.score, (long)Game.game.playCampaignGameState.secondsPlayed);
 				Game.game.gameStateMachine.changeState(Game.game.highScoresState);
 			}
 		}
@@ -74,10 +74,10 @@ extends GameState
 				);
 				
 		// Write points
-		StringWriter.writeString(g2d, "Points: " + Game.game.playSingleGameState.score , pointsPosition, false, "Quartz MS", 70, Color.yellow);
+		StringWriter.writeString(g2d, "Points: " + Game.game.playCampaignGameState.score , pointsPosition, false, "Quartz MS", 70, Color.yellow);
 
 		// Write time
-		StringWriter.writeString(g2d, "Time: " + (long)Game.game.playSingleGameState.secondsPlayed, timePlayedPosition, false, "Quartz MS", 70, Color.yellow);
+		StringWriter.writeString(g2d, "Time: " + (long)Game.game.playCampaignGameState.secondsPlayed, timePlayedPosition, false, "Quartz MS", 70, Color.yellow);
 		
 		// Write Keys Typed
 		StringWriter.writeString(g2d, nameTypedString, yourNameOrigin, true, "Quartz MS", 70, Color.yellow);
