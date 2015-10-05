@@ -182,7 +182,7 @@ implements ITerrain
 	
 	private void initializeTerrain()
 	{
-		BufferedImage panelImage = Content.terrainTiles.get(terrainTileName);
+		BufferedImage panelImage = TerrainManager.terrainTiles.get(terrainTileName);
 		
 		int numOfTilesHorizontal = terrainWidth / panelImage.getWidth() + 1;
 		int numOfTilesVertical = terrainHeight / panelImage.getHeight() + 1;
@@ -209,7 +209,7 @@ implements ITerrain
 		for (String assetName : assets)
 		{
 			int numOfTimesToDraw = numOfAssets.get(assetName);
-			TerrainAsset asset = Content.terrainAssets.get(assetName);
+			TerrainAsset asset = TerrainManager.terrainAssets.get(assetName);
 			Rectangle2D dstRectangle = new Rectangle2D.Float(0, 0, terrainWidth, terrainHeight);
 			
 			asset.drawAssets(this, g2d, dstRectangle, numOfTimesToDraw);

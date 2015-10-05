@@ -32,6 +32,7 @@ import javax.swing.JPanel;
 
 import managers.AudioManager;
 import score.Score;
+import terrain.TerrainManager;
 import content.Content;
 
 
@@ -47,7 +48,7 @@ extends JPanel
 	
 	private JFrame frame;
 	
-	boolean isFullScreen = false;
+	boolean isFullScreen = true;
 	
 	// (desired / world) * panel = true dimm 
 	public Dimension panelDimension = new Dimension(1, 1);
@@ -95,6 +96,7 @@ extends JPanel
 		// Initialize.
 		initializeWindow();
 		initializeContentAndScripts();
+		TerrainManager.initialize();
 		initializeStates();
 
 		gameLoopThread = new GameLoopThread(this, 60);
@@ -148,7 +150,7 @@ extends JPanel
 	
 	private void initializeFrame()
 	{
-		frame = new JFrame("Coloris");
+		frame = new JFrame("Helicopter Sex");
 		
 		frame.addWindowListener(new WindowAdapter()
 		{
@@ -173,7 +175,7 @@ extends JPanel
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocation(0, 0);
 		
-		if (isFullScreen)
+		if (isFullScreen == true)
 		{
 			desiredDimension = Toolkit.getDefaultToolkit().getScreenSize();
 			panelDimension = desiredDimension;

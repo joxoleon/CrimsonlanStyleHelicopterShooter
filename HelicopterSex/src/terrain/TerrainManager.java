@@ -1,43 +1,57 @@
-package managers;
+package terrain;
+
+import input.Input;
+import input.Keys;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
+import terrain.ITerrain.TerrainType;
 import content.MyError;
 import camera.Camera;
 import engine.Game;
 import engine.GameTime;
-import terrain.ITerrain;
-import terrain.TerrainFreeMovement;
-import terrain.TerrainScrollDown;
 
 public class TerrainManager
 {
 	// Scroll down terrains.
 	private static Map<String, TerrainScrollDown> scrollDownTerrains = new HashMap<String, TerrainScrollDown>();
 	private static ArrayList<String> scrollDownTerrainNames = new ArrayList<String>();
+	private static int scrollTerrainIndex;
 	
 	// Free movement terrains.
 	private static Map<String, TerrainFreeMovement>freeMovementTerrains = new HashMap<String, TerrainFreeMovement>();
 	private static ArrayList<String> freeMovementTerrainNames = new ArrayList<String>();
+	private static int freeTerrainIndex;
+	
+	// Terrain assets.
+	public static Map<String, TerrainAsset> terrainAssets = new HashMap<String, TerrainAsset>();
+	public static Map<String, BufferedImage> terrainTiles = new HashMap<String, BufferedImage>();
 	
 	private static ITerrain currentTerrain = null;
 	
 	
 	public static void initialize()
 	{
+		loadTerrainTiles();
+		loadTerrainAssets();
 		loadScrollDownTerrains();
 		loadFreeMovementTerrains();
 	}
 	
 	public static void setFreeMovementTerrain()
 	{
-		int index = (int) (Math.random() * freeMovementTerrainNames.size());
-		currentTerrain = freeMovementTerrains.get(freeMovementTerrainNames.get(index));
+		freeTerrainIndex = (int) (Math.random() * freeMovementTerrainNames.size());
+		currentTerrain = freeMovementTerrains.get(freeMovementTerrainNames.get(freeTerrainIndex));
+		currentTerrain.initialize();
 	}
 	
 	public static void setFreeMovementTerrain(String terrainName)
@@ -48,6 +62,7 @@ public class TerrainManager
 			System.err.println("Unable to find terrain: " + terrainName);
 			Game.game.exitGame();
 		}
+		currentTerrain.initialize();
 	}
 	
 	public static void setScrollDownTerrain(String terrainName)
@@ -58,16 +73,32 @@ public class TerrainManager
 			System.err.println("Unable to find terrain: " + terrainName);
 			Game.game.exitGame();
 		}
+		currentTerrain.initialize();
 	}
 	
 	public static void setScrollDownTerrain()
 	{
-		int index = (int) (Math.random() * scrollDownTerrainNames.size());
-		currentTerrain = scrollDownTerrains.get(scrollDownTerrainNames.get(index));
+		scrollTerrainIndex = (int) (Math.random() * scrollDownTerrainNames.size());
+		currentTerrain = scrollDownTerrains.get(scrollDownTerrainNames.get(scrollTerrainIndex));
+		currentTerrain.initialize();
 	}
 	
 	public static void update(GameTime gameTime)
 	{
+		if(Input.isKeyPressed(Keys.Y))
+		{
+			if(currentTerrain.getType() == TerrainType.SCROLL_TERRAIN)
+			{
+				scrollTerrainIndex = (scrollTerrainIndex + 1) % scrollDownTerrainNames.size();
+				currentTerrain = scrollDownTerrains.get(scrollDownTerrainNames.get(scrollTerrainIndex));
+			}
+			else if(currentTerrain.getType() == TerrainType.REGULAR_TERRAIN)
+			{
+				freeTerrainIndex = (freeTerrainIndex + 1) % freeMovementTerrainNames.size();
+				currentTerrain = freeMovementTerrains.get(freeMovementTerrainNames.get(freeTerrainIndex));
+			}
+		}
+		
 		if(currentTerrain != null)
 		{
 			currentTerrain.update(gameTime);
@@ -100,7 +131,7 @@ public class TerrainManager
 			while (line != null)
 			{
 				// Skip if it is a comment or an empty line
-				if (line.charAt(0) == '#')
+				if (line.length() == 0 || line.startsWith("#"))
 				{
 					line = br.readLine();
 					continue;
@@ -148,7 +179,7 @@ public class TerrainManager
 						
 					}
 						break;
-					// State 1: Read number of assets.
+					// State 2: Read number of assets.
 					case 2:
 					{
 						if (tokens.length > 1)
@@ -167,20 +198,20 @@ public class TerrainManager
 					{
 						String assetName = tokens[0];
 						int numOnPanel = Integer.parseInt(tokens[1]);
+						float maxDeviation = Float.parseFloat(tokens[2]);
 
 						// If the width, height are not specfied
-						if (tokens.length == 2)
+						if (tokens.length == 3)
 						{
-							terrain.addAsset(assetName, numOnPanel);
+							terrain.addAsset(assetName, numOnPanel, maxDeviation);
 						}
 						// If the width and height are specified
-						else if (tokens.length == 4)
+						else if (tokens.length == 5)
 						{
-							int width = Integer.parseInt(tokens[2]);
-							int height = Integer.parseInt(tokens[3]);
+							int width = Integer.parseInt(tokens[3]);
+							int height = Integer.parseInt(tokens[4]);
 
-							terrain.addAsset(assetName, numOnPanel, width,
-									height);
+							terrain.addAsset(assetName, numOnPanel,maxDeviation, width, height);
 
 						} else
 						{
@@ -209,6 +240,7 @@ public class TerrainManager
 
 		} catch (Exception e)
 		{
+			e.printStackTrace();
 			System.err.println("Could not read from file assets.txt");
 			Game.game.exitGame();
 		}
@@ -216,6 +248,68 @@ public class TerrainManager
 	
 	private static void loadFreeMovementTerrains()
 	{
-		
+		// TODO : load free movement terrains.
+	}
+
+	public static void loadTerrainAssets()
+	{
+		BufferedReader br;
+		try
+		{
+			br = new BufferedReader(
+					new FileReader("content/terrain/assets.txt"));
+
+			String line = br.readLine();
+
+			while (line != null)
+			{
+				if (line.charAt(0) == '#')
+				{
+					continue;
+				}
+				String[] tokens = line.split(" ");
+
+				BufferedImage newImage;
+				newImage = ImageIO.read(new File("content/terrain/" + tokens[0]
+						+ ".png"));
+
+				TerrainAsset terrainAsset = new TerrainAsset(tokens[0],
+						newImage, newImage.getWidth(), newImage.getHeight());
+				terrainAssets.put(tokens[0], terrainAsset);
+
+				line = br.readLine();
+			}
+
+		} catch (Exception e)
+		{
+			System.err.println("Could not read from file assets.txt");
+			Game.game.exitGame();
+		}
+	}
+
+	public static void loadTerrainTiles()
+	{
+		BufferedReader br;
+		try
+		{
+			br = new BufferedReader(new FileReader("content/terrain/terrainTiles.txt"));
+
+			String line = br.readLine();
+
+			while (line != null)
+			{
+				BufferedImage newImage;
+				newImage = ImageIO.read(new File("content/terrain/" + line
+						+ ".png"));
+				terrainTiles.put(line, newImage);
+
+				line = br.readLine();
+			}
+
+		} catch (Exception e)
+		{
+			System.err.println("Could not read from file terrainTiles.txt");
+			Game.game.exitGame();
+		}
 	}
 }

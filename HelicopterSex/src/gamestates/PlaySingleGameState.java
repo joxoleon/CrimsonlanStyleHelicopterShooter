@@ -19,6 +19,7 @@ import scripts.PropellerScript;
 import shooting.ShotManager;
 import shooting.SimpleShot;
 import terrain.TerrainFreeMovement;
+import terrain.TerrainManager;
 import terrain.TerrainScrollDown;
 import utility.Vector2;
 import content.Content;
@@ -39,14 +40,8 @@ extends GameState
 	long score;
 	long secondsPlayed;
 	
-	
-	TerrainScrollDown terrain;
-	private String startinTerrainName = "tSnow01";
-	
 	public Camera mainCamera = new Camera();
 	
-	TerrainFreeMovement freeTerrain = new TerrainFreeMovement("firstFreeMovementTerrain");
-
 
 	
 	// Main song fields.
@@ -67,10 +62,7 @@ extends GameState
 	public void enterState()
 	{
 		System.out.println("Enter single player state.");
-		terrain = Content.terrains.get(startinTerrainName);
-		terrain.initialize();
-		freeTerrain.terrainTileName = "snowTile01";
-		freeTerrain.initialize();
+
 				
 		backgroundSongID = AudioManager.play(songNames[currentSong], true);
 		playingSongsIDs.add(backgroundSongID);
@@ -96,13 +88,14 @@ extends GameState
 		mainCamera.position.x = Game.game.worldDimension.width / 2;
 		mainCamera.position.y = Game.game.worldDimension.height / 2;
 
-		
+		TerrainManager.setScrollDownTerrain("tSnow01");
 
 		// Initialization
 		initializeManagers();
 		FollowActorScript cameraScript = new FollowActorScript();
 		cameraScript.addActor(chopper);
-		mainCamera.addScriptComponent(cameraScript);
+		mainCamera.isDrawCamera = false;
+//		mainCamera.addScriptComponent(cameraScript);
 	}
 
 	@Override
@@ -116,7 +109,7 @@ extends GameState
 		if (PauseManager.isPaused == false)
 		{
 			destroyAndFilter();
-			terrain.update(gameTime);
+			TerrainManager.update(gameTime);
 			testingChopperShit(gameTime);
 			ShotManager.update(gameTime);
 			mainCamera.update(gameTime);
@@ -137,16 +130,14 @@ extends GameState
 		g2d.scale(mainCamera.scale.x, mainCamera.scale.y);
 		g2d.translate(-mainCamera.cameraWidth / 2, -mainCamera.cameraHeight / 2);
 		
-		freeTerrain.draw(g2d, mainCamera);
-		
+		TerrainManager.draw(g2d, mainCamera);
 		chopper.draw(g2d, mainCamera);
-				
 		ShotManager.draw(g2d, mainCamera);
-		
 		mainCamera.draw(g2d);
-		
-		// Draw GUI
+
+		// Restore graphics context before drawing the GUI and post processing.
 		GraphicsManager.restoreGraphicsContext(g2d);
+		// Draw GUI
 		SlowMotionManager.draw(g2d);
 		PauseManager.draw(g2d);
 		
@@ -184,25 +175,6 @@ extends GameState
 		if(Input.isKeyPressed(Keys.Back))
 		{
 			Game.game.gameStateMachine.changeState(Game.game.gameOverState);
-		}
-		
-		
-		if(Input.isKeyPressed(Keys.NumPad1))
-		{
-			terrain = Content.terrains.get("tForest01");
-			terrain.initialize();
-		}
-		
-		if(Input.isKeyPressed(Keys.NumPad2))
-		{
-			terrain = Content.terrains.get("tDesert01");
-			terrain.initialize();
-		}
-		
-		if(Input.isKeyPressed(Keys.NumPad3))
-		{
-			terrain = Content.terrains.get("tSnow01");
-			terrain.initialize();
 		}
 		
 	}

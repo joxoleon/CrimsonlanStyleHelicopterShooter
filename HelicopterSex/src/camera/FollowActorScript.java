@@ -30,6 +30,7 @@ implements CameraScript
 	@Override
 	public void update(GameTime gameTime)
 	{
+		// TODO : add camera follow delay.
 		if(Input.isKeyPressed(Keys.V))
 		{
 			isFollowRotation = !isFollowRotation;
