@@ -21,6 +21,7 @@ import javax.imageio.ImageIO;
 
 import terrain.TerrainScrollDown;
 import terrain.TerrainAsset;
+import utility.MyFileReader;
 import utility.StringWriter;
 
 public class Content
@@ -35,7 +36,7 @@ public class Content
 	
 	
 	
-	public static void initializeContent()
+	public static void initializeContent() throws IOException
 	{
 		loadImages();
 		loadFonts();
@@ -163,30 +164,45 @@ public class Content
 
 	}
 
-	public static void loadImages()
+	public static void loadImages() throws IOException
 	{
-		BufferedReader br;
-		try
+//		BufferedReader br;
+//		try
+//		{
+//			br = new BufferedReader(new FileReader("content/images/images.txt"));
+//
+//			String line = br.readLine();
+//
+//			while (line != null)
+//			{
+//				BufferedImage newImage;
+//				newImage = ImageIO.read(new File("content/images/" + line
+//						+ ".png"));
+//				images.put(line, newImage);
+//
+//				line = br.readLine();
+//			}
+//
+//		} catch (Exception e)
+//		{
+//			System.err.println("Could not read from file images.txt");
+//			Game.game.exitGame();
+//		}
+		
+		
+		MyFileReader reader = new MyFileReader("content/images/images.txt");
+		
+		while(reader.hasMore == true)
 		{
-			br = new BufferedReader(new FileReader("content/images/images.txt"));
-
-			String line = br.readLine();
-
-			while (line != null)
-			{
-				BufferedImage newImage;
-				newImage = ImageIO.read(new File("content/images/" + line
-						+ ".png"));
-				images.put(line, newImage);
-
-				line = br.readLine();
-			}
-
-		} catch (Exception e)
-		{
-			System.err.println("Could not read from file images.txt");
-			Game.game.exitGame();
+			String[] tokens = reader.getNextLineTokens(1);
+			
+			BufferedImage newImage;
+			newImage = ImageIO.read(new File("content/images/" + tokens[0]
+					+ ".png"));
+			images.put(tokens[0], newImage);
+			
 		}
+		
 	}
 
 	public static void loadFonts()

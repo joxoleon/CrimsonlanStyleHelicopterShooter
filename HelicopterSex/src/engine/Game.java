@@ -24,6 +24,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import javafx.embed.swing.JFXPanel;
 
@@ -95,8 +96,7 @@ extends JPanel
 		
 		// Initialize.
 		initializeWindow();
-		initializeContentAndScripts();
-		TerrainManager.initialize();
+		initializeContentFactoriesAndScripts();
 		initializeStates();
 
 		gameLoopThread = new GameLoopThread(this, 60);
@@ -220,15 +220,28 @@ extends JPanel
 		gameStateMachine.changeState(playSingleGameState);
 	}
 	
-	public void initializeContentAndScripts()
+	public void initializeContentFactoriesAndScripts()
 	{
-		Content.initializeContent();
-		AudioManager.loadMedia();
-		AudioManager.setMasterVolume(1.0);
-		ModelFactory.getInstance().loadModels("content/models.txt");
-		ShotFactory.loadShotSprites("content/shots.txt");
-		GunFactory.loadGuns("content/guns.txt");
-		GunFactory.loadGunSlots("content/gunSlotCombinations.txt");
+		try
+		{
+			
+			Content.initializeContent();
+			AudioManager.loadMedia();
+			AudioManager.setMasterVolume(1.0);
+			ModelFactory.getInstance().loadModels("content/models.txt");
+			ShotFactory.loadShotSprites("content/shots.txt");
+			GunFactory.loadGuns("content/guns.txt");
+			GunFactory.loadGunSlots("content/gunSlotCombinations.txt");
+			TerrainManager.initialize();
+
+			
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Game.game.exitGame();
+		}
+		
 	}
 	
 	public void exitGame()
