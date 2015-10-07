@@ -5,19 +5,13 @@ import java.util.LinkedList;
 
 import camera.Camera;
 import camera.CrimsonlandCameraScript;
-import camera.FollowActorScript;
 import managers.AudioManager;
+import managers.EnemyManager;
 import managers.GraphicsManager;
 import managers.PauseManager;
 import managers.PlayerActorManager;
 import managers.SlowMotionManager;
-import component.GraphicsComponent;
-import component.GunComponent;
-import component.PhysicsComponent;
-import scripts.KeepInAreaScript;
-import scripts.PlayerControlScript;
-import scripts.PlayerFireScript;
-import scripts.PropellerScript;
+import scripts.EnemyChaseScript;
 import shooting.ShotManager;
 import terrain.TerrainManager;
 import utility.Vector2;
@@ -25,9 +19,7 @@ import engine.Actor;
 import engine.Game;
 import engine.GameTime;
 import factories.ActorScriptFactory;
-import factories.GunFactory;
 import factories.HelicopterFactory;
-import factories.ModelFactory;
 import factories.ShipFactory;
 import input.Input;
 import input.Keys;
@@ -43,6 +35,8 @@ extends GameState
 	public Camera mainCamera;
 	
 
+	// Test shit.
+	Actor testEnemy;
 	
 	// Main song fields.
 	public String[] songNames = {"archangel", "blackheart", "militaryIndustrial", "insideTheFire"};
@@ -81,6 +75,12 @@ extends GameState
 		mainCamera.addScriptComponent(crimsonlandScript);
 		
 		
+		// Test crap!
+		testEnemy = ShipFactory.getShip("enemy05");
+		
+		testEnemy.position = new Vector2(600, 600);
+		
+		testEnemy.addScriptComponent(new EnemyChaseScript());
 
 	}
 
@@ -95,8 +95,10 @@ extends GameState
 		if (PauseManager.isPaused == false)
 		{
 			destroyAndFilter();
+			EnemyManager.update(gameTime);
 			TerrainManager.update(gameTime);
 			PlayerActorManager.update(gameTime);
+			testEnemy.update(gameTime);
 			ShotManager.update(gameTime);
 			mainCamera.update(gameTime);
 
@@ -118,6 +120,8 @@ extends GameState
 		
 		TerrainManager.draw(g2d, mainCamera);
 		PlayerActorManager.draw(g2d, mainCamera);
+		testEnemy.draw(g2d, mainCamera);
+		EnemyManager.draw(g2d, mainCamera);
 		ShotManager.draw(g2d, mainCamera);
 		mainCamera.draw(g2d);
 
@@ -178,6 +182,7 @@ extends GameState
 		PauseManager.initialize();
 		SlowMotionManager.initialize();
 		PlayerActorManager.initializeSurvivalState(camera);
+		EnemyManager.initialize(TerrainManager.getTerrainDimensions());
 
 	}
 }

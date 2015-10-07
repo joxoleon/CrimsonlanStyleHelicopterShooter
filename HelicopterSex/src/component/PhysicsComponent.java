@@ -32,7 +32,9 @@ extends ActorComponent
 	public float angularAccelerationIntensity = 40; 
 
 	public float maxVelocitySquared = 800; 
-	public float maxAngularVelocity = 4; 
+	public float maxAngularVelocity = 4;
+	
+	public float rotateThreshhold = 0.2f;
 	
 	// ******************** Constructors ******************** 
 
@@ -155,6 +157,22 @@ extends ActorComponent
 		else
 		{
 			angularAcceleration = - angularAccelerationIntensity / momentOfInertia;
+		}
+	}
+	
+	public void rotate(float angle)
+	{
+		if(angle > rotateThreshhold)
+		{
+			angularAcceleration = angularAccelerationIntensity / momentOfInertia;
+		}
+		else if(angle < -rotateThreshhold)
+		{
+			angularAcceleration = - angularAccelerationIntensity / momentOfInertia;
+		}
+		else
+		{
+			parent.rotation += angle;
 		}
 	}
 

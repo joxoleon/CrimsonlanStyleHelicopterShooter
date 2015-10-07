@@ -1,5 +1,6 @@
 package scripts;
 
+import utility.Vector2;
 import component.ActorComponent;
 import component.GunComponent;
 import component.PhysicsComponent;
@@ -71,11 +72,6 @@ extends ScriptComponent
 			}
 		}
 		
-//		if(Input.isKeyDown(Keys.Space))
-//		{
-//			parentGunComponent.fire();
-//		}
-		
 		if(Input.isKeyPressed(Keys.R))
 		{
 			hasRotation = !hasRotation;
@@ -87,6 +83,10 @@ extends ScriptComponent
 			}
 		}
 		
+//		Vector2 forwardVector = parentPhysicsComponent.getForwardVector();
+////		System.out.println(forwardVector);
+//		System.out.println(Vector2.fromV1toV2AngleRequiresNormalizedArguments(forwardVector, new Vector2(0, -1)));
+//		
 	}
 
 	@Override

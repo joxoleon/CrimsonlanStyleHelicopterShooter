@@ -163,6 +163,39 @@ public class Vector2
 		return (float) Math.sqrt(x * x + y * y);
 	}
 	
+	
+	
+	public static float crossMagnitude(Vector2 v1, Vector2 v2)
+	{
+		return v1.x * v2.y - v1.y * v2.x;
+	}
+	
+	public static float dot(Vector2 v1, Vector2 v2)
+	{
+		return v1.x * v2.x + v1.y * v2.y;
+	}
+	
+	public static float fromV1toV2AngleRequiresNormalizedArguments(Vector2 v1, Vector2 v2)
+	{
+		int sign = 1;
+		if(Vector2.crossMagnitude(v1, v2) < 0)
+		{
+			sign = -1;
+		}
+		
+		float angle = Vector2.dot(v1, v2);
+		
+		angle = (float) Math.acos(angle);
+		angle *= sign;
+		
+		if(Float.isNaN(angle))
+		{
+			angle = 0;
+		}
+				
+		return angle;
+	}
+	
 	public String toString()
 	{
 		return "(" + x + ", " + y + ")";

@@ -102,4 +102,9 @@ public class PlayerActorManager
 		playerActor.rotation = playerRotation;
 		playerActor.scale = playerScale;
 	}
+
+	public static Vector2 getPlayerPosition()
+	{
+		return playerActor.position.clone();
+	}
 }

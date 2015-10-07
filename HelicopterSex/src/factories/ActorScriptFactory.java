@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import engine.Game;
+import scripts.EnemyChaseScript;
 import scripts.PlayerControlScript;
 import scripts.PlayerFireScript;
 import scripts.PropellerScript;
@@ -23,6 +24,9 @@ public class ActorScriptFactory
 		
 		PlayerControlScript playerControlScript = new PlayerControlScript();
 		scripts.put("playerControlScript", playerControlScript);
+		
+		EnemyChaseScript enemyChaseScript = new EnemyChaseScript();
+		scripts.put("enemyChaseScript", enemyChaseScript);
 	}
 	
 	public static ScriptComponent getScript(String scriptName)
