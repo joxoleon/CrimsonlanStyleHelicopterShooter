@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
+import utility.MyFileReader;
 import content.Content;
 
 public class ModelFactory
@@ -169,6 +170,5 @@ public class ModelFactory
 			System.err.println("Error reading file line! File path: " + resourcePath);
 		}
 	}
-	
 	
 }

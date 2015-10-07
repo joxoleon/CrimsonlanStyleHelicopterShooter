@@ -28,6 +28,7 @@ import factories.ActorScriptFactory;
 import factories.GunFactory;
 import factories.HelicopterFactory;
 import factories.ModelFactory;
+import factories.ShipFactory;
 import input.Input;
 import input.Keys;
 
@@ -70,7 +71,7 @@ extends GameState
 		mainCamera = new Camera();
 		
 		// Initialize managers. ***** (Player Manager, Pause, Slomo, etc...)
-		initializeManagers(mainCamera);
+		initializeManagersAndFactories(mainCamera);
 
 		Vector2 minCoordinates = new Vector2(Game.game.worldDimension.width / 2, Game.game.worldDimension.height / 2);
 		Vector2 terrainDimension = TerrainManager.getTerrainDimensions();
@@ -169,9 +170,10 @@ extends GameState
 	}
 
 	
-	private void initializeManagers(Camera camera)
+	private void initializeManagersAndFactories(Camera camera)
 	{
 		ActorScriptFactory.initialize();
+		ShipFactory.initialize();
 		HelicopterFactory.initialize();
 		PauseManager.initialize();
 		SlowMotionManager.initialize();

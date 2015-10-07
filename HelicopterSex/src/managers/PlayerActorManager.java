@@ -22,6 +22,7 @@ import engine.GameTime;
 import factories.GunFactory;
 import factories.HelicopterFactory;
 import factories.ModelFactory;
+import factories.ShipFactory;
 
 public class PlayerActorManager
 {
@@ -36,6 +37,7 @@ public class PlayerActorManager
 	private static void initialize()
 	{
 		playerActor = HelicopterFactory.getHelicopter(playerHelicopterName);
+//		playerActor = ShipFactory.getShip("enemy06");
 	}
 	
 	public static void initializeSurvivalState(Camera camera)

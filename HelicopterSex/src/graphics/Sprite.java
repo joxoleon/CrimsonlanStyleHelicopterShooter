@@ -58,11 +58,6 @@ implements IRenderable
 		if (hasOffset)
 		{
 			g2d.translate(position.x, position.y);
-			if(isAutonomouslyRotating == true)
-			{
-//				Reverse initial rotation.
-//				RenderingComponent.reverseCurrentRotation(g2d);
-			}
 			g2d.rotate(rotation);
 			g2d.scale(initialScale.x * userScale.x, initialScale.y * userScale.y);
 		}

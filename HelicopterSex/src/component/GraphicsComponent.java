@@ -22,7 +22,11 @@ public class GraphicsComponent
 		if(renderable.getType().equals("model"))
 		{
 			clone.renderable = renderable.clone();
-		}		
+		}
+		else
+		{
+			clone.renderable = renderable;	
+		}
 		return clone;
 	}
 }

@@ -70,11 +70,9 @@ extends ActorComponent
 		
 		// Clamp velocity.
 		// TODO : clamp velocity.
-
 		
 		// Update position.
 		parent.position.add(Vector2.mul(velocity, gameTime.dt_s()));
-		
 		
 		// Reset acceleration.
 		acceleration.x = 0;

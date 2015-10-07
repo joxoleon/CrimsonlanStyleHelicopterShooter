@@ -17,3 +17,10 @@ blueShotMedium01
 blueShotMedium02
 blueShotLarge01
 minigunBullet01
+enemyShip01
+enemyDarkShip01
+enemyDarkShip02
+enemyDarkShip03
+enemyDarkShip04
+enemyDarkShip05
+enemyDarkShip06
