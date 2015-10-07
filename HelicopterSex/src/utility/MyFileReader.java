@@ -36,12 +36,10 @@ public class MyFileReader
 			
 		} catch (FileNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Game.game.exitGame();
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Game.game.exitGame();
 		}
@@ -67,7 +65,6 @@ public class MyFileReader
 
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Game.game.exitGame();
 		}
@@ -101,12 +98,10 @@ public class MyFileReader
 
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Game.game.exitGame();
 		} catch (MyError e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.err.println(e);
 			Game.game.exitGame();

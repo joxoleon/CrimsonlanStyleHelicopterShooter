@@ -16,7 +16,7 @@ implements ICameraScript
 	public Vector2 minCoordinates;
 	
 	private LinkedList<Vector2> actorPositions = new LinkedList<Vector2>();
-	public int followActorFramesDelay = 20;
+	public int followActorFramesDelay = 0;
 	
 	public CrimsonlandCameraScript(Vector2 minCoordinates, Vector2 maxCoordinates)
 	{
@@ -81,9 +81,7 @@ implements ICameraScript
 	}
 	@Override
 	public void draw(Graphics2D g2d)
-	{
-		// TODO Auto-generated method stub
-		
+	{		
 	}
 	
 	public void setBoundaries(Vector2 minCoordinates, Vector2 maxCoordinates)

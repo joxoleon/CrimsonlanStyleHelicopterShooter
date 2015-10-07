@@ -55,7 +55,7 @@ implements IShootable
 		if(isActive == true)
 		{
 			position.add(Vector2.mul(direction, shotSpeed * gameTime.dt_s()));
-			if(position.x > 1980 || position.x < 0 || position.y > 1080 || position.y < 0)
+			if(position.x > 10000 || position.x < 0 || position.y > 10000 || position.y < 0)
 			{
 				isActive = false;
 			}

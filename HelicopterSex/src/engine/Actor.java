@@ -34,8 +34,6 @@ public class Actor
 	// Graphics Component.
 	public GraphicsComponent graphicsComponent;
 	
-	// Backup transform.
-	AffineTransform backupTransform;
 	
 	// ******************** Constructors ******************** 
 		
@@ -134,5 +132,27 @@ public class Actor
 		return forward;
 	}
 	
+	public Actor clone()
+	{
+		// Clone attributes.
+		Actor clone = new Actor();
+		clone.position = position.clone();
+		clone.rotation = rotation;
+		clone.scale = scale.clone();
+		
+		// Clone graphics component.
+		clone.graphicsComponent = graphicsComponent.clone();
+		
+		// Clone basic components.
+		for (ActorComponent basicComponent : basicComponents)
+		{
+			clone.addBasicComponent(basicComponent.clone());
+		}
+		
+		
+		
+		
+		return null;
+	}
 
 }

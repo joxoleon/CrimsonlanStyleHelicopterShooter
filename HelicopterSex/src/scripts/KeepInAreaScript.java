@@ -1,5 +1,7 @@
 package scripts;
 
+import component.ActorComponent;
+
 import utility.Vector2;
 import engine.GameTime;
 
@@ -80,6 +82,12 @@ extends ScriptComponent
 	{
 		this.minCoordinates = minCoordinates;
 		this.maxCoordinates = maxCoordinates;
+	}
+
+	@Override
+	public ActorComponent clone()
+	{
+		return new KeepInAreaScript(minCoordinates.clone(), maxCoordinates.clone());
 	}
 
 

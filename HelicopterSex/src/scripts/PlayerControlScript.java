@@ -1,5 +1,6 @@
 package scripts;
 
+import component.ActorComponent;
 import component.GunComponent;
 import component.PhysicsComponent;
 import component.PhysicsComponent.Direction;
@@ -92,5 +93,11 @@ extends ScriptComponent
 	public void onDestroy()
 	{
 		
+	}
+
+	@Override
+	public ActorComponent clone()
+	{
+		return new PlayerControlScript();
 	}
 }

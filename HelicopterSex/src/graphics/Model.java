@@ -75,4 +75,20 @@ implements IRenderable
 		return this;
 	}
 
+	@Override
+	public String getType()
+	{
+		return "model";
+	}
+
+	public Model clone()
+	{
+		Model clone = new Model(this.name);
+		for (Sprite sprite : sprites)
+		{
+			sprite.clone();
+		}
+		
+		return clone;
+	}
 }

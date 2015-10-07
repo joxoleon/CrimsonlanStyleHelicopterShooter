@@ -258,12 +258,10 @@ extends JPanel
 			
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Game.game.exitGame();
 		} catch (MyError e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

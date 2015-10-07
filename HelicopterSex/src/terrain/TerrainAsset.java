@@ -64,7 +64,7 @@ public class TerrainAsset
 		int minY = (int) (areaRectangle.getY() + dstHeight * userScale.x / 2);
 		int maxY = (int) (areaRectangle.getHeight()- dstHeight * userScale.y / 3);
 		// Ne treba 3 nego 2, mali hack.
-		// TODO: ispraviti ovo njesra!
+		// TODO: edit this hack!
 		
 		int invalidAssetPositionCounter = 0;
 		

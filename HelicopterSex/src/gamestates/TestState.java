@@ -53,7 +53,7 @@ extends GameState
 		chopper.addScriptComponent(new PropellerScript());
 
 		GunComponent gunComponent = new GunComponent();
-		gunComponent.gunSlots = GunFactory.getGunSlotCombination("dekiPantelic11");
+		gunComponent.setGunSlotCombination("dekiPantelic11", GunFactory.getGunSlotCombination("dekiPantelic11"));
 
 		chopper.addBasicComponent(gunComponent);
 

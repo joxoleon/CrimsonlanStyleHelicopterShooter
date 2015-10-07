@@ -7,4 +7,8 @@ public interface IRenderable
 	public void render(Graphics2D g2d);
 	
 	public Model getModel();
+	
+	public String getType();
+	
+	public IRenderable clone();
 }

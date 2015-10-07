@@ -17,20 +17,22 @@ extends ActorComponent
 	public Vector2 acceleration = new Vector2();
 	public float translationDragFactor = 0.98f;
 	public float translationThresholdSquared = 2;
-	public float mass = 7; // Configurable
 	
 	// Rotation Fields.
 	public float angularVelocity = 0;
 	public float angularAcceleration = 0;
 	public float rotationDragFactor = 0.96f;
-	public float angularSqrtThreshold = 0.3f;
-	public float momentOfInertia = 1.5f; // Configurable
+	public float angularSqrtThreshold = 0.2f;
 	
-	// Movement Fields.
-	public float accelerationIntensity = 8000; // Configurable
-	public float maxVelocitySquared = 800;
-	public float angularAccelerationIntensity = 40; // Configurable
-	public float maxAngularVelocity = 4;
+	// Movement Fields: Configurable
+	public float mass = 7; 
+	public float momentOfInertia = 1.5f; 
+	
+	public float accelerationIntensity = 8000; 
+	public float angularAccelerationIntensity = 40; 
+
+	public float maxVelocitySquared = 800; 
+	public float maxAngularVelocity = 4; 
 	
 	// ******************** Constructors ******************** 
 
@@ -67,10 +69,8 @@ extends ActorComponent
 		velocity.add(Vector2.mul(acceleration, gameTime.dt_s()));
 		
 		// Clamp velocity.
-		if(velocity.magnitudeSquared() > maxVelocitySquared)
-		{
-			// TODO : clamp velocity.
-		}
+		// TODO : clamp velocity.
+
 		
 		// Update position.
 		parent.position.add(Vector2.mul(velocity, gameTime.dt_s()));
@@ -170,6 +170,20 @@ extends ActorComponent
 		{
 			parent.rotation -= 2 *  Math.PI;
 		}
+	}
+
+	@Override
+	public ActorComponent clone()
+	{		
+		PhysicsComponent clone = new PhysicsComponent();
+		clone.mass = mass;
+		clone.momentOfInertia = momentOfInertia;
+		clone.accelerationIntensity = accelerationIntensity;
+		clone.angularAccelerationIntensity = angularAccelerationIntensity;
+		clone.maxVelocitySquared = maxVelocitySquared;
+		clone.maxAngularVelocity = maxAngularVelocity;
+		
+		return clone;	
 	}
 	
 }

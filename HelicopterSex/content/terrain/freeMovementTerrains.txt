@@ -31,11 +31,11 @@ desertHole01 1 0.2
 
 
 ###	Snow Terrain.
-tSnow01 3200 2800
+tSnow01 10000 10000
 snowTile01
 4
 ###	Assets:
-snowTree01 1400 0.2 0.5 0.5
+snowTree01 14000 0.2 0.5 0.5
 snowTree03 200 0.2 0.5 0.5
 snowTree04 200 0.2 0.5 0.5
 snowTree05 200 0.2 0.5 0.5

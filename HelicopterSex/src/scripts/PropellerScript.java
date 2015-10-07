@@ -1,5 +1,7 @@
 package scripts;
 
+import component.ActorComponent;
+
 import engine.GameTime;
 import graphics.Model;
 import graphics.Sprite;
@@ -14,7 +16,7 @@ extends ScriptComponent
 	private double[] propellerSpeeds;
 	private double[] propellerRotationAngles;
 	private double propellerBaseSpeed = 12;
-        	private boolean isInitialized = false;
+	private boolean isInitialized = false;
 
 	
 
@@ -37,7 +39,7 @@ extends ScriptComponent
 			
 			for (Sprite propeller : propellers)
 			{
-				propeller.isSelfRotating = true;
+				propeller.isAutonomouslyRotating = true;
 			}
 			isInitialized = true;
 		}
@@ -73,5 +75,15 @@ extends ScriptComponent
 	{
 		
 	}
+
+
+
+	@Override
+	public ActorComponent clone()
+	{
+		return new PropellerScript();
+	}
+
+
 
 }

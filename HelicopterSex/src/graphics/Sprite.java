@@ -25,7 +25,6 @@ implements IRenderable
 	
 	private AffineTransform backupTransform;
 	
-	public boolean isSelfRotating;
 	private boolean hasOffset;
 	
 	
@@ -46,6 +45,11 @@ implements IRenderable
 		}
 	}
 	
+	private Sprite()
+	{
+		
+	}
+	
 	// Methods.
 	private void
 	initGraphicsContext(Graphics2D g2d)
@@ -54,7 +58,7 @@ implements IRenderable
 		if (hasOffset)
 		{
 			g2d.translate(position.x, position.y);
-			if(isSelfRotating)
+			if(isAutonomouslyRotating == true)
 			{
 //				Reverse initial rotation.
 //				RenderingComponent.reverseCurrentRotation(g2d);
@@ -193,6 +197,28 @@ implements IRenderable
 	public Model getModel()
 	{
 		return null;
+	}
+
+	@Override
+	public String getType()
+	{
+		return "sprite";
+	}
+	
+	public Sprite clone()
+	{		
+		Sprite clone = new Sprite();
+		clone.name = name;
+		clone.image = image;
+		clone.position = position.clone();
+		clone.rotation = rotation;
+		clone.initialScale = initialScale.clone();
+		clone.userScale = initialScale.clone();
+		clone.isAutonomouslyRotating = isAutonomouslyRotating;
+		clone.hasOffset = hasOffset;
+		
+		
+		return clone;
 	}
 
 }

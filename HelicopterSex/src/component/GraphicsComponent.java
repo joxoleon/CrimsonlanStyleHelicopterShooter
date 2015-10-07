@@ -15,4 +15,14 @@ public class GraphicsComponent
 	{
 		renderable.render(g2d);
 	}
+	
+	public GraphicsComponent clone()
+	{
+		GraphicsComponent clone = new GraphicsComponent();
+		if(renderable.getType().equals("model"))
+		{
+			clone.renderable = renderable.clone();
+		}		
+		return clone;
+	}
 }

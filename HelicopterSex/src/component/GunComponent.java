@@ -13,7 +13,8 @@ import factories.GunFactory;
 public class GunComponent
 extends ActorComponent
 {
-	public LinkedList<GunSlot> gunSlots = new LinkedList<GunSlot>();
+	private String gunSlotCombinationName;
+	private LinkedList<GunSlot> gunSlots = new LinkedList<GunSlot>();
 	public int gunSlotsIndex = 0;
 
 	
@@ -43,6 +44,7 @@ extends ActorComponent
 	{
 		
 	}
+	
 	public void testUpdateGunSlots()
 	{
 		if(Input.isKeyPressed(Keys.I))
@@ -78,5 +80,19 @@ extends ActorComponent
 		{
 			AudioManager.playOnceNoInterrupt("gunShot01");
 		}
+	}
+
+	public void setGunSlotCombination(String name, LinkedList<GunSlot> slots)
+	{
+		this.gunSlotCombinationName = name;
+		gunSlots = slots;
+	}
+	
+	@Override
+	public ActorComponent clone()
+	{
+		GunComponent clone = new GunComponent();
+		clone.setGunSlotCombination(gunSlotCombinationName, GunFactory.getGunSlotCombination(gunSlotCombinationName));
+		return clone;
 	}
 }

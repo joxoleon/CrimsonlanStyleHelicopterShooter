@@ -32,5 +32,6 @@ public abstract class ActorComponent
 	
 	public abstract void onDestroy();
 	
+	public abstract ActorComponent clone();
 	
 }

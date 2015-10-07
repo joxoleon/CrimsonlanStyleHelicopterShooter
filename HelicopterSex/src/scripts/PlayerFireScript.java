@@ -2,6 +2,7 @@ package scripts;
 
 import input.Input;
 import input.Keys;
+import component.ActorComponent;
 import component.GunComponent;
 import engine.GameTime;
 
@@ -40,6 +41,12 @@ extends ScriptComponent
 	public String getName()
 	{
 		return "playerFireScript";
+	}
+
+	@Override
+	public ActorComponent clone()
+	{
+		return new PlayerFireScript();
 	}
 
 }

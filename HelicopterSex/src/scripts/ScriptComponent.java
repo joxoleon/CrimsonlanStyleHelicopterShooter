@@ -4,6 +4,7 @@ import component.ActorComponent;
 
 import engine.GameTime;
 
+
 public abstract class ScriptComponent
 extends ActorComponent
 {

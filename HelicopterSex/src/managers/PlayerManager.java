@@ -42,7 +42,7 @@ public class PlayerManager
 		
 		// Add gun component.
 		GunComponent gunComponent = new GunComponent();
-		gunComponent.gunSlots = GunFactory.getGunSlotCombination("dekiPantelic11");
+		gunComponent.setGunSlotCombination("dekiPantelic11", GunFactory.getGunSlotCombination("dekiPantelic11"));
 		playerActor.addBasicComponent(gunComponent);
 		
 		// Add script components ****
