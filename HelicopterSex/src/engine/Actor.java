@@ -17,6 +17,9 @@ public class Actor
 {
 	// ******************** Fields ******************** 
 	
+	// Actor information fields.
+	public String name;
+	
 	// Transform fields.
 	public Vector2 position = new Vector2();
 	public float rotation = 0;
@@ -92,22 +95,8 @@ public class Actor
 			scriptComponentsSecondPass.add(scriptComponent);
 		}
 		scriptComponentsMap.put(scriptComponent.getName(), scriptComponent);
-		scriptComponent.onAttach();
 	}
-	public void addScriptComponentFirst(ScriptComponent scriptComponent)
-	{
-		scriptComponent.addParent(this);
-		if(scriptComponent.isSecondPass == false)
-		{
-			scriptComponents.add(0, scriptComponent);
-		}
-		else
-		{
-			scriptComponentsSecondPass.add(0, scriptComponent);
-		}		
-		scriptComponentsMap.put(scriptComponent.getName(), scriptComponent);
-		scriptComponent.onAttach();
-	}
+
 	public ScriptComponent getScriptComponent(String scriptComponentName)
 	{
 		return scriptComponentsMap.get(scriptComponentName);
@@ -159,7 +148,7 @@ public class Actor
 			clone.addScriptComponent((ScriptComponent)(script));
 		}
 		
-		return null;
+		return clone;
 	}
 
 }

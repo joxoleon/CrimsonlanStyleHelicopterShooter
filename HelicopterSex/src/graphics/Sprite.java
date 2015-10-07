@@ -213,7 +213,7 @@ implements IRenderable
 		clone.position = position.clone();
 		clone.rotation = rotation;
 		clone.initialScale = initialScale.clone();
-		clone.userScale = initialScale.clone();
+		clone.userScale = userScale.clone();
 		clone.isAutonomouslyRotating = isAutonomouslyRotating;
 		clone.hasOffset = hasOffset;
 		

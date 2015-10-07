@@ -1,8 +1,12 @@
 package managers;
 
+import input.Input;
+import input.Keys;
+
 import java.awt.Graphics2D;
 
 import camera.Camera;
+import camera.CrimsonlandCameraScript;
 import scripts.KeepInAreaScript;
 import scripts.PlayerControlScript;
 import scripts.PlayerFireScript;
@@ -16,49 +20,31 @@ import engine.Actor;
 import engine.Game;
 import engine.GameTime;
 import factories.GunFactory;
+import factories.HelicopterFactory;
 import factories.ModelFactory;
 
-public class PlayerManager
+public class PlayerActorManager
 {
 	public static Actor playerActor;
+	public static Camera camera;
+	
+	private static int helicopterIndex = 0;
+	public static String playerHelicopterName = "helicopter01";
+	
+
 	
 	private static void initialize()
 	{
-		playerActor = new Actor();
-		
-		// Set actor position.
-		Vector2 terrainDimension = TerrainManager.getTerrainDimensions();
-		playerActor.position.x = terrainDimension.x / 2;
-		playerActor.position.y = terrainDimension.y / 2;
-		
-		// Add graphics component.
-		GraphicsComponent gc = new GraphicsComponent();
-		gc.renderable = ModelFactory.getInstance().getFlyweightModel("helicopter03");
-		playerActor.graphicsComponent = gc;
-		
-		// Add physics component.
-		PhysicsComponent pc = new PhysicsComponent();
-		playerActor.addBasicComponent(pc);
-		
-		// Add gun component.
-		GunComponent gunComponent = new GunComponent();
-		gunComponent.setGunSlotCombination("dekiPantelic11", GunFactory.getGunSlotCombination("dekiPantelic11"));
-		playerActor.addBasicComponent(gunComponent);
-		
-		// Add script components ****
-		// Propeller script.
-		playerActor.addScriptComponent(new PropellerScript());
-		// Second pass script for firing.
-		PlayerFireScript fireScript = new PlayerFireScript();
-		playerActor.addScriptComponent(fireScript);
-		// Player control script.
-		playerActor.addScriptComponent(new PlayerControlScript());
-
+		playerActor = HelicopterFactory.getHelicopter(playerHelicopterName);
 	}
 	
 	public static void initializeSurvivalState(Camera camera)
 	{
+
+		PlayerActorManager.camera = camera;
+		
 		initialize();
+
 		
 		Vector2 minCoordinates = new Vector2(0, 0);
 		Vector2 terrainDimension = TerrainManager.getTerrainDimensions();
@@ -84,11 +70,34 @@ public class PlayerManager
 	
 	public static void update(GameTime gameTime)
 	{
+		if(Input.isKeyPressed(Keys.B))
+		{
+			switchHelicopter();	
+		}
 		playerActor.update(gameTime);
 	}
 	
 	public static void draw(Graphics2D g2d, Camera camera)
 	{
 		playerActor.draw(g2d, camera);
+	}
+
+	public static void switchHelicopter()
+	{
+		// Get playerActor position, rotitaion and scale.
+		Vector2 playerPosition = playerActor.position;
+		float playerRotation = playerActor.rotation;
+		Vector2 playerScale = playerActor.scale;
+		
+		helicopterIndex = (helicopterIndex + 1) % HelicopterFactory.helicopterNames.size();
+		playerHelicopterName = HelicopterFactory.helicopterNames.get(helicopterIndex);
+		initializeSurvivalState(camera);
+		CrimsonlandCameraScript camScript = (CrimsonlandCameraScript)camera.getCameraScript("crimsonlandCameraScript");
+		camScript.addActor(playerActor);
+		
+		// Set playerActor old position, rotation and scale.
+		playerActor.position = playerPosition;
+		playerActor.rotation = playerRotation;
+		playerActor.scale = playerScale;
 	}
 }

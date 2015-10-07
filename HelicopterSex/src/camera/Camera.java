@@ -120,4 +120,15 @@ public class Camera
 		cameraScript.onAttach(this);
 	}
 
+	public ICameraScript getCameraScript(String scriptName)
+	{
+		for (ICameraScript script : scripts)
+		{
+			if(script.getName().equals(scriptName))
+			{
+				return script;
+			}
+		}
+		return null;
+	}
 }

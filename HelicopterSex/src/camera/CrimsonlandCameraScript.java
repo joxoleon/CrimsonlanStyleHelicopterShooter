@@ -89,5 +89,11 @@ implements ICameraScript
 		this.minCoordinates = minCoordinates;
 		this.maxCoordinates = maxCoordinates;
 	}
+
+	@Override
+	public String getName()
+	{
+		return "crimsonlandCameraScript";
+	}
 	
 }

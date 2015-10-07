@@ -49,7 +49,7 @@ public class GameTime
 	calculateSleepTime()
 	{
 		long sleepTime = ((long)(targetPeriod * 1000000000 - (System.nanoTime() - startTime)) / 1000000);
-		System.out.println(sleepTime);
+//		System.out.println(sleepTime);
 
 		return sleepTime;
 	}

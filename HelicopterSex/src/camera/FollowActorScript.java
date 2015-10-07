@@ -54,4 +54,10 @@ implements ICameraScript
 	{
 	}
 
+	@Override
+	public String getName()
+	{
+		return "followActorScript";
+	}
+
 }

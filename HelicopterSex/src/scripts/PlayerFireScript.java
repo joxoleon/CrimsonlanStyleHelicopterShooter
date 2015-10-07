@@ -20,6 +20,10 @@ extends ScriptComponent
 	public void onAttach()
 	{
 		parentGunComponent = (GunComponent) parent.getBasicComponent("gunComponent");
+		if(parentGunComponent == null)
+		{
+			System.err.println("shit");
+		}
 	}
 
 	@Override

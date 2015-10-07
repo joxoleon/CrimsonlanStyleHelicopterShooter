@@ -86,7 +86,7 @@ implements IRenderable
 		Model clone = new Model(this.name);
 		for (Sprite sprite : sprites)
 		{
-			sprite.clone();
+			clone.addSprite(sprite.clone());
 		}
 		
 		return clone;

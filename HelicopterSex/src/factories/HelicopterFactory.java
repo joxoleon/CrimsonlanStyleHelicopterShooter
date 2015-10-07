@@ -1,19 +1,26 @@
 package factories;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import scripts.PlayerControlScript;
 import scripts.PlayerFireScript;
 import scripts.PropellerScript;
+import utility.MyFileReader;
 import component.GraphicsComponent;
+import component.GunComponent;
 import component.PhysicsComponent;
 import engine.Actor;
+import engine.Game;
 
 public class HelicopterFactory
 {
 	// ******************** Fields ********************
 	public static Map<String, Actor> helicopters = new HashMap<String, Actor>();
+	
+	public static ArrayList<String> helicopterNames = new ArrayList<String>();
 	
 	
 	
@@ -25,32 +32,99 @@ public class HelicopterFactory
 	// ******************** Methods ********************
 	public static void initialize()
 	{
-		
+		loadHelicopters();
 	}
 	
 	private static void loadHelicopters()
 	{
-		Actor helicopter = new Actor();
+		String path = "content/helicopters.txt";
+		MyFileReader reader = new MyFileReader(path);
+		int currentState = 0;
 		
-		// Add graphics component.
-		GraphicsComponent gc = new GraphicsComponent();
-		gc.renderable = ModelFactory.getInstance().getFlyweightModel("helicopter03");
-		helicopter.graphicsComponent = gc;
+		Actor helicopter = null;
 		
-		// Add physics component.
-		PhysicsComponent pc = new PhysicsComponent();
-		helicopter.addBasicComponent(pc);
+		while(reader.hasMore == true)
+		{
 		
-		// Add script components ****
-		// Propeller script.
-		helicopter.addScriptComponent(new PropellerScript());
-		// Second pass script for firing.
-		PlayerFireScript fireScript = new PlayerFireScript();
-		helicopter.addScriptComponent(fireScript);
-		// Player control script.
-		helicopter.addScriptComponent(new PlayerControlScript());
-		
-		
-		
+			// Simple state machine
+			switch(currentState)
+			{
+			// State 0 :Read chopper name, create a chopper, add a graphics component, and put it into the hashMap.
+			case 0:
+			{
+				String[] tokens = reader.getNextLineTokens(1);
+				
+				helicopter = new Actor();
+				helicopter.name = tokens[0];
+				helicopterNames.add(helicopter.name);
+				helicopters.put(helicopter.name, helicopter);
+				
+				// Add graphics component.
+				GraphicsComponent gc = new GraphicsComponent();
+				gc.renderable = ModelFactory.getInstance().getFlyweightModel(helicopter.name);
+				helicopter.graphicsComponent = gc;
+				
+				currentState = 1;
+				
+				
+			}break;
+			
+			// Read physics component fields in one line, Create a physics component, and give it to the chopper.
+			case 1:
+			{
+				String[] tokens = reader.getNextLineTokens(6);
+				
+				PhysicsComponent pc = new PhysicsComponent();
+				pc.mass = Float.parseFloat(tokens[0]);
+				pc.momentOfInertia = Float.parseFloat(tokens[1]);
+				pc.accelerationIntensity = Float.parseFloat(tokens[2]);
+				pc.angularAccelerationIntensity = Float.parseFloat(tokens[3]);
+				pc.maxVelocitySquared = Float.parseFloat(tokens[4]);
+				pc.maxAngularVelocity = Float.parseFloat(tokens[5]);
+
+				helicopter.addBasicComponent(pc);
+				
+				currentState = 2;
+			}break;
+			// Read the name of the gun slot combination. Create and add a GunComponent.
+			case 2:
+			{
+				String[] tokens = reader.getNextLineTokens(1);
+				
+				GunComponent gunComponent = new GunComponent();
+				gunComponent.setGunSlotCombination(tokens[0], GunFactory.getGunSlotCombination(tokens[0]));
+				helicopter.addBasicComponent(gunComponent);
+				
+				currentState = 3;
+			}break;
+			
+			case 3:
+			{
+				String[] tokens = reader.getNextLineTokens();
+				
+				for (String token : tokens)
+				{
+					helicopter.addScriptComponent(ActorScriptFactory.getScript(token));
+				}
+				
+				currentState = 0;
+			}break;
+			
+			}			
+		}
 	}
+
+	public static Actor getHelicopter(String helicopterName)
+	{
+
+		Actor helicopter = helicopters.get(helicopterName);
+		if(helicopter == null)
+		{
+			System.err.println("The helcopter with the following name doens't exist: " + helicopterName);
+			Game.game.exitGame();
+		}
+		
+		return helicopter.clone();
+	}
+
 }

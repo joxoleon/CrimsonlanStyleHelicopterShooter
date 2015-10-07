@@ -9,7 +9,7 @@ import camera.FollowActorScript;
 import managers.AudioManager;
 import managers.GraphicsManager;
 import managers.PauseManager;
-import managers.PlayerManager;
+import managers.PlayerActorManager;
 import managers.SlowMotionManager;
 import component.GraphicsComponent;
 import component.GunComponent;
@@ -24,7 +24,9 @@ import utility.Vector2;
 import engine.Actor;
 import engine.Game;
 import engine.GameTime;
+import factories.ActorScriptFactory;
 import factories.GunFactory;
+import factories.HelicopterFactory;
 import factories.ModelFactory;
 import input.Input;
 import input.Keys;
@@ -74,7 +76,7 @@ extends GameState
 		Vector2 terrainDimension = TerrainManager.getTerrainDimensions();
 		Vector2 maxCoordinates = new Vector2(terrainDimension.x - minCoordinates.x, terrainDimension.y - minCoordinates.y);
 		CrimsonlandCameraScript crimsonlandScript = new CrimsonlandCameraScript(minCoordinates, maxCoordinates);
-		crimsonlandScript.addActor(PlayerManager.playerActor);
+		crimsonlandScript.addActor(PlayerActorManager.playerActor);
 		mainCamera.addScriptComponent(crimsonlandScript);
 		
 		
@@ -93,7 +95,7 @@ extends GameState
 		{
 			destroyAndFilter();
 			TerrainManager.update(gameTime);
-			PlayerManager.update(gameTime);
+			PlayerActorManager.update(gameTime);
 			ShotManager.update(gameTime);
 			mainCamera.update(gameTime);
 
@@ -114,7 +116,7 @@ extends GameState
 		g2d.translate(-mainCamera.cameraWidth / 2, -mainCamera.cameraHeight / 2);
 		
 		TerrainManager.draw(g2d, mainCamera);
-		PlayerManager.draw(g2d, mainCamera);
+		PlayerActorManager.draw(g2d, mainCamera);
 		ShotManager.draw(g2d, mainCamera);
 		mainCamera.draw(g2d);
 
@@ -146,7 +148,6 @@ extends GameState
 		
 		if(Input.isKeyPressed(Keys.T))
 		{
-			System.out.println("toggle");
 			SlowMotionManager.toggleTimeScale(playingSongsIDs);
 		}
 		
@@ -170,8 +171,11 @@ extends GameState
 	
 	private void initializeManagers(Camera camera)
 	{
-		PlayerManager.initializeSurvivalState(camera);
+		ActorScriptFactory.initialize();
+		HelicopterFactory.initialize();
 		PauseManager.initialize();
 		SlowMotionManager.initialize();
+		PlayerActorManager.initializeSurvivalState(camera);
+
 	}
 }

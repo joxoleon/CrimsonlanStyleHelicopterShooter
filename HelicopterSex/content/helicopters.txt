@@ -1,0 +1,20 @@
+# Helicopters file - format:
+# helicopterName
+# physics component fields - 1. mass, 2. moment of inertia, 3. acceleration intensity, 4. angular acceleration intensity, 5. maxVelocitySquared, 6. maxAngularVelocity
+# Gun component - slotCombinationName
+# Actor scripts (all in one line)
+
+helicopter01
+15 3 10000 45 900 3.5
+dekiPantelic03
+propellerScript playerFireScript playerControlScript
+
+helicopter02
+7 1 7000 40 900 4.5
+dekiPantelic11
+propellerScript playerFireScript playerControlScript
+
+helicopter03
+5 2 6000 45 900 4.5
+dekiPantelic11
+propellerScript playerFireScript playerControlScript
