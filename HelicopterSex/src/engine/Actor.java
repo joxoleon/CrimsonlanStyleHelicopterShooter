@@ -149,8 +149,15 @@ public class Actor
 			clone.addBasicComponent(basicComponent.clone());
 		}
 		
+		for (ScriptComponent script : scriptComponents)
+		{
+			clone.addScriptComponent((ScriptComponent) script.clone());
+		}
 		
-		
+		for (ScriptComponent script : scriptComponentsSecondPass)
+		{
+			clone.addScriptComponent((ScriptComponent)(script));
+		}
 		
 		return null;
 	}

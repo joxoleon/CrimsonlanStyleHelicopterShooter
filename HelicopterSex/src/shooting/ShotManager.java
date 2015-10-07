@@ -18,9 +18,6 @@ public class ShotManager
 	
 	
 
-	
-	
-	
 	// ******************** Methods ******************** 
 	public static void update(GameTime gameTime)
 	{
