@@ -1,12 +1,12 @@
 package scripts;
 
 import managers.PlayerActorManager;
-import utility.Vector2;
-import component.ActorComponent;
-import component.GunComponent;
-import component.PhysicsComponent;
-import component.PhysicsComponent.Direction;
 import engine.GameTime;
+import engine.component.ActorComponent;
+import engine.component.GunComponent;
+import engine.component.PhysicsComponent;
+import engine.component.PhysicsComponent.Direction;
+import engine.utility.Vector2;
 
 public class EnemyChaseScript
 extends ScriptComponent

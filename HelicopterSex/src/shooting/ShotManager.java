@@ -4,8 +4,8 @@ import java.awt.Graphics2D;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-import camera.Camera;
 import engine.GameTime;
+import engine.camera.Camera;
 
 public class ShotManager
 {

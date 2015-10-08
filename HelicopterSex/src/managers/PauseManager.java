@@ -5,9 +5,9 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
-import utility.StringWriter;
 import engine.Game;
 import engine.GameTime;
+import engine.utility.StringWriter;
 
 
 public class PauseManager

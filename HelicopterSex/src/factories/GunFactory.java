@@ -8,9 +8,9 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import engine.Game;
+import engine.utility.Vector2;
 import shooting.Gun;
 import shooting.GunSlot;
-import utility.Vector2;
 
 public class GunFactory
 {

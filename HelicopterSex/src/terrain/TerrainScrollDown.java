@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import camera.Camera;
-import utility.Vector2;
 import engine.Game;
 import engine.GameTime;
+import engine.camera.Camera;
+import engine.utility.Vector2;
 
 public class TerrainScrollDown implements ITerrain
 {

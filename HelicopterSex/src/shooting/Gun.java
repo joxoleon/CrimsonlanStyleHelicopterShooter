@@ -1,8 +1,8 @@
 package shooting;
 
 import engine.Game;
+import engine.utility.Vector2;
 import factories.ShotFactory;
-import utility.Vector2;
 
 public class Gun
 {

@@ -1,13 +1,13 @@
 package scripts;
 
-import utility.Vector2;
-import component.ActorComponent;
-import component.GunComponent;
-import component.PhysicsComponent;
-import component.PhysicsComponent.Direction;
-import input.Input;
-import input.Keys;
 import engine.GameTime;
+import engine.component.ActorComponent;
+import engine.component.GunComponent;
+import engine.component.PhysicsComponent;
+import engine.component.PhysicsComponent.Direction;
+import engine.input.Input;
+import engine.input.Keys;
+import engine.utility.Vector2;
 
 public class PlayerControlScript
 extends ScriptComponent

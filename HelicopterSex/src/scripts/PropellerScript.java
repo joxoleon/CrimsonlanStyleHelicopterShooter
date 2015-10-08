@@ -1,10 +1,9 @@
 package scripts;
 
-import component.ActorComponent;
-
 import engine.GameTime;
-import graphics.Model;
-import graphics.Sprite;
+import engine.component.ActorComponent;
+import engine.graphics.Model;
+import engine.graphics.Sprite;
 
 public class PropellerScript 
 extends ScriptComponent

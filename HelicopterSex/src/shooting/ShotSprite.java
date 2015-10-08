@@ -3,7 +3,7 @@ package shooting;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import utility.Vector2;
+import engine.utility.Vector2;
 
 public class ShotSprite
 {

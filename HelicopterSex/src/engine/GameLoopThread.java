@@ -1,6 +1,6 @@
 package engine;
 
-import score.Score;
+import engine.menu.Score;
 
 public class GameLoopThread
 extends Thread

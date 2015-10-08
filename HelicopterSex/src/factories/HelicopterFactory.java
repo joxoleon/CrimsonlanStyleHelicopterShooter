@@ -8,12 +8,13 @@ import java.util.Map;
 import scripts.PlayerControlScript;
 import scripts.PlayerFireScript;
 import scripts.PropellerScript;
-import utility.MyFileReader;
-import component.GraphicsComponent;
-import component.GunComponent;
-import component.PhysicsComponent;
 import engine.Actor;
 import engine.Game;
+import engine.component.GraphicsComponent;
+import engine.component.GunComponent;
+import engine.component.PhysicsComponent;
+import engine.component.SphereCollider;
+import engine.utility.MyFileReader;
 
 public class HelicopterFactory
 {
@@ -21,8 +22,6 @@ public class HelicopterFactory
 	public static Map<String, Actor> helicopters = new HashMap<String, Actor>();
 	
 	public static ArrayList<String> helicopterNames = new ArrayList<String>();
-	
-	
 	
 	// ******************** Constructors ********************
 	
@@ -70,6 +69,7 @@ public class HelicopterFactory
 			}break;
 			
 			// Read physics component fields in one line, Create a physics component, and give it to the chopper.
+			// Add a sphereCollider!
 			case 1:
 			{
 				String[] tokens = reader.getNextLineTokens(6);
@@ -83,6 +83,9 @@ public class HelicopterFactory
 				pc.maxAngularVelocity = Float.parseFloat(tokens[5]);
 
 				helicopter.addBasicComponent(pc);
+				
+				SphereCollider collider = new SphereCollider();
+				helicopter.addBasicComponent(collider);
 				
 				currentState = 2;
 			}break;

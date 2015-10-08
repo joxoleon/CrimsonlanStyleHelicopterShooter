@@ -1,6 +1,8 @@
 package content;
 
 import engine.Game;
+import engine.utility.MyFileReader;
+import engine.utility.StringWriter;
 import factories.ModelFactory;
 
 import java.awt.Color;
@@ -21,8 +23,6 @@ import javax.imageio.ImageIO;
 
 import terrain.TerrainScrollDown;
 import terrain.TerrainAsset;
-import utility.MyFileReader;
-import utility.StringWriter;
 
 public class Content
 {

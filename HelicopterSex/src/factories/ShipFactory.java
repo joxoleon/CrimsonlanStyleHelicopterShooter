@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import utility.MyFileReader;
-import component.GraphicsComponent;
-import component.GunComponent;
-import component.PhysicsComponent;
 import content.Content;
 import engine.Actor;
 import engine.Game;
-import graphics.Sprite;
+import engine.component.GraphicsComponent;
+import engine.component.GunComponent;
+import engine.component.PhysicsComponent;
+import engine.component.SphereCollider;
+import engine.graphics.Sprite;
+import engine.utility.MyFileReader;
 
 public class ShipFactory
 {
@@ -86,6 +87,9 @@ public class ShipFactory
 				pc.maxAngularVelocity = Float.parseFloat(tokens[5]);
 
 				ship.addBasicComponent(pc);
+				
+				SphereCollider collider = new SphereCollider();
+				ship.addBasicComponent(collider);
 				
 				currentState = 2;
 			}break;

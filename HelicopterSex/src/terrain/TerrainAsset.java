@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import utility.Vector2;
+import engine.utility.Vector2;
 
 public class TerrainAsset
 {

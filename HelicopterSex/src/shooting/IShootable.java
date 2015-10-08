@@ -2,8 +2,8 @@ package shooting;
 
 import java.awt.Graphics2D;
 
-import camera.Camera;
 import engine.GameTime;
+import engine.camera.Camera;
 
 public interface IShootable
 {

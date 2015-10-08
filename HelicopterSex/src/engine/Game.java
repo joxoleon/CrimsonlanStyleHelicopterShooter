@@ -1,18 +1,19 @@
 package engine;
 
+import engine.gamestates.GameOptionsState;
+import engine.gamestates.GameOverState;
+import engine.gamestates.GameStateMachine;
+import engine.gamestates.HelpGameState;
+import engine.gamestates.HighScoresState;
+import engine.gamestates.MainMenuState;
+import engine.gamestates.PlayCampaignGameState;
+import engine.gamestates.PlaySurvivalGameState;
+import engine.gamestates.TestState;
+import engine.input.Input;
+import engine.menu.Score;
 import factories.GunFactory;
 import factories.ModelFactory;
 import factories.ShotFactory;
-import gamestates.GameOptionsState;
-import gamestates.GameOverState;
-import gamestates.GameStateMachine;
-import gamestates.HelpGameState;
-import gamestates.HighScoresState;
-import gamestates.MainMenuState;
-import gamestates.PlayCampaignGameState;
-import gamestates.PlaySurvivalGameState;
-import gamestates.TestState;
-import input.Input;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -33,7 +34,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import managers.AudioManager;
-import score.Score;
 import terrain.TerrainManager;
 import content.Content;
 import content.MyError;

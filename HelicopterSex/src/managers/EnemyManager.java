@@ -1,15 +1,12 @@
 package managers;
 
-import input.Input;
-import input.Keys;
-
 import java.awt.Graphics2D;
 import java.util.LinkedList;
 
-import utility.Vector2;
-import camera.Camera;
 import engine.Actor;
 import engine.GameTime;
+import engine.camera.Camera;
+import engine.utility.Vector2;
 import factories.ShipFactory;
 
 public class EnemyManager
@@ -24,6 +21,11 @@ public class EnemyManager
 	public static void initialize(Vector2 terrainDimensions)
 	{
 		EnemyManager.terrainDimensions = terrainDimensions;
+		
+//		for (int i = 0; i < 200; i++)
+//		{
+//			spawnEnemy();
+//		}
 	}
 	
 	
@@ -49,6 +51,8 @@ public class EnemyManager
 		for (Actor enemy : enemies)
 		{
 			enemy.draw(g2d, camera);
+			
+			enemy.collider.draw(g2d, camera);
 		}
 	}
 	

@@ -1,8 +1,5 @@
 package terrain;
 
-import input.Input;
-import input.Keys;
-
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -16,12 +13,14 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import terrain.ITerrain.TerrainType;
-import utility.MyFileReader;
-import utility.Vector2;
 import content.MyError;
-import camera.Camera;
 import engine.Game;
 import engine.GameTime;
+import engine.camera.Camera;
+import engine.input.Input;
+import engine.input.Keys;
+import engine.utility.MyFileReader;
+import engine.utility.Vector2;
 
 public class TerrainManager
 {

@@ -1,7 +1,7 @@
 package shooting;
 
 import engine.GameTime;
-import utility.Vector2;
+import engine.utility.Vector2;
 
 public class GunSlot
 {

@@ -1,8 +1,7 @@
 package scripts;
 
-import component.ActorComponent;
-
 import engine.GameTime;
+import engine.component.ActorComponent;
 
 
 public abstract class ScriptComponent

@@ -1,24 +1,23 @@
 package managers;
 
-import input.Input;
-import input.Keys;
-
 import java.awt.Graphics2D;
 
-import camera.Camera;
-import camera.CrimsonlandCameraScript;
 import scripts.KeepInAreaScript;
 import scripts.PlayerControlScript;
 import scripts.PlayerFireScript;
 import scripts.PropellerScript;
 import terrain.TerrainManager;
-import utility.Vector2;
-import component.GraphicsComponent;
-import component.GunComponent;
-import component.PhysicsComponent;
 import engine.Actor;
 import engine.Game;
 import engine.GameTime;
+import engine.camera.Camera;
+import engine.camera.CrimsonlandCameraScript;
+import engine.component.GraphicsComponent;
+import engine.component.GunComponent;
+import engine.component.PhysicsComponent;
+import engine.input.Input;
+import engine.input.Keys;
+import engine.utility.Vector2;
 import factories.GunFactory;
 import factories.HelicopterFactory;
 import factories.ModelFactory;
@@ -82,6 +81,9 @@ public class PlayerActorManager
 	public static void draw(Graphics2D g2d, Camera camera)
 	{
 		playerActor.draw(g2d, camera);
+		
+		playerActor.collider.draw(g2d, camera);
+
 	}
 
 	public static void switchHelicopter()

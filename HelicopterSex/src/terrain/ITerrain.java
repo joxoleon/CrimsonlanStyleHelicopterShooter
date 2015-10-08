@@ -2,9 +2,9 @@ package terrain;
 
 import java.awt.Graphics2D;
 
-import camera.Camera;
-import utility.Vector2;
 import engine.GameTime;
+import engine.camera.Camera;
+import engine.utility.Vector2;
 
 public interface ITerrain
 {

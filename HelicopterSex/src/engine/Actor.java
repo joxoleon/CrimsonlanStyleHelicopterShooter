@@ -7,11 +7,12 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import managers.GraphicsManager;
-import camera.Camera;
-import component.ActorComponent;
-import component.GraphicsComponent;
+import engine.camera.Camera;
+import engine.component.ActorComponent;
+import engine.component.GraphicsComponent;
+import engine.component.SphereCollider;
+import engine.utility.Vector2;
 import scripts.ScriptComponent;
-import utility.Vector2;
 
 public class Actor
 {
@@ -36,7 +37,7 @@ public class Actor
 	
 	// Graphics Component.
 	public GraphicsComponent graphicsComponent;
-	
+	public SphereCollider collider;
 	
 	// ******************** Constructors ******************** 
 		
@@ -80,7 +81,7 @@ public class Actor
 		if(graphicsComponent != null)
 			graphicsComponent.draw(g2d);
 		
-		GraphicsManager.restoreGraphicsContext(g2d);		
+		GraphicsManager.restoreGraphicsContext(g2d);	
 	}
 	
 	public void addScriptComponent(ScriptComponent scriptComponent)
@@ -109,6 +110,7 @@ public class Actor
 		basicComponents.add(component);
 		basicComponentsMap.put(component.getName(), component);
 	}
+	
 	public ActorComponent getBasicComponent(String basicComponentName)
 	{
 		return basicComponentsMap.get(basicComponentName);
@@ -150,6 +152,5 @@ public class Actor
 		
 		return clone;
 	}
-
 
 }

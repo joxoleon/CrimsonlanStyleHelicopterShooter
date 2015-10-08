@@ -1,7 +1,8 @@
 package factories;
 
-import graphics.Model;
-import graphics.Sprite;
+import engine.graphics.Model;
+import engine.graphics.Sprite;
+import engine.utility.MyFileReader;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -10,7 +11,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
-import utility.MyFileReader;
 import content.Content;
 
 public class ModelFactory

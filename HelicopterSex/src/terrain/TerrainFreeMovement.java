@@ -9,12 +9,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import utility.MathHelper;
-import utility.Vector2;
 import managers.GraphicsManager;
-import camera.Camera;
 import content.Content;
 import engine.GameTime;
+import engine.camera.Camera;
+import engine.utility.MathHelper;
+import engine.utility.Vector2;
 
 public class TerrainFreeMovement implements ITerrain
 {

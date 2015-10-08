@@ -1,9 +1,8 @@
 package scripts;
 
-import component.ActorComponent;
-
-import utility.Vector2;
 import engine.GameTime;
+import engine.component.ActorComponent;
+import engine.utility.Vector2;
 
 public class KeepInAreaScript
 extends ScriptComponent

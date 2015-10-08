@@ -1,10 +1,10 @@
 package scripts;
 
-import input.Input;
-import input.Keys;
-import component.ActorComponent;
-import component.GunComponent;
 import engine.GameTime;
+import engine.component.ActorComponent;
+import engine.component.GunComponent;
+import engine.input.Input;
+import engine.input.Keys;
 
 public class PlayerFireScript
 extends ScriptComponent
