@@ -1,5 +1,8 @@
 package engine;
 
+import engine.input.Input;
+import engine.input.Keys;
+
 public class GameTime
 {
 	private long targetRate;
@@ -11,6 +14,8 @@ public class GameTime
 	private float dt_s;
 	
 	private float timeScale = 1f;
+	
+	private boolean isDebugMode = true;
 		
 	public
 	GameTime(long targetRate)
@@ -58,12 +63,26 @@ public class GameTime
 	private float 
 	dt_ms()
 	{
+		
 		return dt_ms * timeScale;
 	}
 	
 	public float 
 	dt_s()
 	{
+		// ******** leave this for debugging purposses.
+//		if(isDebugMode == true)
+//		{
+//			if(Input.isKeyPressed(Keys.N))
+//			{
+//				return 0.016666f;
+//			}
+//			else
+//			{
+//				return 0;
+//
+//			}
+//		}
 		return dt_s * timeScale;
 	}
 

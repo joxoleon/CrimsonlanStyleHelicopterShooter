@@ -21,6 +21,7 @@ public class ShotManager
 	// ******************** Methods ******************** 
 	public static void update(GameTime gameTime)
 	{
+//		System.out.println(playerShots.size());
 		for (SimpleShot playerShot : playerShots)
 		{
 			playerShot.update(gameTime);

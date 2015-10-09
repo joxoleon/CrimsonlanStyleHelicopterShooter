@@ -17,6 +17,7 @@ import engine.component.GunComponent;
 import engine.component.PhysicsComponent;
 import engine.input.Input;
 import engine.input.Keys;
+import engine.utility.DebugRenderer;
 import engine.utility.Vector2;
 import factories.GunFactory;
 import factories.HelicopterFactory;
@@ -36,7 +37,6 @@ public class PlayerActorManager
 	private static void initialize()
 	{
 		playerActor = HelicopterFactory.getHelicopter(playerHelicopterName);
-//		playerActor = ShipFactory.getShip("enemy06");
 	}
 	
 	public static void initializeSurvivalState(Camera camera)
@@ -56,6 +56,10 @@ public class PlayerActorManager
 		// Enable player rotation.
 		PlayerControlScript script = (PlayerControlScript) playerActor.getScriptComponent("playerControllerScript");
 		script.hasRotation = true;
+		
+		// TODO: remove shit!
+		playerActor.position = new Vector2(800, 350);
+
 	}
 	
 	public static void initializeCampaignState(Camera camera)
@@ -67,6 +71,7 @@ public class PlayerActorManager
 		Vector2 maxCooridnates = new Vector2(terrainDimension.x - minCoordinates.x, terrainDimension.y - minCoordinates.y);
 		KeepInAreaScript keepInAreaScript= new KeepInAreaScript(minCoordinates, maxCooridnates);
 		playerActor.addScriptComponent(keepInAreaScript);
+		
 	}
 	
 	public static void update(GameTime gameTime)
@@ -76,6 +81,8 @@ public class PlayerActorManager
 			switchHelicopter();	
 		}
 		playerActor.update(gameTime);
+		
+
 	}
 	
 	public static void draw(Graphics2D g2d, Camera camera)

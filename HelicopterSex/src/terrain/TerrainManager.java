@@ -40,6 +40,9 @@ public class TerrainManager
 	
 	private static ITerrain currentTerrain = null;
 	
+	public static float terrainWidth;
+	public static float terrainHeight;
+	
 	
 	public static void initialize() throws IOException, MyError
 	{
@@ -53,7 +56,7 @@ public class TerrainManager
 	{
 		freeTerrainIndex = (int) (Math.random() * freeMovementTerrainNames.size());
 		currentTerrain = freeMovementTerrains.get(freeMovementTerrainNames.get(freeTerrainIndex));
-		currentTerrain.initialize();
+		setFreeMovementTerrain(freeMovementTerrainNames.get(freeTerrainIndex));
 	}
 	
 	public static void setFreeMovementTerrain(String terrainName)
@@ -65,6 +68,9 @@ public class TerrainManager
 			Game.game.exitGame();
 		}
 		currentTerrain.initialize();
+		Vector2 terrainDimensions = currentTerrain.getDimensions();
+		terrainWidth = terrainDimensions.x;
+		terrainHeight = terrainDimensions.y;
 	}
 	
 	public static void setScrollDownTerrain(String terrainName)
@@ -76,13 +82,16 @@ public class TerrainManager
 			Game.game.exitGame();
 		}
 		currentTerrain.initialize();
+		
+
+		terrainWidth = Game.game.worldDimension.width;
+		terrainHeight = Game.game.worldDimension.height;
 	}
 	
 	public static void setScrollDownTerrain()
 	{
 		scrollTerrainIndex = (int) (Math.random() * scrollDownTerrainNames.size());
-		currentTerrain = scrollDownTerrains.get(scrollDownTerrainNames.get(scrollTerrainIndex));
-		currentTerrain.initialize();
+		setScrollDownTerrain(scrollDownTerrainNames.get(scrollTerrainIndex));		
 	}
 	
 	public static void update(GameTime gameTime)
@@ -350,4 +359,6 @@ public class TerrainManager
 	{
 		return currentTerrain.getDimensions();
 	}
+
+	
 }

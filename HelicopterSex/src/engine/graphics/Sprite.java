@@ -28,9 +28,6 @@ implements IRenderable
 	
 	private boolean hasOffset;
 	
-//	public boolean isRenderCollisionComponent = true;
-//	public Color collisionComponentColor = Color.green;
-	
 	
 	// Constructors.
 	@SuppressWarnings("unused")

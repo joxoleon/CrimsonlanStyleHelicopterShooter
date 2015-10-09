@@ -13,7 +13,7 @@ public class EnemyManager
 {
 	private static Vector2 terrainDimensions;
 	
-	private static LinkedList<Actor> enemies = new LinkedList<Actor>();
+	public static LinkedList<Actor> enemies = new LinkedList<Actor>();
 	private static float nextEnemyPeriod = 3.0f;
 	private static float nextEnemyCounter = 0;
 	
@@ -21,27 +21,32 @@ public class EnemyManager
 	public static void initialize(Vector2 terrainDimensions)
 	{
 		EnemyManager.terrainDimensions = terrainDimensions;
-		
-//		for (int i = 0; i < 200; i++)
+//		
+//		for (int i = 0; i < 10; i++)
 //		{
 //			spawnEnemy();
 //		}
+//		
+//		spawnEnemy();
+//		enemies.getLast().position = new Vector2(800, 150);
 	}
 	
 	
 	public static void update(GameTime gameTime)
 	{
-		nextEnemyCounter += gameTime.dt_s();
-		if(nextEnemyCounter > nextEnemyPeriod)
-		{
-			spawnEnemy();
-			nextEnemyCounter -= nextEnemyPeriod;
-		}
-		
-		for (Actor enemy : enemies)
-		{
-			enemy.update(gameTime);
-		}
+		// Spawn next enemy.
+		// TODO: uncomment.
+//		nextEnemyCounter += gameTime.dt_s();
+//		if(nextEnemyCounter > nextEnemyPeriod)
+//		{
+//			spawnEnemy();
+//			nextEnemyCounter -= nextEnemyPeriod;
+//		}
+//		
+//		for (Actor enemy : enemies)
+//		{
+//			enemy.update(gameTime);
+//		}
 	}
 	
 	
@@ -58,7 +63,6 @@ public class EnemyManager
 	
 	private static void spawnEnemy()
 	{
-		System.out.println("spawn");
 		Vector2 position = generateNextPosition();
 		int shipNumber = (int) (Math.random() * 5) + 1;
 		Actor enemy = ShipFactory.getShip("enemy0" + shipNumber);
@@ -73,7 +77,6 @@ public class EnemyManager
 		float offset = 50;
 		
 		int side = (int)(Math.random() * 4);
-		System.out.println("side = " + side);
 		
 		switch(side)
 		{

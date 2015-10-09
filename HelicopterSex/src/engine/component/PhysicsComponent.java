@@ -13,16 +13,16 @@ extends ActorComponent
 	// ******************** Fields ******************** 
 	
 	// Translation fields.
-	private Vector2 velocity = new Vector2();
-	private Vector2 acceleration = new Vector2();
-	private float translationDragFactor = 0.98f;
-	private float translationThresholdSquared = 2;
+	public Vector2 velocity = new Vector2();
+	public Vector2 acceleration = new Vector2();
+	public float translationDragFactor = 0.98f;
+	public float translationThresholdSquared = 2;
 	
 	// Rotation Fields.
 	public float angularVelocity = 0;
 	public float angularAcceleration = 0;
-	private float rotationDragFactor = 0.96f;
-	private float angularSqrtThreshold = 0.2f;
+	public float rotationDragFactor = 0.96f;
+	public float angularSqrtThreshold = 0.2f;
 	
 	// Movement Fields: Configurable
 	public float mass = 7; 

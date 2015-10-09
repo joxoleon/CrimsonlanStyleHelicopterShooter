@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.util.LinkedList;
 
 import managers.AudioManager;
+import managers.CollisionManager;
 import managers.EnemyManager;
 import managers.GraphicsManager;
 import managers.PauseManager;
@@ -19,6 +20,8 @@ import engine.camera.Camera;
 import engine.camera.CrimsonlandCameraScript;
 import engine.input.Input;
 import engine.input.Keys;
+import engine.particles.EffectManager;
+import engine.utility.DebugRenderer;
 import engine.utility.Vector2;
 import factories.ActorScriptFactory;
 import factories.HelicopterFactory;
@@ -34,9 +37,6 @@ extends GameState
 	long secondsPlayed;
 	public Camera mainCamera;
 	
-
-	// Test shit.
-	Actor testEnemy;
 	
 	// Main song fields.
 	public String[] songNames = {"archangel", "blackheart", "militaryIndustrial", "insideTheFire"};
@@ -54,9 +54,9 @@ extends GameState
 	{
 		System.out.println("Enter Survival game state.");
 		
-		// Set song.
-		backgroundSongID = AudioManager.play(songNames[currentSong], true);
-		playingSongsIDs.add(backgroundSongID);
+		// TODO: Set song.
+//		backgroundSongID = AudioManager.play(songNames[currentSong], true);
+//		playingSongsIDs.add(backgroundSongID);
 		
 		// Set terrain.
 		TerrainManager.setFreeMovementTerrain("tSnow01");
@@ -75,13 +75,6 @@ extends GameState
 		mainCamera.addScriptComponent(crimsonlandScript);
 		
 		
-		// Test crap!
-		testEnemy = ShipFactory.getShip("enemy05");
-		
-		testEnemy.position = new Vector2(600, 600);
-		
-		testEnemy.addScriptComponent(new EnemyChaseScript());
-
 	}
 
 	@Override
@@ -98,9 +91,10 @@ extends GameState
 			EnemyManager.update(gameTime);
 			TerrainManager.update(gameTime);
 			PlayerActorManager.update(gameTime);
-			testEnemy.update(gameTime);
 			ShotManager.update(gameTime);
 			mainCamera.update(gameTime);
+			CollisionManager.update(gameTime);
+			EffectManager.update(gameTime);
 
 		}
 	}
@@ -120,10 +114,11 @@ extends GameState
 		
 		TerrainManager.draw(g2d, mainCamera);
 		PlayerActorManager.draw(g2d, mainCamera);
-		testEnemy.draw(g2d, mainCamera);
 		EnemyManager.draw(g2d, mainCamera);
 		ShotManager.draw(g2d, mainCamera);
+		EffectManager.draw(g2d, mainCamera);
 		mainCamera.draw(g2d);
+		DebugRenderer.draw(g2d, mainCamera);
 
 		// Restore graphics context before drawing the GUI and post processing.
 		GraphicsManager.restoreGraphicsContext(g2d);
@@ -182,6 +177,7 @@ extends GameState
 		PauseManager.initialize();
 		SlowMotionManager.initialize();
 		PlayerActorManager.initializeSurvivalState(camera);
+		EffectManager.initialize();
 		EnemyManager.initialize(TerrainManager.getTerrainDimensions());
 
 	}

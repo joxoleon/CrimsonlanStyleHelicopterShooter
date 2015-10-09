@@ -1,6 +1,7 @@
 package content;
 
 import engine.Game;
+import engine.graphics.SpriteSheet;
 import engine.utility.MyFileReader;
 import engine.utility.StringWriter;
 import factories.ModelFactory;
@@ -30,6 +31,8 @@ public class Content
 	public static Map<String, BufferedImage> images = new HashMap<String, BufferedImage>();
 	public static Map<String, Font> fonts = new HashMap<String, Font>();
 	
+	public static Map<String, SpriteSheet> spriteSheets = new HashMap<String, SpriteSheet>();
+	
 	// Models.
 	public static ModelFactory modelFactory = ModelFactory.getInstance();
 	
@@ -39,11 +42,12 @@ public class Content
 	public static void initializeContent() throws IOException
 	{
 		loadImages();
+		loadSpriteSheets();
 		loadFonts();
 		initializeBackgroundPanels();
 	}
 
-	public static void initializeBackgroundPanels()
+	private static void initializeBackgroundPanels()
 	{
 		BufferedImage newPanelImage;
 		Graphics2D g2d;
@@ -164,7 +168,7 @@ public class Content
 
 	}
 
-	public static void loadImages() throws IOException
+	private static void loadImages() throws IOException
 	{
 //		BufferedReader br;
 //		try
@@ -205,7 +209,7 @@ public class Content
 		
 	}
 
-	public static void loadFonts()
+	private static void loadFonts()
 	{
 
 		try
@@ -224,4 +228,31 @@ public class Content
 		}
 	}
 
+	private static void loadSpriteSheets() throws IOException
+	{
+		String path = "content/spriteSheets/spriteSheets.txt";
+		MyFileReader reader = new MyFileReader(path);
+		
+		while(reader.hasMore == true)
+		{
+			String[] tokens = reader.getNextLineTokens(4);
+			
+			BufferedImage image;
+			image = ImageIO.read(new File("content/spriteSheets/" + tokens[0] + ".png"));
+			if(image == null)
+			{
+				System.err.println("Error: there is no spritesheet: " + tokens[0]);
+				System.exit(1);
+			}
+			int horizontal = Integer.parseInt(tokens[1]);
+			int vertical = Integer.parseInt(tokens[2]);
+			int numOfImages = Integer.parseInt(tokens[3]);
+			
+			SpriteSheet shit = new SpriteSheet(image, horizontal, vertical, numOfImages);
+			
+			
+			spriteSheets.put(tokens[0], shit);
+			
+		}
+	}
 }

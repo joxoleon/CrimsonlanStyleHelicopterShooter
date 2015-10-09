@@ -20,6 +20,8 @@ public class Actor
 	
 	// Actor information fields.
 	public String name;
+	public boolean isActive = true;
+	public float inactiveFrameCounter = 0;
 	
 	// Transform fields.
 	public Vector2 position = new Vector2();
@@ -47,20 +49,23 @@ public class Actor
 	// ******************** Methods ******************** 
 	public void update(GameTime gameTime)
 	{
-		for (ScriptComponent scriptComponent : scriptComponents)
+		if(isActive == true)
 		{
-			scriptComponent.update(gameTime);
-		}
-		
-		for (ActorComponent basicComponent : basicComponents)
-		{
-			basicComponent.update(gameTime);
-		}
-		
-		
-		for (ActorComponent script : scriptComponentsSecondPass)
-		{
-			script.update(gameTime);
+			for (ScriptComponent scriptComponent : scriptComponents)
+			{
+				scriptComponent.update(gameTime);
+			}
+			
+			for (ActorComponent basicComponent : basicComponents)
+			{
+				basicComponent.update(gameTime);
+			}
+			
+			
+			for (ActorComponent script : scriptComponentsSecondPass)
+			{
+				script.update(gameTime);
+			}
 		}
 	}
 	
@@ -84,6 +89,23 @@ public class Actor
 		GraphicsManager.restoreGraphicsContext(g2d);	
 	}
 	
+	public void destroy()
+	{
+		for (ScriptComponent scriptComponent : scriptComponents)
+		{
+			scriptComponent.onDestroy();
+		}
+		for (ActorComponent actorComponent : basicComponents)
+		{
+			actorComponent.onDestroy();
+		}
+		for (ScriptComponent scriptComponent : scriptComponentsSecondPass)
+		{
+			scriptComponent.onDestroy();
+		}
+		
+	}
+	
 	public void addScriptComponent(ScriptComponent scriptComponent)
 	{
 		scriptComponent.addParent(this);
@@ -102,7 +124,6 @@ public class Actor
 	{
 		return scriptComponentsMap.get(scriptComponentName);
 	}
-
 	
 	public void addBasicComponent(ActorComponent component)
 	{

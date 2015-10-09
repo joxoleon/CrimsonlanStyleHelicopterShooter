@@ -3,6 +3,7 @@ package shooting;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+import terrain.TerrainManager;
 import engine.GameTime;
 import engine.camera.Camera;
 import engine.utility.Vector2;
@@ -15,6 +16,7 @@ implements IShootable
 	public static AffineTransform backupTransform;
 	
 	// Movement
+	public Vector2 previousPosition;
 	public Vector2 position;
 	public float rotation;
 	public Vector2 scale = new Vector2(1, 1);
@@ -34,6 +36,7 @@ implements IShootable
 	public void initialize(Vector2 position, float rotation, Vector2 scale, float shotSpeed, ShotSprite shotSprite, float damage)
 	{		
 		this.position = position;
+		this.previousPosition = position.clone();
 		this.rotation = rotation;
 		this.direction = new Vector2(0, -1);
 		this.direction.rotate(rotation);
@@ -54,8 +57,14 @@ implements IShootable
 	{
 		if(isActive == true)
 		{
+			// Set previous position.
+			previousPosition.x = position.x;
+			previousPosition.y = position.y;
+
+			
+			// Calculate
 			position.add(Vector2.mul(direction, shotSpeed * gameTime.dt_s()));
-			if(position.x > 10000 || position.x < 0 || position.y > 10000 || position.y < 0)
+			if(position.x > TerrainManager.terrainWidth || position.x < 0 || position.y > TerrainManager.terrainHeight || position.y < 0)
 			{
 				isActive = false;
 			}
