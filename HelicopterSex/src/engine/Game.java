@@ -1,5 +1,6 @@
 package engine;
 
+import engine.audio.AudioManager;
 import engine.camera.Camera;
 import engine.gamestates.GameOptionsState;
 import engine.gamestates.GameOverState;
@@ -35,7 +36,6 @@ import javafx.embed.swing.JFXPanel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import managers.AudioManager;
 import terrain.TerrainManager;
 import content.Content;
 import content.MyError;

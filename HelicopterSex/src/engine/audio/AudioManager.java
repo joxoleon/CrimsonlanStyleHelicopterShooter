@@ -1,14 +1,19 @@
-package managers;
+package engine.audio;
 
 import engine.Game;
+import engine.GameTime;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Map;
+
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 
 public class AudioManager
 {
@@ -21,7 +26,26 @@ public class AudioManager
 	private static double masterVolume = 0.0;
 	public static double volumeStep = 0.05;
 	public static double playbackSpeed = 1;
+	
+	public static LinkedList<MediaPlayerContainer> playerContainers = new LinkedList<MediaPlayerContainer>();
+		
 
+	public static void update(GameTime gameTime)
+	{
+		ListIterator<MediaPlayerContainer> iterator = playerContainers.listIterator();
+		int counter = 0;
+		while(iterator.hasNext())
+		{
+			System.out.println(++counter);
+			MediaPlayerContainer container = iterator.next();
+			container.update(gameTime);
+			if(container.isDisposed)
+			{
+				iterator.remove();
+			}
+		}
+	}
+	
 	public static double getMasterVolume()
 	{
 		return masterVolume;
@@ -83,21 +107,27 @@ public class AudioManager
 	}
 
 	public static void playOnceNoInterrupt(String mediaName)
-	{	
-			Media media = medias.get(mediaName);
-			MediaPlayer player = new MediaPlayer(media);
-			player.setVolume(mediaVolumes.get(mediaName) * masterVolume);
-			player.setRate(playbackSpeed);
-			player.play();
-
+	{
+		Media media = medias.get(mediaName);
+		MediaPlayer player = new MediaPlayer(media);
+		
+		MediaPlayerContainer container = new MediaPlayerContainer(player, media);
+		playerContainers.add(container);
+		
+		player.setVolume(mediaVolumes.get(mediaName) * masterVolume);
+		player.setRate(playbackSpeed);
+		player.play();
+		
 	}
 	
 	public static void playOnceWithoutTimeAlter(String mediaName)
 	{
+		
 		Media media = medias.get(mediaName);
 		MediaPlayer player = new MediaPlayer(media);
 		player.setVolume(mediaVolumes.get(mediaName) * masterVolume);
 		player.play();
+		
 	}
 
 	public static void pause(long id)
@@ -154,6 +184,5 @@ public class AudioManager
 		MediaPlayer mediaPlayer = mediaPlayers.get(id);
 		mediaPlayer.setRate(timeScale);
 	}
-
 
 }

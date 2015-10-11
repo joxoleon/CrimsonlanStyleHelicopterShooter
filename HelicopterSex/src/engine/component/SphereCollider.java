@@ -112,7 +112,7 @@ extends ActorComponent
 	// TODO: this is totaly horrible. Change it.
 	private void handleCollisionPhysics(SphereCollider collider, float minDistance, Vector2 distanceVector, float distanceVectorMagnitude)
 	{
-		System.out.println("collision!!!");
+//		System.out.println("collision!!!");
 		
 		
 		

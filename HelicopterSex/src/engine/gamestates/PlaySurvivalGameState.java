@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 import content.Content;
-import managers.AudioManager;
 import managers.CollisionManager;
 import managers.EnemyManager;
 import managers.GraphicsManager;
@@ -19,6 +18,7 @@ import terrain.TerrainManager;
 import engine.Actor;
 import engine.Game;
 import engine.GameTime;
+import engine.audio.AudioManager;
 import engine.camera.Camera;
 import engine.camera.CrimsonlandCameraScript;
 import engine.effects.EffectManager;
@@ -102,6 +102,7 @@ extends GameState
 			mainCamera.update(gameTime);
 			CollisionManager.update(gameTime);
 			EffectManager.update(gameTime);
+			AudioManager.update(gameTime);
 
 		}
 	}

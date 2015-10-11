@@ -44,9 +44,7 @@ public class HelicopterFactory
 		Actor helicopter = null;
 		
 		while(reader.hasMore == true)
-		{
-			System.out.println("helicopter factory");
-		
+		{		
 			// Simple state machine
 			switch(currentState)
 			{

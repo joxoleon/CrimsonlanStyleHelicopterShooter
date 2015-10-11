@@ -2,9 +2,9 @@ package engine.component;
 
 import java.util.LinkedList;
 
-import managers.AudioManager;
 import shooting.GunSlot;
 import engine.GameTime;
+import engine.audio.AudioManager;
 import engine.input.Input;
 import engine.input.Keys;
 import factories.GunFactory;

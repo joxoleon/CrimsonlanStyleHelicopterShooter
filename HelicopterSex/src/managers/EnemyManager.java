@@ -30,9 +30,9 @@ public class EnemyManager
 		{
 			spawnEnemy();
 		}
-//		
-//		spawnEnemy();
-//		enemies.getLast().position = new Vector2(800, 150);
+		
+		spawnEnemy();
+		enemies.getLast().position = new Vector2(800, 150);
 	}
 	
 	

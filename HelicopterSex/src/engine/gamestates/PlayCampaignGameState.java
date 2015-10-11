@@ -3,7 +3,6 @@ package engine.gamestates;
 import java.awt.Graphics2D;
 import java.util.LinkedList;
 
-import managers.AudioManager;
 import managers.GraphicsManager;
 import managers.PauseManager;
 import managers.SlowMotionManager;
@@ -15,6 +14,7 @@ import terrain.TerrainManager;
 import engine.Actor;
 import engine.Game;
 import engine.GameTime;
+import engine.audio.AudioManager;
 import engine.camera.Camera;
 import engine.camera.FollowActorScript;
 import engine.component.GraphicsComponent;

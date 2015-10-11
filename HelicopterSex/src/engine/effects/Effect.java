@@ -2,8 +2,8 @@ package engine.effects;
 
 import java.awt.Graphics2D;
 
-import managers.AudioManager;
 import engine.GameTime;
+import engine.audio.AudioManager;
 import engine.camera.Camera;
 import engine.utility.Vector2;
 

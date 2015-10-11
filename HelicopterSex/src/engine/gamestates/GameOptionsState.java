@@ -6,10 +6,10 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import managers.AudioManager;
 import content.Content;
 import engine.Game;
 import engine.GameTime;
+import engine.audio.AudioManager;
 import engine.input.Input;
 import engine.input.Keys;
 import engine.menu.GameMenuEntry;

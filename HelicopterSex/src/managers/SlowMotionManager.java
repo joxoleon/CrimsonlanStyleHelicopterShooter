@@ -7,6 +7,7 @@ import java.util.LinkedList;
 
 import engine.Game;
 import engine.GameTime;
+import engine.audio.AudioManager;
 
 public class SlowMotionManager
 {
