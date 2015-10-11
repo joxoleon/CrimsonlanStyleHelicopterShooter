@@ -1,17 +1,18 @@
 package events;
 
+import shooting.SimpleShot;
 import engine.events.EventArgumentContainer;
 import engine.utility.Vector2;
 
 public class OnHitArgumentContaner
 implements EventArgumentContainer
 {
-	public float damage;
+	public SimpleShot shot;
 	public Vector2 position;
 	
-	public OnHitArgumentContaner(float damage, Vector2 position)
+	public OnHitArgumentContaner(SimpleShot shot, Vector2 position)
 	{
-		this.damage = damage;
+		this.shot = shot;
 		this.position = position;
 	}
 	

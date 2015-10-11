@@ -9,7 +9,10 @@ public abstract class EventHandler
 	public void onAttach(Actor parentActor)
 	{
 		this.parentActor = parentActor;
+		onAttach();
 	}
+	
+	public abstract void onAttach();
 	
 	public abstract String getName();
 	public abstract void handleEvent(EventArgumentContainer container);

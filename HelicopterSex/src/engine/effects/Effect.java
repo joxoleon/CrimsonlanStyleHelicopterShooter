@@ -14,6 +14,9 @@ public class Effect
 	public boolean isActive = false;
 	public String name;
 	
+	public float queueCounter;
+	public Vector2 queuedPosition;
+	
 	
 	public void play(Vector2 position, int timeScale)
 	{
@@ -30,15 +33,20 @@ public class Effect
 	public void play(Vector2 position, float rotation, Vector2 scale)
 	{
 		sheetContainer.play(position, rotation, scale);
-		AudioManager.playOnceNoInterrupt(soundEffectName);
+		if(soundEffectName.equals("none") == false)
+		{
+			AudioManager.playOnceNoInterrupt(soundEffectName);
+		}
 		isActive = true;
 	}
 	
 	public void play(Vector2 position)
 	{
 		sheetContainer.play(position);
-		AudioManager.playOnceNoInterrupt(soundEffectName);
-		isActive = true;
+		if(soundEffectName.equals("none") == false)
+		{
+			AudioManager.playOnceNoInterrupt(soundEffectName);
+		}		isActive = true;
 	}
 
 	public void update(GameTime gameTime)

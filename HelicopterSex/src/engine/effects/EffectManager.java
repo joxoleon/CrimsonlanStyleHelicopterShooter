@@ -19,6 +19,7 @@ public class EffectManager
 	private static Map<String, Effect> effectsMap = new HashMap<String, Effect>();
 	
 	private static LinkedList<Effect> activeEffects = new LinkedList<Effect>();
+	private static LinkedList<Effect> queuedEffects = new LinkedList<Effect>();
 	
 	
 	public static void initialize()
@@ -30,6 +31,18 @@ public class EffectManager
 	
 	public static void update(GameTime gameTime)
 	{
+		ListIterator<Effect> queuedIterator = queuedEffects.listIterator();
+		while(queuedIterator.hasNext())
+		{
+			Effect effect = queuedIterator.next();
+			effect.queueCounter -= gameTime.dt_s();
+			if(effect.queueCounter <= 0)
+			{
+				queuedIterator.remove();
+				playQueuedEffect(effect);
+			}
+		}
+		
 		for (Effect effect : activeEffects)
 		{
 			effect.update(gameTime);
@@ -58,7 +71,7 @@ public class EffectManager
 	}
 	
 	private static void loadEffects(String path)
-	{
+	{		
 		MyFileReader reader = new MyFileReader(path);
 		while(reader.hasMore == true)
 		{
@@ -96,5 +109,25 @@ public class EffectManager
 		activeEffects.add(effect);
 	}
 	
+	public static void queueEffect(String effectName, Vector2 position, float delay)
+	{
+		Effect effect = effectsMap.get(effectName);
+		if(effect == null)
+		{
+			System.err.println("There is no effect with such name: " + effectName);
+			Game.game.exitGame();
+		}
+		
+		effect = effect.clone();
+		effect.queueCounter = delay;
+		effect.queuedPosition = position;
+		queuedEffects.add(effect);
+	}
+	
+	private static void playQueuedEffect(Effect effect)
+	{
+		effect.play(effect.queuedPosition);
+		activeEffects.add(effect);
+	}
 	
 }

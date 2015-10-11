@@ -7,3 +7,5 @@ slomoSoundEffect01 0.8 f
 slomoSoundEffectBackwards01 0.8 f
 slomoSoundEffect02 1 f
 slomoSoundEffectBackwards02 1 f
+explosion01 0.5 t
+explosion02 0.5 t

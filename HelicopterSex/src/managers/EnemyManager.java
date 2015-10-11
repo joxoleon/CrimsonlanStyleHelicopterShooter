@@ -2,7 +2,9 @@ package managers;
 
 import java.awt.Graphics2D;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
+import shooting.SimpleShot;
 import engine.Actor;
 import engine.GameTime;
 import engine.camera.Camera;
@@ -14,7 +16,7 @@ public class EnemyManager
 	private static Vector2 terrainDimensions;
 	
 	public static LinkedList<Actor> enemies = new LinkedList<Actor>();
-	private static float nextEnemyPeriod = 3.0f;
+	private static float nextEnemyPeriod = 0.5f;
 	private static float nextEnemyCounter = 0;
 	
 	
@@ -23,11 +25,11 @@ public class EnemyManager
 		EnemyManager.terrainDimensions = terrainDimensions;
 		
 		
-//		
-//		for (int i = 0; i < 3; i++)
-//		{
-//			spawnEnemy();
-//		}
+		
+		for (int i = 0; i < 40; i++)
+		{
+			spawnEnemy();
+		}
 //		
 //		spawnEnemy();
 //		enemies.getLast().position = new Vector2(800, 150);
@@ -37,14 +39,13 @@ public class EnemyManager
 	public static void update(GameTime gameTime)
 	{
 		// Spawn next enemy.
-		// TODO: uncomment.
-//		nextEnemyCounter += gameTime.dt_s();
-//		if(nextEnemyCounter > nextEnemyPeriod)
-//		{
-//			spawnEnemy();
-//			nextEnemyCounter -= nextEnemyPeriod;
-//		}
-//		
+		nextEnemyCounter += gameTime.dt_s();
+		if(nextEnemyCounter > nextEnemyPeriod)
+		{
+			spawnEnemy();
+			nextEnemyCounter -= nextEnemyPeriod;
+		}
+		
 		for (Actor enemy : enemies)
 		{
 			enemy.update(gameTime);
@@ -115,4 +116,23 @@ public class EnemyManager
 		
 		return position;
 	}
+	
+	public static void filter()
+	{
+		ListIterator<Actor> listIterator = enemies.listIterator();
+		while(listIterator.hasNext())
+		{
+			Actor enemy = listIterator.next();
+			if(enemy.isActive == false)
+			{
+				enemy.inactiveCounter ++;
+				if(enemy.inactiveCounter >= 4)
+				{
+					listIterator.remove();
+				}
+			}
+		}
+	}
+	
+	
 }

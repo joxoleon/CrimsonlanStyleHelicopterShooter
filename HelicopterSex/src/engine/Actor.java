@@ -24,7 +24,7 @@ public class Actor
 	// Actor information fields.
 	public String name;
 	public boolean isActive = true;
-	public float inactiveFrameCounter = 0;
+	public float inactiveCounter = 0;
 	
 	// Transform fields.
 	public Vector2 position = new Vector2();
@@ -73,6 +73,10 @@ public class Actor
 				script.update(gameTime);
 			}
 		}
+		else
+		{
+			inactiveCounter += gameTime.dt_s();
+		}
 	}
 	
 	public void draw(Graphics2D g2d, Camera camera)
@@ -97,6 +101,8 @@ public class Actor
 	
 	public void destroy()
 	{
+		isActive = false;
+		
 		for (ScriptComponent scriptComponent : scriptComponents)
 		{
 			scriptComponent.onDestroy();

@@ -1,9 +1,10 @@
-simpleGun01 simple01 1 1 650 50
-simpleGun02 simple01 1.5 1.5 650 90
-blueGunSmall01 blueShotSmall01 1 1 1000 60
-blueGunSmall02 blueShotSmall02 1 1 1000 55
-blueGunSmall03 blueShotSmall03 1 1 1000 50
-blueGunLarge01 blueShotLarge01 1 1 1000 160
-blueGunMedium01 blueShotMedium01 1 1 1000 90
-blueGunMedium02 blueShotMedium02 1 1 1000 100
-miniGun01 minigunBullet01 1 1 3000 35
+# 1. gunName, 2. shotSpriteName, 3. shotScaleX, 4. shotScaleY, 5. shotSpeed, 6. effectName, 7. throwBackIntensity 
+simpleGun01 simple01 1 1 650 50 yellowHit01 40
+simpleGun02 simple01 1.5 1.5 650 90 yellowHit01 40
+blueGunSmall01 blueShotSmall01 1 1 1000 60 yellowHit01 40
+blueGunSmall02 blueShotSmall02 1 1 1000 55 yellowHit01 40
+blueGunSmall03 blueShotSmall03 1 1 1000 50 yellowHit01 40
+blueGunLarge01 blueShotLarge01 1 1 1000 160 yellowHit01 40
+blueGunMedium01 blueShotMedium01 1 1 1000 90 yellowHit01 40
+blueGunMedium02 blueShotMedium02 1 1 1000 100 yellowHit01 40
+miniGun01 minigunBullet01 1 1 3000 250 yellowHitNoAudio01 450

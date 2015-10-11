@@ -5,6 +5,7 @@ import java.util.Map;
 
 import engine.Game;
 import engine.events.EventHandler;
+import events.OnDestroy;
 import events.OnHit;
 
 public class EventHandlerFactory
@@ -17,6 +18,14 @@ public class EventHandlerFactory
 		// On hit event.
 		OnHit onHit = new OnHit();
 		eventHandlers.put("onHit", onHit);
+		
+		// On destroy event.
+		OnDestroy onDestroy = new OnDestroy();
+		eventHandlers.put("onDestroy", onDestroy);
+		
+		// On destroy player event.
+		OnDestroy onDestroyPlayer = new OnDestroy();
+		eventHandlers.put("onDestroyPlayer", onDestroyPlayer);
 	}
 	
 	public static EventHandler getEventHandler(String eventHandlerName)

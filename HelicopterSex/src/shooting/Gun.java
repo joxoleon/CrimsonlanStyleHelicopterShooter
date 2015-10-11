@@ -16,8 +16,15 @@ public class Gun
 	public boolean isMinigun = true;
 	public float maxRotationAngle = 0.06f;
 	
+	// On hit fields.
+	public String effectName;
+	public float throwBackIntensity;
+	
+	
+	
+	
 	// ******************** Constructors ******************** 
-	public Gun(String gunName, String shotSpriteName, Vector2 scale, float shotSpeed, float damage)
+	public Gun(String gunName, String shotSpriteName, Vector2 scale, float shotSpeed, float damage, String effectName, float throwBackIntensity)
 	{
 		shotSprite = ShotFactory.shotSprites.get(shotSpriteName);
 		if(shotSprite == null)
@@ -30,6 +37,8 @@ public class Gun
 		this.shotSpeed = shotSpeed;
 		this.damage = damage;
 		this.shotSpriteName = shotSpriteName;
+		this.effectName = effectName;
+		this.throwBackIntensity = throwBackIntensity;
 	}
 	
 	
@@ -43,14 +52,14 @@ public class Gun
 		{
 			gunRotation +=  Math.random() * maxRotationAngle - maxRotationAngle / 2;
 		}
-		
+				
 		SimpleShot shot = new SimpleShot();
-		shot.initialize(position, gunRotation, scale, shotSpeed, shotSprite, damage);
+		shot.initialize(position, gunRotation, scale, shotSpeed, shotSprite, damage, effectName, throwBackIntensity);
 	}
 
 	public Gun clone()
 	{
-		Gun gun = new Gun(gunName, shotSpriteName, scale.clone(), shotSpeed, damage);
+		Gun gun = new Gun(gunName, shotSpriteName, scale.clone(), shotSpeed, damage, effectName, throwBackIntensity);
 		gun.isMinigun = isMinigun;
 		gun.maxRotationAngle = maxRotationAngle;
 		return gun;

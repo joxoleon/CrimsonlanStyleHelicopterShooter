@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import scripts.HealthScript;
 import scripts.PlayerControlScript;
 import scripts.PlayerFireScript;
 import scripts.PropellerScript;
@@ -44,6 +45,7 @@ public class HelicopterFactory
 		
 		while(reader.hasMore == true)
 		{
+			System.out.println("helicopter factory");
 		
 			// Simple state machine
 			switch(currentState)
@@ -124,8 +126,17 @@ public class HelicopterFactory
 					helicopter.addEventHandler(EventHandlerFactory.getEventHandler(token));
 				}
 				
-				currentState = 0;
+				currentState = 5;
 			}break;
+			
+			case 5:
+			{
+				String[] tokens = reader.getNextLineTokens(1);
+				float maxHealth = Float.parseFloat(tokens[0]);
+				helicopter.addScriptComponent(new HealthScript(maxHealth));
+
+				currentState = 0;
+			}
 			
 			
 			}			

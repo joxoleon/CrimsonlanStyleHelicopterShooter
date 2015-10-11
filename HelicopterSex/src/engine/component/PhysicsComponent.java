@@ -36,6 +36,12 @@ extends ActorComponent
 	
 	public float rotateThreshhold = 0.1f;
 	
+	// Configuration fields.
+	public boolean isAbsoluteAcceleration = false;
+	
+	
+	
+	
 	// ******************** Constructors ******************** 
 
 		
@@ -125,8 +131,12 @@ extends ActorComponent
 	
 	public void accelerate(Direction direction)
 	{
+		Vector2 forward = new Vector2(0, -1);
 		
-		Vector2 forward = getForwardVector();
+		if(isAbsoluteAcceleration == false)
+		{
+			forward = getForwardVector();
+		}
 		forward.mul(accelerationIntensity / mass);
 		
 
@@ -159,6 +169,7 @@ extends ActorComponent
 			angularAcceleration = - angularAccelerationIntensity / momentOfInertia;
 		}
 	}
+	
 	
 	public void rotate(float angle)
 	{

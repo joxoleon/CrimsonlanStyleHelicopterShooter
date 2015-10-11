@@ -1,0 +1,8 @@
+# EffectName, soundEffectName, spriteSheetName, spriteSheetTimeScale
+yellowHit01 bulletHit01 hit01 3
+yellowHitNoAudio01 none hit01 3
+yellowHitSlower01 bulletHit01 hit01 4
+smallExplosion01 explosion02 explosion02 1
+smallExplosionSlower01 explosion02 explosion02 2
+explosion01 explosion01 explosion01 1
+explosionSlowe01 explosion01 explosion01 2 

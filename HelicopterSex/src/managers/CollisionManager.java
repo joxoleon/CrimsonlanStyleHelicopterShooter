@@ -39,35 +39,40 @@ public class CollisionManager
 			float shotMoveMangitudeSquared = shotMoveVector.magnitudeSquared();
 			Vector2 shootMoveOrt = Vector2.normalize(shotMoveVector);
 			
+			
 			for (Actor actor : actors)
 			{
-				float radiusSquared = actor.collider.radius * actor.collider.radius;
-				
-				Vector2 prevPositionToCircle = Vector2.sub(actor.position, shot.previousPosition);				
-
-				Vector2 closest = Vector2.mul(shootMoveOrt, Vector2.dot(prevPositionToCircle, shootMoveOrt));
-				closest.add(shot.previousPosition);
-								
-				Vector2 closestToActor = Vector2.sub(actor.position, closest);
-				
-				
-				if(closestToActor.magnitudeSquared() < radiusSquared)
+				if(actor.isActive == true)
 				{
-					if(
-							Vector2.sub(closest, shot.previousPosition).magnitudeSquared() < shotMoveMangitudeSquared 	||
-							Vector2.sub(actor.position, shot.position).magnitudeSquared() < radiusSquared				||
-							Vector2.sub(actor.position, shot.previousPosition).magnitudeSquared() < radiusSquared
-							)
+					float radiusSquared = actor.collider.radius * actor.collider.radius;
+					
+					Vector2 prevPositionToCircle = Vector2.sub(actor.position, shot.previousPosition);				
+
+					Vector2 closest = Vector2.mul(shootMoveOrt, Vector2.dot(prevPositionToCircle, shootMoveOrt));
+					closest.add(shot.previousPosition);
+									
+					Vector2 closestToActor = Vector2.sub(actor.position, closest);
+					
+					
+					if(closestToActor.magnitudeSquared() < radiusSquared)
 					{
-						
-						// call to handle event!
-						OnHitArgumentContaner container = new OnHitArgumentContaner(shot.damage, closest);
-						shot.isActive = false;
-						actor.handleEvent(container);
+						if(
+								Vector2.sub(closest, shot.previousPosition).magnitudeSquared() < shotMoveMangitudeSquared 	||
+								Vector2.sub(actor.position, shot.position).magnitudeSquared() < radiusSquared				||
+								Vector2.sub(actor.position, shot.previousPosition).magnitudeSquared() < radiusSquared
+								)
+						{
+							
+							// call to handle event!
+							OnHitArgumentContaner container = new OnHitArgumentContaner(shot, closest);
+							shot.isActive = false;
+							actor.handleEvent(container);
+						}
 					}
 				}
-
 			}
+			
+			
 		}
 	}
 	

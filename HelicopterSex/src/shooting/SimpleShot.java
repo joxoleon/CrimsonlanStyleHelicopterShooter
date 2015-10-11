@@ -24,16 +24,18 @@ implements IShootable
 	public float shotSpeed;
 	public float damage = 0;
 	
-	// Direction
+	// Sprite
 	public ShotSprite shotSprite;
 	
 	// Update fields.
 	public boolean isActive = true;
 	
-	
+	// On hit fields.
+	public String effectName;
+	private float throwBackIntensity;
 	
 	// ******************** Constructors ******************** 
-	public void initialize(Vector2 position, float rotation, Vector2 scale, float shotSpeed, ShotSprite shotSprite, float damage)
+	public void initialize(Vector2 position, float rotation, Vector2 scale, float shotSpeed, ShotSprite shotSprite, float damage, String effectName, float throwbackIntensity)
 	{		
 		this.position = position;
 		this.previousPosition = position.clone();
@@ -45,6 +47,8 @@ implements IShootable
 		this.scale = scale;
 		this.isActive = true;
 		this.damage = damage;
+		this.effectName = effectName;
+		this.throwBackIntensity = throwbackIntensity;
 		
 		// Add to shot manager.
 		ShotManager.playerShots.addLast(this);
@@ -86,4 +90,8 @@ implements IShootable
 		
 	}
 
+	public Vector2 getThrowbackVector()
+	{
+		return Vector2.mul(direction, throwBackIntensity);
+	}
 }

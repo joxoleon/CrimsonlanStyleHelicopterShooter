@@ -15,6 +15,8 @@ extends ScriptComponent
 {
 	PhysicsComponent parentPhysicsComponent;
 	GunComponent parentGunComponent;
+	
+	public boolean isAbsoluteControls = true;
 
 
 	@Override
@@ -23,6 +25,10 @@ extends ScriptComponent
 		// Get physics component
 		parentPhysicsComponent = (PhysicsComponent) parent.getBasicComponent("physicsComponent");
 		parentGunComponent = (GunComponent) parent.getBasicComponent("gunComponent");
+		if(isAbsoluteControls == true)
+		{
+			parentPhysicsComponent.isAbsoluteAcceleration = true;
+		}
 	}
 	
 	@Override

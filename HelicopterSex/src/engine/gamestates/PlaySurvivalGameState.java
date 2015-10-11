@@ -174,6 +174,7 @@ extends GameState
 	{
 		ShotManager.filterShots();
 		EffectManager.filter();
+		EnemyManager.filter();
 	}
 
 	
@@ -188,7 +189,6 @@ extends GameState
 		PlayerActorManager.initializeSurvivalState(camera);
 		EffectManager.initialize();
 		EnemyManager.initialize(TerrainManager.getTerrainDimensions());
-		EffectManager.initialize();
 
 	}
 }

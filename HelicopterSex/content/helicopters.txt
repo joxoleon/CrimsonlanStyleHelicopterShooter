@@ -4,21 +4,25 @@
 # Gun component - slotCombinationName
 # Actor scripts (all in one line)
 # Event handlers (all in one line)
+# maxHealth
 
 helicopter01
 15 3 10000 45 900 3.5
 dekiPantelic03
 propellerScript playerFireScript playerControlScriptMouse
-onHit
+onHit onDestroyPlayer
+10000
 
 helicopter02
 7 1 7000 40 900 4.5
 dekiPantelic11
 propellerScript playerFireScript playerControlScriptMouse
-onHit
+onHit onDestroyPlayer
+8000
 
 helicopter03
 5 2 6000 45 900 4.5
 dekiPantelic11
 propellerScript playerFireScript playerControlScriptMouse
-onHit
+onHit onDestroyPlayer
+8000

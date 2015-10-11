@@ -12,3 +12,5 @@ slomoSoundEffectBackwards01 0.8
 slomoSoundEffect02 1
 slomoSoundEffectBackwards02 1
 bulletHit01 1
+explosion01 0.5
+explosion02 0.5

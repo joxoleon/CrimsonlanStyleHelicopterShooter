@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import scripts.HealthScript;
 import content.Content;
 import engine.Actor;
 import engine.Game;
@@ -129,9 +130,18 @@ public class ShipFactory
 					ship.addEventHandler(EventHandlerFactory.getEventHandler(token));
 				}
 				
-				currentState = 0;
+				currentState = 5;
 			}break;
 			
+			
+			case 5:
+			{
+				String[] tokens = reader.getNextLineTokens(1);
+				float maxHealth = Float.parseFloat(tokens[0]);
+				ship.addScriptComponent(new HealthScript(maxHealth));
+
+				currentState = 0;
+			}break;
 			}			
 		}
 	}
