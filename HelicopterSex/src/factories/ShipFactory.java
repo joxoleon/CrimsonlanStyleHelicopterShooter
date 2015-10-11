@@ -116,6 +116,19 @@ public class ShipFactory
 					ship.addScriptComponent(ActorScriptFactory.getScript(token));
 				}
 				
+				currentState = 4;
+			}break;
+			
+			// Read eventHandler names and create them from the EventHandlerFactory.
+			case 4:
+			{
+				String[] tokens = reader.getNextLineTokens();
+				
+				for (String token : tokens)
+				{
+					ship.addEventHandler(EventHandlerFactory.getEventHandler(token));
+				}
+				
 				currentState = 0;
 			}break;
 			

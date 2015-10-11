@@ -101,6 +101,7 @@ public class HelicopterFactory
 				currentState = 3;
 			}break;
 			
+			// Read script names and create them from the ActorScriptFactory.
 			case 3:
 			{
 				String[] tokens = reader.getNextLineTokens();
@@ -110,8 +111,22 @@ public class HelicopterFactory
 					helicopter.addScriptComponent(ActorScriptFactory.getScript(token));
 				}
 				
+				currentState = 4;
+			}break;
+			
+			// Read eventHandler names and create them from the EventHandlerFactory.
+			case 4:
+			{
+				String[] tokens = reader.getNextLineTokens();
+				
+				for (String token : tokens)
+				{
+					helicopter.addEventHandler(EventHandlerFactory.getEventHandler(token));
+				}
+				
 				currentState = 0;
 			}break;
+			
 			
 			}			
 		}

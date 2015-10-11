@@ -3,6 +3,7 @@ package scripts;
 import engine.GameTime;
 import engine.component.ActorComponent;
 import engine.component.GunComponent;
+import engine.input.Buttons;
 import engine.input.Input;
 import engine.input.Keys;
 
@@ -25,7 +26,7 @@ extends ScriptComponent
 	@Override
 	public void update(GameTime gameTime)
 	{
-		if(Input.isKeyDown(Keys.Space))
+		if(Input.isKeyDown(Keys.Space) || Input.isButtonDown(Buttons.LeftButton))
 		{
 			parentGunComponent.fire();
 		}

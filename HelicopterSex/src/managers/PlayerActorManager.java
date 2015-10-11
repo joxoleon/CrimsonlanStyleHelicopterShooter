@@ -30,7 +30,7 @@ public class PlayerActorManager
 	public static Camera camera;
 	
 	private static int helicopterIndex = 0;
-	public static String playerHelicopterName = "helicopter01";
+	public static String playerHelicopterName = "helicopter03";
 	
 
 	
@@ -55,7 +55,6 @@ public class PlayerActorManager
 		
 		// Enable player rotation.
 		PlayerControlScript script = (PlayerControlScript) playerActor.getScriptComponent("playerControllerScript");
-		script.hasRotation = true;
 		
 		// TODO: remove shit!
 		playerActor.position = new Vector2(800, 350);

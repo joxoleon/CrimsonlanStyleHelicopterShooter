@@ -1,4 +1,4 @@
-package engine.particles;
+package engine.effects;
 
 import java.awt.Graphics2D;
 
@@ -12,7 +12,7 @@ import engine.input.Input;
 import engine.input.Keys;
 import engine.utility.Vector2;
 
-public class ParticleEmitter
+public class SpriteSheetContainer
 {
 	// Transform.
 	Vector2 position;
@@ -30,12 +30,13 @@ public class ParticleEmitter
 	// Info fields.
 	public boolean isActive = false;
 	
-	public ParticleEmitter(String spriteSheetName, Vector2 position, float rotation, Vector2 scale)
+	public SpriteSheetContainer(String spriteSheetName, Vector2 position, float rotation, Vector2 scale, int timeScale)
 	{
 		shit = Content.spriteSheets.get(spriteSheetName);
 		if(shit == null)
 		{
 			System.err.println("There is no spriteSheet with such name: " + spriteSheetName);
+			System.err.println("kurac");
 			Game.game.exitGame();
 		}
 		
@@ -44,6 +45,7 @@ public class ParticleEmitter
 		this.position = position;
 		this.rotation = rotation;
 		this.scale = scale;
+		this.timeScale = timeScale;
 	}
 	
 	public void play(Vector2 position)
@@ -102,10 +104,9 @@ public class ParticleEmitter
 		}
 	}
 
-	public ParticleEmitter clone()
+	public SpriteSheetContainer clone()
 	{
-		ParticleEmitter clone = new ParticleEmitter(shit.getName(), this.position.clone(), this.rotation, this.scale.clone());
-		clone.timeScale = timeScale;
+		SpriteSheetContainer clone = new SpriteSheetContainer(shit.getName(), this.position.clone(), this.rotation, this.scale.clone(), this.timeScale);
 		clone.isActive = false;
 		return clone;
 	}

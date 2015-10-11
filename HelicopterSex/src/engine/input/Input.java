@@ -1,13 +1,20 @@
 package engine.input;
 
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
 
+import engine.camera.Camera;
+import engine.utility.Vector2;
+
 public class Input
 extends JPanel
-implements KeyListener
+implements KeyListener, MouseListener, MouseMotionListener
 {
 	/**
 	 * 
@@ -19,6 +26,10 @@ implements KeyListener
 	private static KeyboardState 	previousKeyboardState 	= new KeyboardState();
 	private static KeyboardState 	currentKeyboardState 	= new KeyboardState();
 	private static KeyboardState 	nextKeyboardState 		= new KeyboardState();
+	
+	private static MouseState 		previousMouseState 		= new MouseState();
+	private static MouseState 		currentMouseState 		= new MouseState();
+	private static MouseState 		nextMouseState 			= new MouseState();
 	
 	private static String 			currentKeysTyped 		= new String("");
 	private static String 			nextKeysTyped			= new String("");
@@ -35,6 +46,10 @@ implements KeyListener
 		previousKeyboardState = currentKeyboardState;
 		currentKeyboardState = nextKeyboardState;
 		nextKeyboardState = new KeyboardState(nextKeyboardState);	// Copy constructor.
+		
+		previousMouseState = currentMouseState;
+		currentMouseState = nextMouseState;
+		nextMouseState = new MouseState(nextMouseState);
 		
 		currentKeysTyped = nextKeysTyped;
 		nextKeysTyped = new String();
@@ -71,6 +86,165 @@ implements KeyListener
 		return new String(currentKeysTyped);
 	}
 	
+	
+	// Mouse methods.
+	public static boolean 
+	isButtonDown(Buttons button)
+    {
+        return currentMouseState.isButtonDown(button);
+    }
+    
+    public static boolean 
+    isButtonUp(Buttons button)
+    {
+        return currentMouseState.isButtonUp(button);
+    }
+    
+    public static boolean 
+    isButtonPressed(Buttons button)
+    {
+        return (currentMouseState.isButtonDown(button) && previousMouseState.isButtonUp(button));
+    }
+    
+    public static boolean 
+    isButtonReleased(Buttons button)
+    {
+        return (currentMouseState.isButtonUp(button) && previousMouseState.isButtonDown(button));
+    }
+    
+    public static Point 
+    getMousePos()
+    {
+        Point p = currentMouseState.getPositionPoint();
+        return p;
+    }
+    
+    public static void 
+    setMousePos(int x, int y)
+    {
+    	currentMouseState.setPosition(x, y);
+    }
+    
+    public static void 
+    setMousePosition(Point p)
+    {
+        currentMouseState.setPosition(p.x, p.y);
+    }
+    
+    public static Vector2
+    getMouseWorldPosition(Camera camera)
+    {
+    	return currentMouseState.getWorldPositionVector(camera);
+    }
+    
+    public static Vector2
+    getMouseScreenPosition()
+    {
+    	return currentMouseState.getScreenPositionVector();
+    }
+    
+    public static Point 
+    getMouseMove()
+	    {
+	        Point p = new Point();
+	        
+	        p.x = currentMouseState.position.x - previousMouseState.position.x;
+	        p.y = currentMouseState.position.y - previousMouseState.position.y;
+	        
+	        return p;
+	    }
+	
+    
+    @Override
+	public void
+	mouseClicked(MouseEvent event)
+	{
+	}
+
+	@Override
+	public void
+	mouseEntered(MouseEvent event)
+	{
+	}
+
+	@Override
+	public void
+	mouseExited(MouseEvent event)
+	{
+	}
+
+	@Override
+	public void
+	mousePressed(MouseEvent event)
+	{
+		switch (event.getButton())
+        {
+            case MouseEvent.BUTTON1:
+            {
+                nextMouseState.buttonStates.remove(Buttons.LeftButton);
+                nextMouseState.buttonStates.put(Buttons.LeftButton, ButtonState.PRESSED);
+            } break;
+                
+            case MouseEvent.BUTTON2:
+            {
+            	nextMouseState.buttonStates.remove(Buttons.MiddleButton);
+            	nextMouseState.buttonStates.put(Buttons.MiddleButton, ButtonState.PRESSED);
+            } break;
+                
+            case MouseEvent.BUTTON3:
+            {
+            	nextMouseState.buttonStates.remove(Buttons.RightButton);
+            	nextMouseState.buttonStates.put(Buttons.RightButton, ButtonState.PRESSED);
+            } break;
+                
+            default:
+                break;
+        }
+		
+	}
+
+	@Override
+	public void
+	mouseReleased(MouseEvent event)
+	{
+		switch (event.getButton())
+        {
+            case MouseEvent.BUTTON1:
+            {
+            	nextMouseState.buttonStates.remove(Buttons.LeftButton);
+            	nextMouseState.buttonStates.put(Buttons.LeftButton, ButtonState.RELEASED);
+            } break;
+                
+            case MouseEvent.BUTTON2:
+            {
+            	nextMouseState.buttonStates.remove(Buttons.MiddleButton);
+            	nextMouseState.buttonStates.put(Buttons.MiddleButton, ButtonState.RELEASED);
+            } break;
+                    
+            case MouseEvent.BUTTON3:
+            {
+            	nextMouseState.buttonStates.remove(Buttons.RightButton);
+            	nextMouseState.buttonStates.put(Buttons.RightButton, ButtonState.RELEASED);
+            } break;
+        }
+	}
+	
+	
+	
+	@Override
+	public void
+	mouseDragged(MouseEvent event)
+	{
+		nextMouseState.setPosition(event.getLocationOnScreen());
+	}
+
+	@Override
+	public void
+	mouseMoved(MouseEvent event)
+	{
+		nextMouseState.position = event.getLocationOnScreen();
+	}
+
 	
 	
 	private

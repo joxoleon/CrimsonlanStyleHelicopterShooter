@@ -9,28 +9,34 @@ enemy01 enemyDarkShip01 1 1
 4 1 3500 45 900 3.5
 dekiPantelic11
 enemyChaseScript
+onHit
 
 enemy02 enemyDarkShip02 1 1
 7 1.5 3500 45 900 3.5
 dekiPantelic11
 enemyChaseScript
+onHit
 
 enemy03 enemyDarkShip03 1.2 1.2
 10 2 3500 45 900 3.5
 dekiPantelic11
 enemyChaseScript
+onHit
 
 enemy04 enemyDarkShip04 1 1
 13 2.5 3500 45 900 3.5
 dekiPantelic11
 enemyChaseScript
+onHit
 
 enemy05 enemyDarkShip05 1.2 1.2
 16 3 3500 45 900 3.5
 dekiPantelic11
 enemyChaseScript
+onHit
 
 enemy06 enemyDarkShip06 1 1
 20 3 3500 45 900 3.5
 dekiPantelic11
 enemyChaseScript
+onHit

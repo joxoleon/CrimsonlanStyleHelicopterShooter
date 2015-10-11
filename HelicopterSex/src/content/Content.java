@@ -248,7 +248,7 @@ public class Content
 			int vertical = Integer.parseInt(tokens[2]);
 			int numOfImages = Integer.parseInt(tokens[3]);
 			
-			SpriteSheet shit = new SpriteSheet(image, horizontal, vertical, numOfImages);
+			SpriteSheet shit = new SpriteSheet(tokens[0], image, horizontal, vertical, numOfImages);
 			
 			
 			spriteSheets.put(tokens[0], shit);

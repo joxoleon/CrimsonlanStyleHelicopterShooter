@@ -21,8 +21,10 @@ public class EnemyManager
 	public static void initialize(Vector2 terrainDimensions)
 	{
 		EnemyManager.terrainDimensions = terrainDimensions;
+		
+		
 //		
-//		for (int i = 0; i < 10; i++)
+//		for (int i = 0; i < 3; i++)
 //		{
 //			spawnEnemy();
 //		}
@@ -43,10 +45,10 @@ public class EnemyManager
 //			nextEnemyCounter -= nextEnemyPeriod;
 //		}
 //		
-//		for (Actor enemy : enemies)
-//		{
-//			enemy.update(gameTime);
-//		}
+		for (Actor enemy : enemies)
+		{
+			enemy.update(gameTime);
+		}
 	}
 	
 	

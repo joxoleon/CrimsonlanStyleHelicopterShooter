@@ -1,16 +1,19 @@
 package engine;
 
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import managers.GraphicsManager;
 import engine.camera.Camera;
 import engine.component.ActorComponent;
 import engine.component.GraphicsComponent;
 import engine.component.SphereCollider;
+import engine.events.EventArgumentContainer;
+import engine.events.EventHandler;
 import engine.utility.Vector2;
 import scripts.ScriptComponent;
 
@@ -36,6 +39,9 @@ public class Actor
 	private LinkedList<ScriptComponent> scriptComponents = new LinkedList<ScriptComponent>();
 	private LinkedList<ScriptComponent> scriptComponentsSecondPass = new LinkedList<ScriptComponent>();
 	private Map<String, ScriptComponent> scriptComponentsMap = new HashMap<String, ScriptComponent>();
+	
+	// Event handlers.
+	private Map<String, EventHandler> eventHandlers = new HashMap<String, EventHandler>();
 	
 	// Graphics Component.
 	public GraphicsComponent graphicsComponent;
@@ -137,6 +143,26 @@ public class Actor
 		return basicComponentsMap.get(basicComponentName);
 	}
 	
+	public void addEventHandler(EventHandler handler)
+	{
+		String name = handler.getName();
+		eventHandlers.put(name, handler);
+		handler.onAttach(this);
+	}
+	
+	public void handleEvent(EventArgumentContainer argumentContainer)
+	{
+		String name = argumentContainer.getEventName();
+		EventHandler handler = eventHandlers.get(name);
+		if(handler == null)
+		{
+			System.err.println("There is no handler with such name: " + name);
+			Game.game.exitGame();
+		}
+		
+		handler.handleEvent(argumentContainer);
+	}
+	
 	public Vector2 getForwardVector()
 	{
 		Vector2 forward = new Vector2(0, -1);
@@ -169,6 +195,13 @@ public class Actor
 		for (ScriptComponent script : scriptComponentsSecondPass)
 		{
 			clone.addScriptComponent((ScriptComponent)(script));
+		}
+		
+		// Clone event handlers.
+		for (Map.Entry<String, EventHandler> eventHandler : eventHandlers.entrySet())
+		{
+			EventHandler handler = eventHandler.getValue();
+			clone.addEventHandler(handler.clone());
 		}
 		
 		return clone;

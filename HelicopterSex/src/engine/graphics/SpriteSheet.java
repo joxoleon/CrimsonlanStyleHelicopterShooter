@@ -11,8 +11,9 @@ public class SpriteSheet
 	protected BufferedImage[] images;
 	protected String name;
 	
-	public SpriteSheet(BufferedImage image, int horizontal, int vertical, int numOfImages)
-	{		
+	public SpriteSheet(String name, BufferedImage image, int horizontal, int vertical, int numOfImages)
+	{
+		this.name = name;
 		images = new BufferedImage[numOfImages];
 		
 		int imageWidth = image.getWidth() / horizontal;

@@ -1,5 +1,6 @@
 package engine;
 
+import engine.camera.Camera;
 import engine.gamestates.GameOptionsState;
 import engine.gamestates.GameOverState;
 import engine.gamestates.GameStateMachine;
@@ -11,6 +12,7 @@ import engine.gamestates.PlaySurvivalGameState;
 import engine.gamestates.TestState;
 import engine.input.Input;
 import engine.menu.Score;
+import engine.utility.Vector2;
 import factories.GunFactory;
 import factories.ModelFactory;
 import factories.ShotFactory;
@@ -86,6 +88,9 @@ extends JPanel
 	public int minDifficultyLevel = 0;
 	public int maxDifficultyLevel = 7;
 	public int difficultyLevel = 5;
+	
+	// Main camera, for input and other shit.
+	public Camera mainCamera;
 	
 	// Draw Image.
 	BufferedImage drawImage, paintImage;
@@ -166,6 +171,8 @@ extends JPanel
 		
 		initializeFrame();
 		initializeKeyboardInput();
+		
+		this.addMouseListener(Input.Instance());
 	}
 	
 	private void initializeFrame()
@@ -294,6 +301,23 @@ extends JPanel
 	{
 		gameTime.setTimeScale(timeScale);
 	}
+
+	public void setCursor(BufferedImage cursorImage, Point hotSpot)
+	{
+		Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, hotSpot, "custom cursor");
+		frame.getContentPane().setCursor(customCursor);
+	}
+
+	public Point getFramePosition()
+	{
+		return this.getLocation();
+	}
+	
+	public Vector2 getFrameDimensions()
+	{
+		return new Vector2(this.getWidth(), this.getHeight());
+	}
+
 }
 
 

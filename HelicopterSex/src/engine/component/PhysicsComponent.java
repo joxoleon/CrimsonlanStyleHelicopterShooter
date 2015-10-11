@@ -34,7 +34,7 @@ extends ActorComponent
 	public float maxVelocitySquared = 800; 
 	public float maxAngularVelocity = 4;
 	
-	public float rotateThreshhold = 0.2f;
+	public float rotateThreshhold = 0.1f;
 	
 	// ******************** Constructors ******************** 
 

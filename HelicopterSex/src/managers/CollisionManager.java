@@ -1,6 +1,5 @@
 package managers;
 
-import java.awt.Color;
 import java.util.LinkedList;
 
 import shooting.ShotManager;
@@ -8,20 +7,14 @@ import shooting.SimpleShot;
 import engine.Actor;
 import engine.GameTime;
 import engine.component.SphereCollider;
-import engine.utility.DebugRenderer;
-import engine.utility.DebugVector2;
 import engine.utility.Vector2;
+import events.OnHitArgumentContaner;
 
 public class CollisionManager
 {
 	
 	public static void update(GameTime gameTime)
-	{
-//		// test shit.
-//		Vector2 position = new Vector2(100, 100);
-//		Vector2 vector = new Vector2 (200, 200);
-//		DebugRenderer.addDebugVector(position, vector);
-		
+	{		
 		handlePlayerToEnemyCollisions();
 		handleActorToShotCollisions(EnemyManager.enemies, ShotManager.playerShots);
 	}
@@ -36,10 +29,7 @@ public class CollisionManager
 		{
 			playerCollider.checkForCollision(enemy.collider);
 		}
-	}
-	
-	
-	
+	}	
 	
 	private static void handleActorToShotCollisions(LinkedList<Actor> actors, LinkedList<SimpleShot> shots)
 	{
@@ -69,7 +59,11 @@ public class CollisionManager
 							Vector2.sub(actor.position, shot.previousPosition).magnitudeSquared() < radiusSquared
 							)
 					{
-						System.out.println("collision!!!!");
+						
+						// call to handle event!
+						OnHitArgumentContaner container = new OnHitArgumentContaner(shot.damage, closest);
+						shot.isActive = false;
+						actor.handleEvent(container);
 					}
 				}
 

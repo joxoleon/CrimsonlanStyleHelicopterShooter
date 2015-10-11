@@ -1,8 +1,11 @@
 package engine.gamestates;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
+import content.Content;
 import managers.AudioManager;
 import managers.CollisionManager;
 import managers.EnemyManager;
@@ -18,12 +21,13 @@ import engine.Game;
 import engine.GameTime;
 import engine.camera.Camera;
 import engine.camera.CrimsonlandCameraScript;
+import engine.effects.EffectManager;
 import engine.input.Input;
 import engine.input.Keys;
-import engine.particles.EffectManager;
 import engine.utility.DebugRenderer;
 import engine.utility.Vector2;
 import factories.ActorScriptFactory;
+import factories.EventHandlerFactory;
 import factories.HelicopterFactory;
 import factories.ShipFactory;
 
@@ -74,7 +78,10 @@ extends GameState
 		crimsonlandScript.addActor(PlayerActorManager.playerActor);
 		mainCamera.addScriptComponent(crimsonlandScript);
 		
+		BufferedImage cursorImage = Content.images.get("cursor01");
+		Game.game.setCursor(cursorImage, new Point(2, 2));
 		
+		Game.game.mainCamera = mainCamera;
 	}
 
 	@Override
@@ -166,12 +173,14 @@ extends GameState
 	private void destroyAndFilter()
 	{
 		ShotManager.filterShots();
+		EffectManager.filter();
 	}
 
 	
 	private void initializeManagersAndFactories(Camera camera)
 	{
 		ActorScriptFactory.initialize();
+		EventHandlerFactory.initialize();
 		ShipFactory.initialize();
 		HelicopterFactory.initialize();
 		PauseManager.initialize();
@@ -179,6 +188,7 @@ extends GameState
 		PlayerActorManager.initializeSurvivalState(camera);
 		EffectManager.initialize();
 		EnemyManager.initialize(TerrainManager.getTerrainDimensions());
+		EffectManager.initialize();
 
 	}
 }

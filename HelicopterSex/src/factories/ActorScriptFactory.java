@@ -6,6 +6,7 @@ import java.util.Map;
 import engine.Game;
 import scripts.EnemyChaseScript;
 import scripts.PlayerControlScript;
+import scripts.PlayerControlScriptMouse;
 import scripts.PlayerFireScript;
 import scripts.PropellerScript;
 import scripts.ScriptComponent;
@@ -27,6 +28,9 @@ public class ActorScriptFactory
 		
 		EnemyChaseScript enemyChaseScript = new EnemyChaseScript();
 		scripts.put("enemyChaseScript", enemyChaseScript);
+		
+		PlayerControlScriptMouse controlScriptMouse = new PlayerControlScriptMouse();
+		scripts.put("playerControlScriptMouse", controlScriptMouse);
 	}
 	
 	public static ScriptComponent getScript(String scriptName)

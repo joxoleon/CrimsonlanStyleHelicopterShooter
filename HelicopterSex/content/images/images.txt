@@ -24,3 +24,5 @@ enemyDarkShip03
 enemyDarkShip04
 enemyDarkShip05
 enemyDarkShip06
+cursor01
+cursor02
