@@ -36,7 +36,8 @@ public class MediaPlayerContainer
 		if(mediaDurationCounter < 0)
 		{
 			this.isFinished = true;
-//			player.
+			player.stop();
+//			player.seek(Duration.ZERO);
 		}
 	}
 }

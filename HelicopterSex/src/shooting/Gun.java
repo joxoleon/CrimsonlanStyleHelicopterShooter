@@ -1,6 +1,7 @@
 package shooting;
 
 import engine.Game;
+import engine.audio.AudioManager;
 import engine.utility.Vector2;
 import factories.ShotFactory;
 
@@ -15,6 +16,7 @@ public class Gun
 	private String shotSpriteName;
 	public boolean isMinigun = true;
 	public float maxRotationAngle = 0.06f;
+	public String soundEffectName;
 	
 	// On hit fields.
 	public String effectName;
@@ -24,7 +26,7 @@ public class Gun
 	
 	
 	// ******************** Constructors ******************** 
-	public Gun(String gunName, String shotSpriteName, Vector2 scale, float shotSpeed, float damage, String effectName, float throwBackIntensity)
+	public Gun(String gunName, String shotSpriteName, Vector2 scale, float shotSpeed, float damage, String effectName, float throwBackIntensity, String soundEffectName)
 	{
 		shotSprite = ShotFactory.shotSprites.get(shotSpriteName);
 		if(shotSprite == null)
@@ -39,6 +41,7 @@ public class Gun
 		this.shotSpriteName = shotSpriteName;
 		this.effectName = effectName;
 		this.throwBackIntensity = throwBackIntensity;
+		this.soundEffectName = soundEffectName;
 	}
 	
 	
@@ -55,11 +58,12 @@ public class Gun
 				
 		SimpleShot shot = new SimpleShot();
 		shot.initialize(position, gunRotation, scale, shotSpeed, shotSprite, damage, effectName, throwBackIntensity);
+		AudioManager.playOnceNoInterrupt(soundEffectName);
 	}
 
 	public Gun clone()
 	{
-		Gun gun = new Gun(gunName, shotSpriteName, scale.clone(), shotSpeed, damage, effectName, throwBackIntensity);
+		Gun gun = new Gun(gunName, shotSpriteName, scale.clone(), shotSpeed, damage, effectName, throwBackIntensity, soundEffectName);
 		gun.isMinigun = isMinigun;
 		gun.maxRotationAngle = maxRotationAngle;
 		return gun;

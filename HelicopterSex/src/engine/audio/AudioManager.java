@@ -20,31 +20,32 @@ public class AudioManager
 	private static Map<String, Media> medias = new HashMap<String, Media>();
 	private static Map<String, Double> mediaVolumes = new HashMap<String, Double>();
 	private static Map<Long, MediaPlayer> mediaPlayers = new HashMap<Long, MediaPlayer>();
-
+	private static Map<String, String> playedMedia = new HashMap<String, String>();
+	
 	private static long mediaPlayerIDGenerator = 0;
 
 	private static double masterVolume = 0.0;
 	public static double volumeStep = 0.05;
 	public static double playbackSpeed = 1;
 	
-	public static LinkedList<MediaPlayerContainer> playerContainers = new LinkedList<MediaPlayerContainer>();
-	public static Map<String, LinkedList<MediaPlayer>> usedMediaPlayers = new HashMap<String, LinkedList<MediaPlayer>>();
+//	public static LinkedList<MediaPlayerContainer> playerContainers = new LinkedList<MediaPlayerContainer>();
+//	public static Map<String, LinkedList<MediaPlayer>> usedMediaPlayers = new HashMap<String, LinkedList<MediaPlayer>>();
 		
 
 	public static void update(GameTime gameTime)
 	{
-		ListIterator<MediaPlayerContainer> iterator = playerContainers.listIterator();
-		while(iterator.hasNext())
-		{
-			MediaPlayerContainer container = iterator.next();
-			container.update(gameTime);
-			if(container.isFinished)
-			{
-				iterator.remove();
-				LinkedList<MediaPlayer> list = usedMediaPlayers.get(container.mediaName);
-				list.addLast(container.player);
-			}
-		}
+//		ListIterator<MediaPlayerContainer> iterator = playerContainers.listIterator();
+//		while(iterator.hasNext())
+//		{
+//			MediaPlayerContainer container = iterator.next();
+//			container.update(gameTime);
+//			if(container.isFinished)
+//			{
+//				iterator.remove();
+//				LinkedList<MediaPlayer> list = usedMediaPlayers.get(container.mediaName);
+//				list.addLast(container.player);
+//			}
+//		}
 	}
 	
 	public static double getMasterVolume()
@@ -109,44 +110,51 @@ public class AudioManager
 
 	public static void playOnceNoInterrupt(String mediaName)
 	{
+		String isPlaying = playedMedia.get(mediaName);
+		if(isPlaying != null)
+		{
+			return;
+		}
+		
+		playedMedia.put(mediaName, "playing");
+		
+		Media media = medias.get(mediaName);
+		MediaPlayer player = new MediaPlayer(media);
+		
+		player.setVolume(mediaVolumes.get(mediaName) * masterVolume);
+		player.setRate(playbackSpeed);
+		// TODO: handle player, dispose?
+//		player.setOnEndOfMedia(new OnEndOfMediaHandler(player));
+		player.play();
+		
+//		LinkedList<MediaPlayer> players = usedMediaPlayers.get(mediaName);
 //		Media media = medias.get(mediaName);
-//		MediaPlayer player = new MediaPlayer(media);
+//		MediaPlayer player;
+//		if(players == null)
+//		{
+//			players = new LinkedList<MediaPlayer>();
+//			usedMediaPlayers.put(mediaName, players);
+//			player = new MediaPlayer(media);
+//		}
+//		else
+//		{
+//			
+//			if(players.size() == 0)
+//			{
+//				player = new MediaPlayer(media);
+//			}
+//			else
+//			{
+//				player = players.removeFirst();
+//			}
+//		}
 //		
-//		MediaPlayerContainer container = new MediaPlayerContainer(player, media);
+//		MediaPlayerContainer container = new MediaPlayerContainer(player, media, mediaName);
 //		playerContainers.add(container);
 //		
 //		player.setVolume(mediaVolumes.get(mediaName) * masterVolume);
 //		player.setRate(playbackSpeed);
 //		player.play();
-		
-		LinkedList<MediaPlayer> players = usedMediaPlayers.get(mediaName);
-		Media media = medias.get(mediaName);
-		MediaPlayer player;
-		if(players == null)
-		{
-			players = new LinkedList<MediaPlayer>();
-			usedMediaPlayers.put(mediaName, players);
-			player = new MediaPlayer(media);
-		}
-		else
-		{
-			
-			if(players.size() == 0)
-			{
-				player = new MediaPlayer(media);
-			}
-			else
-			{
-				player = players.removeFirst();
-			}
-		}
-		
-		MediaPlayerContainer container = new MediaPlayerContainer(player, media, mediaName);
-		playerContainers.add(container);
-		
-		player.setVolume(mediaVolumes.get(mediaName) * masterVolume);
-		player.setRate(playbackSpeed);
-		player.play();
 		
 	}
 	
@@ -215,4 +223,9 @@ public class AudioManager
 		mediaPlayer.setRate(timeScale);
 	}
 
+	public static void filter()
+	{
+		playedMedia.clear();
+	}
+	
 }

@@ -177,6 +177,7 @@ extends GameState
 		EffectManager.filter();
 		EnemyManager.filter();
 		GraphicsManager.clearBackupTransforms();
+		AudioManager.filter();
 	}
 
 	

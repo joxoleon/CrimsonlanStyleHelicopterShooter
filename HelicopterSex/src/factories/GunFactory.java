@@ -39,7 +39,7 @@ public class GunFactory
 				}
 				String[] tokens = line.split(" ");
 
-				if (tokens.length != 8)
+				if (tokens.length != 9)
 				{
 					System.err.println("Error: invalid line in guns.txt");
 					Game.game.exitGame();
@@ -53,9 +53,10 @@ public class GunFactory
 				float damage = Float.parseFloat(tokens[5]);
 				String effectName = tokens[6];
 				float throwBackIntensity = Float.parseFloat(tokens[7]);
+				String soundEffectName = tokens[8];
 
 				Gun gun = new Gun(gunName, shotSpriteName, new Vector2(scaleX,
-						scaleY), shotSpeed, damage, effectName, throwBackIntensity);
+						scaleY), shotSpeed, damage, effectName, throwBackIntensity, soundEffectName);
 				guns.put(gunName, gun);
 
 				line = br.readLine();

@@ -15,6 +15,7 @@ extends ActorComponent
 	private String gunSlotCombinationName;
 	private LinkedList<GunSlot> gunSlots = new LinkedList<GunSlot>();
 	public int gunSlotsIndex = 0;
+	
 
 	
 	@Override
@@ -68,16 +69,9 @@ extends ActorComponent
 	
 	public void fire()
 	{
-		int shotSuccesfull = 0;
-
 		for (GunSlot gunSlot : gunSlots)
 		{
-			shotSuccesfull += gunSlot.fire(parent.position, parent.rotation);
-		}
-		
-		if(shotSuccesfull > 0)
-		{
-			AudioManager.playOnceNoInterrupt("gunShot01");
+			gunSlot.fire(parent.position, parent.rotation);
 		}
 	}
 
@@ -85,6 +79,7 @@ extends ActorComponent
 	{
 		this.gunSlotCombinationName = name;
 		gunSlots = slots;
+
 	}
 	
 	@Override
@@ -93,5 +88,19 @@ extends ActorComponent
 		GunComponent clone = new GunComponent();
 		clone.setGunSlotCombination(gunSlotCombinationName, GunFactory.getGunSlotCombination(gunSlotCombinationName));
 		return clone;
+	}
+
+	public float getShotFrequency()
+	{
+		float shotPeriod = 100000;
+		for (GunSlot gunSlot : gunSlots)
+		{
+			if(gunSlot.shotPeriod < shotPeriod)
+			{
+				shotPeriod = gunSlot.shotPeriod;
+			}
+		}
+		
+		return shotPeriod;
 	}
 }
