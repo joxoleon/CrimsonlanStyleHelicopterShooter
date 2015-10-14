@@ -28,20 +28,21 @@ public class AudioManager
 	public static double playbackSpeed = 1;
 	
 	public static LinkedList<MediaPlayerContainer> playerContainers = new LinkedList<MediaPlayerContainer>();
+	public static Map<String, LinkedList<MediaPlayer>> usedMediaPlayers = new HashMap<String, LinkedList<MediaPlayer>>();
 		
 
 	public static void update(GameTime gameTime)
 	{
 		ListIterator<MediaPlayerContainer> iterator = playerContainers.listIterator();
-		int counter = 0;
 		while(iterator.hasNext())
 		{
-			System.out.println(++counter);
 			MediaPlayerContainer container = iterator.next();
 			container.update(gameTime);
-			if(container.isDisposed)
+			if(container.isFinished)
 			{
 				iterator.remove();
+				LinkedList<MediaPlayer> list = usedMediaPlayers.get(container.mediaName);
+				list.addLast(container.player);
 			}
 		}
 	}
@@ -108,10 +109,39 @@ public class AudioManager
 
 	public static void playOnceNoInterrupt(String mediaName)
 	{
-		Media media = medias.get(mediaName);
-		MediaPlayer player = new MediaPlayer(media);
+//		Media media = medias.get(mediaName);
+//		MediaPlayer player = new MediaPlayer(media);
+//		
+//		MediaPlayerContainer container = new MediaPlayerContainer(player, media);
+//		playerContainers.add(container);
+//		
+//		player.setVolume(mediaVolumes.get(mediaName) * masterVolume);
+//		player.setRate(playbackSpeed);
+//		player.play();
 		
-		MediaPlayerContainer container = new MediaPlayerContainer(player, media);
+		LinkedList<MediaPlayer> players = usedMediaPlayers.get(mediaName);
+		Media media = medias.get(mediaName);
+		MediaPlayer player;
+		if(players == null)
+		{
+			players = new LinkedList<MediaPlayer>();
+			usedMediaPlayers.put(mediaName, players);
+			player = new MediaPlayer(media);
+		}
+		else
+		{
+			
+			if(players.size() == 0)
+			{
+				player = new MediaPlayer(media);
+			}
+			else
+			{
+				player = players.removeFirst();
+			}
+		}
+		
+		MediaPlayerContainer container = new MediaPlayerContainer(player, media, mediaName);
 		playerContainers.add(container);
 		
 		player.setVolume(mediaVolumes.get(mediaName) * masterVolume);

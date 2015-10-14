@@ -67,6 +67,7 @@ public class CollisionManager
 							OnHitArgumentContaner container = new OnHitArgumentContaner(shot, closest);
 							shot.isActive = false;
 							actor.handleEvent(container);
+							break;
 						}
 					}
 				}

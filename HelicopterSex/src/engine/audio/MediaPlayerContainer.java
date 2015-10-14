@@ -11,11 +11,13 @@ public class MediaPlayerContainer
 	Duration mediaDuration;
 	float mediaDurationCounter;
 	float unknownThreshold = 2;
+	String mediaName;
 	
-	public boolean isDisposed = false;
+	public boolean isFinished = false;
 	
-	public MediaPlayerContainer(MediaPlayer player, Media media)
+	public MediaPlayerContainer(MediaPlayer player, Media media, String mediaName)
 	{
+		this.mediaName = mediaName;
 		this.player = player;
 		mediaDuration = media.getDuration();
 		if(mediaDuration.equals(Duration.UNKNOWN))
@@ -25,7 +27,6 @@ public class MediaPlayerContainer
 		else
 		{
 			mediaDurationCounter = (float) mediaDuration.toSeconds();
-			System.out.println(mediaDurationCounter);
 		}
 	}
 	
@@ -34,7 +35,8 @@ public class MediaPlayerContainer
 		mediaDurationCounter -= gameTime.dt_s();
 		if(mediaDurationCounter < 0)
 		{
-			this.isDisposed = true;
+			this.isFinished = true;
+//			player.
 		}
 	}
 }

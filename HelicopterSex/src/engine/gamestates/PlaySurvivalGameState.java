@@ -176,6 +176,7 @@ extends GameState
 		ShotManager.filterShots();
 		EffectManager.filter();
 		EnemyManager.filter();
+		GraphicsManager.clearBackupTransforms();
 	}
 
 	
