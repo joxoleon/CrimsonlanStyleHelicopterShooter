@@ -113,7 +113,7 @@ public class Content
 		bp.backgroundImage = newPanelImage;
 
 		Point origin = new Point(140, 500);
-		StringWriter.writeString(g2d, "game over", origin, false, "Quartz MS",
+		StringWriter.writeString(g2d, "game over", origin, false, Game.game.mainFontName,
 				90, Color.yellow);
 
 		backgroundPanels.put("gameOver", bp);
@@ -137,7 +137,7 @@ public class Content
 		bp.backgroundImage = newPanelImage;
 
 		origin = new Point(1920 / 2, 130);
-		StringWriter.writeString(g2d, "high scores", origin, true, "Quartz MS",
+		StringWriter.writeString(g2d, "high scores", origin, true, Game.game.mainFontName,
 				85, Color.yellow);
 
 		backgroundPanels.put("highScores", bp);
@@ -161,7 +161,7 @@ public class Content
 		bp.backgroundImage = newPanelImage;
 
 		origin = new Point(1920 / 2, 130);
-		StringWriter.writeString(g2d, "options", origin, true, "Quartz MS", 85,
+		StringWriter.writeString(g2d, "options", origin, true, Game.game.mainFontName, 85,
 				Color.yellow);
 
 		backgroundPanels.put("options", bp);

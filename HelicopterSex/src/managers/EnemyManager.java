@@ -16,7 +16,7 @@ public class EnemyManager
 	private static Vector2 terrainDimensions;
 	
 	public static LinkedList<Actor> enemies = new LinkedList<Actor>();
-	private static float nextEnemyPeriod = 0.5f;
+	private static float nextEnemyPeriod = 1f;
 	private static float nextEnemyCounter = 0;
 	
 	
@@ -26,13 +26,7 @@ public class EnemyManager
 		
 		
 		
-		for (int i = 0; i < 40; i++)
-		{
-			spawnEnemy();
-		}
-		
-		spawnEnemy();
-		enemies.getLast().position = new Vector2(800, 150);
+
 	}
 	
 	
@@ -132,6 +126,13 @@ public class EnemyManager
 				}
 			}
 		}
+	}
+
+
+	public static void startGame()
+	{
+		enemies.clear();
+
 	}
 	
 	

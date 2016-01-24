@@ -45,11 +45,11 @@ extends GameState
 		
 		if (Input.isKeyPressed(Keys.Enter))
 		{
-			AudioManager.playOnceNoInterrupt("swish01");
+//			AudioManager.playOnceNoInterrupt("swish01");
 			
 			switch (selectedEntry)
 			{
-			case 0: Game.game.gameStateMachine.changeState(Game.game.playCampaignGameState); break;
+			case 0: Game.game.gameStateMachine.changeState(Game.game.playSurvivalGameState); break;
 			case 1: Game.game.gameStateMachine.changeState(Game.game.gameOptionsState); break;
 			case 2: Game.game.gameStateMachine.changeState(Game.game.highScoresState); break;
 			case 4: Game.game.exitGame();
@@ -63,13 +63,13 @@ extends GameState
 		if (Input.isKeyPressed(Keys.Up))
 		{
 			selectedEntry = (selectedEntry + entries.size() - 1) % entries.size();
-			AudioManager.playOnceNoInterrupt("blop02");
+//			AudioManager.playOnceNoInterrupt("blop02");
 		}
 		
 		if (Input.isKeyPressed(Keys.Down))
 		{
 			selectedEntry = (selectedEntry + 1) % entries.size();
-			AudioManager.playOnceNoInterrupt("blop02");
+//			AudioManager.playOnceNoInterrupt("blop02");
 		}
 		
 		entries.get(selectedEntry).isSelected = true;

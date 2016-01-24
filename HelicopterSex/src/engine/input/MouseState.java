@@ -1,6 +1,7 @@
 package engine.input;
 
 import java.awt.AWTException;
+import java.awt.Color;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -62,15 +63,15 @@ public class MouseState
     public Vector2 getWorldPositionVector(Camera camera)
     {
     	Vector2 leftCornerPosition = camera.position.clone().sub(new Vector2(Game.game.worldDimension.width / 2, Game.game.worldDimension.height / 2));
-    	Vector2 mousePosition = new Vector2(getPositionPoint().x, getPositionPoint().y);
-    	Vector2 mouseCornerOffset = mousePosition.add(leftCornerPosition);
-    	
-    	Vector2 gameDimension = Game.game.getFrameDimensions();   	
+    	Vector2 gameDimension = Game.game.getFrameDimensions();
     	Vector2 scaleFactor = new Vector2(Game.game.worldDimension.width / gameDimension.x , Game.game.worldDimension.height / gameDimension.y);
+
+    	Vector2 mousePosition = new Vector2(getPositionPoint().x, getPositionPoint().y);
+    	mousePosition = mousePosition.mul(scaleFactor);
+    	mousePosition = mousePosition.add(leftCornerPosition);
     	    	
-    	mouseCornerOffset.mul(scaleFactor);
     	
-    	return mouseCornerOffset;
+    	return mousePosition;
     }
     
     public Vector2 getScreenPositionVector()

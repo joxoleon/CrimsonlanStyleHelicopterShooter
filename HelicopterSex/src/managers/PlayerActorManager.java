@@ -1,5 +1,6 @@
 package managers;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import scripts.KeepInAreaScript;
@@ -18,6 +19,7 @@ import engine.component.PhysicsComponent;
 import engine.input.Input;
 import engine.input.Keys;
 import engine.utility.DebugRenderer;
+import engine.utility.StringWriter;
 import engine.utility.Vector2;
 import factories.GunFactory;
 import factories.HelicopterFactory;
@@ -29,7 +31,9 @@ public class PlayerActorManager
 	public static Actor playerActor;
 	public static Camera camera;
 	
-	private static int helicopterIndex = 0;
+	public static long score;
+	public static long secondsPlayed;
+	public static int helicopterIndex = 0;
 	public static String playerHelicopterName = "helicopter03";
 	
 
@@ -92,6 +96,20 @@ public class PlayerActorManager
 
 	}
 
+	public static void drawGUI(Graphics2D g2d)
+	{
+    	Vector2 gameDimension = Game.game.getFrameDimensions();
+		float h = gameDimension.y;
+		float w = gameDimension.x;
+		
+		
+		// Points.
+		Vector2 pointsPosition = new Vector2();
+		g2d.setPaint(Color.green);
+		String text = "score = " + score;
+		// TODO: zavrsiti.
+	}
+	
 	public static void switchHelicopter()
 	{
 		// Get playerActor position, rotitaion and scale.
@@ -115,4 +133,16 @@ public class PlayerActorManager
 	{
 		return playerActor.position.clone();
 	}
+
+	public static void startGame()
+	{
+		// TODO Auto-generated method stub
+		playerActor.position.x = TerrainManager.terrainWidth / 2;
+		playerActor.position.y = TerrainManager.terrainHeight / 2;
+		
+		playerActor.rotation = 0;
+		
+	}
+
+
 }

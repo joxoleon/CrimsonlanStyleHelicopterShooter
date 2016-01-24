@@ -1,5 +1,7 @@
 package scripts;
 
+import java.awt.Color;
+
 import engine.Game;
 import engine.GameTime;
 import engine.component.ActorComponent;
@@ -8,6 +10,7 @@ import engine.component.PhysicsComponent;
 import engine.component.PhysicsComponent.Direction;
 import engine.input.Input;
 import engine.input.Keys;
+import engine.utility.DebugRenderer;
 import engine.utility.Vector2;
 
 public class PlayerControlScriptMouse
@@ -41,13 +44,24 @@ extends ScriptComponent
 	public void update(GameTime gameTime)
 	{
 		// Handle rotation.
-		Vector2 actorToMouseVector = Vector2.sub(Input.getMouseWorldPosition(Game.game.mainCamera), parent.position);
-		actorToMouseVector.normalize();
-		Vector2 forwardVector = parentPhysicsComponent.getForwardVector();
+		Vector2 mouseWorldPosition = (Input.getMouseWorldPosition(Game.game.mainCamera));
+		Vector2 actorToMouseVector = Vector2.sub(mouseWorldPosition, parent.position);
 		
-		float rotationAngle = Vector2.fromV1toV2AngleRequiresNormalizedArguments(forwardVector, actorToMouseVector);
+		System.out.println("Mouse = " + mouseWorldPosition + " Parent = " + parent.position);
 		
-		parentPhysicsComponent.rotate(rotationAngle);
+//		DebugRenderer.addDebugVector(parent.position, Vector2.add(actorToMouseVector, parent.position), Color.green);
+		
+    	
+		if(actorToMouseVector.x != 0 && actorToMouseVector.y != 0)
+		{
+			actorToMouseVector.normalize();
+			Vector2 forwardVector = parentPhysicsComponent.getForwardVector();
+			
+			float rotationAngle = Vector2.fromV1toV2AngleRequiresNormalizedArguments(forwardVector, actorToMouseVector);
+			
+			parentPhysicsComponent.rotate(rotationAngle);
+		}
+		
 		
 		
 		// Handle translation

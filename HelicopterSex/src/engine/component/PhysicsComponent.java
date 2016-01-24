@@ -29,7 +29,7 @@ extends ActorComponent
 	public float momentOfInertia = 1.5f; 
 	
 	public float accelerationIntensity = 8000; 
-	public float angularAccelerationIntensity = 40; 
+	public float angularAccelerationIntensity = 440; 
 
 	public float maxVelocitySquared = 800; 
 	public float maxAngularVelocity = 4;

@@ -50,16 +50,14 @@ extends JPanel
 	
 	// Fields
 	private static final long serialVersionUID = 1L;
-	
 	private JFrame frame;
-	
 	boolean isFullScreen = true;
 	
 	// (desired / world) * panel = true dimension 
 	public Dimension panelDimension = new Dimension(1, 1);
 
 	public Dimension worldDimension = new Dimension(1920, 1080);
-	public Dimension desiredDimension = new Dimension(1366, 720);
+	public Dimension desiredDimension = new Dimension(1366, 1366 * 10 / 16);
 	
 	// Game time.
 	private GameTime gameTime;
@@ -97,6 +95,9 @@ extends JPanel
 	BufferedImage[] bufferedImages= new BufferedImage[3];
 	int bufferedImagesSize = 3;
 	int bufferedImageIndex = 0;
+	
+	// GUI Fields.
+	public String mainFontName = "QuartzMS";
 	
 	// Constructors.
 	public Game()

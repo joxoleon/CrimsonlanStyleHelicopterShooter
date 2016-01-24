@@ -12,10 +12,8 @@ import managers.GraphicsManager;
 import managers.PauseManager;
 import managers.PlayerActorManager;
 import managers.SlowMotionManager;
-import scripts.EnemyChaseScript;
 import shooting.ShotManager;
 import terrain.TerrainManager;
-import engine.Actor;
 import engine.Game;
 import engine.GameTime;
 import engine.audio.AudioManager;
@@ -37,8 +35,7 @@ extends GameState
 	long backgroundSongID;
 	LinkedList<Long> playingSongsIDs = new LinkedList<Long>();
 	
-	long score;
-	long secondsPlayed;
+
 	public Camera mainCamera;
 	
 	
@@ -50,38 +47,33 @@ extends GameState
 	
 	public PlaySurvivalGameState()
 	{
-
-	}
-
-	@Override
-	public void enterState()
-	{
 		System.out.println("Enter Survival game state.");
 		
 		// TODO: Set song.
-//		backgroundSongID = AudioManager.play(songNames[currentSong], true);
-//		playingSongsIDs.add(backgroundSongID);
+		backgroundSongID = AudioManager.play(songNames[currentSong], true);
+		playingSongsIDs.add(backgroundSongID);
 		
 		// Set terrain.
 		TerrainManager.setFreeMovementTerrain("tSnow01");
 		
 		// Create camera.
 		mainCamera = new Camera();
-		
+		Game.game.mainCamera = mainCamera;
+
 		// Initialize managers. ***** (Player Manager, Pause, Slomo, etc...)
 		initializeManagersAndFactories(mainCamera);
-
-		Vector2 minCoordinates = new Vector2(Game.game.worldDimension.width / 2, Game.game.worldDimension.height / 2);
-		Vector2 terrainDimension = TerrainManager.getTerrainDimensions();
-		Vector2 maxCoordinates = new Vector2(terrainDimension.x - minCoordinates.x, terrainDimension.y - minCoordinates.y);
-		CrimsonlandCameraScript crimsonlandScript = new CrimsonlandCameraScript(minCoordinates, maxCoordinates);
-		crimsonlandScript.addActor(PlayerActorManager.playerActor);
-		mainCamera.addScriptComponent(crimsonlandScript);
+		initializePlayer();
 		
+		
+		// Set other cursor.
 		BufferedImage cursorImage = Content.images.get("cursor01");
 		Game.game.setCursor(cursorImage, new Point(2, 2));
-		
-		Game.game.mainCamera = mainCamera;
+	}
+
+	@Override
+	public void enterState()
+	{
+		startNewGame();
 	}
 
 	@Override
@@ -131,6 +123,7 @@ extends GameState
 		// Restore graphics context before drawing the GUI and post processing.
 		GraphicsManager.restoreGraphicsContext(g2d);
 		// Draw GUI
+		PlayerActorManager.drawGUI(g2d);
 		SlowMotionManager.draw(g2d);
 		PauseManager.draw(g2d);
 		
@@ -194,4 +187,27 @@ extends GameState
 		EnemyManager.initialize(TerrainManager.getTerrainDimensions());
 
 	}
+	
+	private void initializePlayer()
+	{
+		Vector2 minCoordinates = new Vector2(Game.game.worldDimension.width / 2, Game.game.worldDimension.height / 2);
+		Vector2 terrainDimension = TerrainManager.getTerrainDimensions();
+		Vector2 maxCoordinates = new Vector2(terrainDimension.x - minCoordinates.x, terrainDimension.y - minCoordinates.y);
+		CrimsonlandCameraScript crimsonlandScript = new CrimsonlandCameraScript(minCoordinates, maxCoordinates);
+		crimsonlandScript.addActor(PlayerActorManager.playerActor);
+		mainCamera.addScriptComponent(crimsonlandScript);
+	}
+	
+	private void startNewGame()
+	{
+		PlayerActorManager.score = 0;
+		PlayerActorManager.secondsPlayed = 0;
+		
+		PlayerActorManager.startGame();
+		AudioManager.play(backgroundSongID);
+		EnemyManager.startGame();
+		
+	}
+
+
 }
